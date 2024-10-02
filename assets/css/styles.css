@@ -8,11 +8,6 @@
       -ms-user-select: none; 
 }
 
-::-webkit-scrollbar {
-      width: 0px;
-      background: transparent;
-}
-
 .header, .footer {
       height: 7svh;
       background-color: rgb(105, 20, 35, 0.9);
@@ -124,7 +119,7 @@
       list-style-type: none;
       border: 2px solid #333;
       width: 100%;
-      height: 100%;
+      height: 70svh;
       overflow-y: auto;
       background-color: #f9f9f9;
 }
