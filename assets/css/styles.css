@@ -130,10 +130,6 @@
       transition: background-color 0.3s ease;
 }
   
-#nameList li:last-child {
-      border-bottom: none;
-}
-  
 #nameList li:hover {
       background-color: #e0e0e0;
 }
