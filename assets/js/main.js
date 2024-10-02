@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const selectedDay = params.get('day') || new Date().getDay(); ;
-    const buttonId = `day-${selectedDay}`; 
-
-    const currentDayButton = document.getElementById(buttonId);
+    
+    const currentDayButton = document.querySelector(`.dayButton[data-day="${selectedDay}"]`);
     currentDayButton.classList.add('selectedDay');
 });
 
@@ -61,8 +60,7 @@ function resetSelection() {
 
 document.getElementById('submitButton').addEventListener('click', async function() {
     if (!this.classList.contains('disabled')) {
-        const selectedDay = document.querySelector('.selectedDay');
-        const weekday = selectedDay ? selectedDay.textContent : 'None';
+        const weekday = (document.querySelector('.selectedDay')?.getAttribute('data-day')) || 'none';
 
         const breakfastID = (document.querySelector('.selectedBreakfast')?.getAttribute('data-order')) || 'none';
         const lunchID = (document.querySelector('.selectedLunch')?.getAttribute('data-order')) || 'none';
@@ -73,13 +71,29 @@ document.getElementById('submitButton').addEventListener('click', async function
         const selectedName = document.querySelector('#nameList li.selected');
         const memberName = selectedName ? selectedName.textContent : 'None';
 
-        console.log(`Weekday: ${weekday}`);
-        console.log(`Breakfast ID : ${breakfastID}`);
-        console.log(`Breakfast Name: ${breakfastName}`);
-        console.log(`Lunch ID: ${lunchID}`);
-        console.log(`Lunch Name: ${lunchName}`);
-        console.log(`Member Name: ${memberName}`);
+        try {
+            const response = await fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    weekday,
+                    breakfastID, 
+                    breakfastName, 
+                    lunchID, 
+                    lunchName,
+                    memberName,}),
+            });
 
-        resetSelection();
+            const result = await response.json();
+            if (result.success) {
+                resetSelection();
+            } else {
+                alert("error")
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 });

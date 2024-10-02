@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const { initializeGoogleSheets } = require('./config/googleAPI');
 
 const mainRoute = require('./routes/mainRoute');
+const submitRoute = require('./routes/submitRoute');
 const switchRoute = require('./routes/switchRoute');
 
 const app = express();
@@ -30,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'assets')));
 app.use(favicon(path.join(__dirname,'assets','img','favicon.ico')));
 
 app.use('/', mainRoute);
+app.use('/', submitRoute);
 app.use('/', switchRoute);
 
 const startServer = async () => {
