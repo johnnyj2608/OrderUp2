@@ -39,8 +39,16 @@ router.post("/submit", async (req, res) => {
         if (lunchID !== "none" && lunchName !== "none") {
             menuRowPromises[1] = getNextRow(sheetName, lunchCol);
         }
+
+        const estDate = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+        const today = new Date(estDate).getDay();
+        let difference = Number(weekday) - today;
+        if (difference < 0) {
+            difference += 6;    // Not 7 because of Sunday
+        }
+        const historyCol = 20 - (difference * 4);
         
-        const historyRowPromise = getNextRow('History', 0);
+        const historyRowPromise = getNextRow('History', historyCol);
 
         const [
             weekdaySheetId,
@@ -69,6 +77,27 @@ router.post("/submit", async (req, res) => {
                         {
                             values: [
                                 { userEnteredValue: { boolValue: true } }
+                            ]
+                        }
+                    ],
+                    fields: 'userEnteredValue'
+                }
+            },
+            {
+                updateCells: {
+                    range: {
+                        sheetId: historySheetId,
+                        startRowIndex: historyRow - 1,
+                        endRowIndex: historyRow,
+                        startColumnIndex: historyCol,
+                        endColumnIndex: historyCol + 3
+                    },
+                    rows: [
+                        {
+                            values: [
+                                { userEnteredValue: { stringValue: memberName } },
+                                { userEnteredValue: { stringValue: breakfastName } },
+                                { userEnteredValue: { stringValue: lunchName } },
                             ]
                         }
                     ],
