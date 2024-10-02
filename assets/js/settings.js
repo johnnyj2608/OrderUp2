@@ -1,7 +1,3 @@
-function isMobileDevice() {
-    return /Mobi|Android/i.test(navigator.userAgent);
-}
-
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -21,35 +17,5 @@ document.querySelectorAll('.dropdown-item').forEach(item => {
         sessionStorage.setItem('language', selectedLang);
         
         window.location.href = `/switch/${selectedLang}`;
-    });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const muteButton = document.getElementById('muteButton');
-    if (sessionStorage.getItem('mute') === null) {
-        sessionStorage.setItem('mute', true);
-    }
-    let isMuted = sessionStorage.getItem('mute') === 'true';
-    
-    const icon = muteButton.querySelector('i');
-    if (isMuted) {
-        icon.classList.remove('fa-volume-up');
-        icon.classList.add('fa-volume-mute');
-    } else {
-        icon.classList.remove('fa-volume-mute');
-        icon.classList.add('fa-volume-up');
-    }
-
-    muteButton.addEventListener('click', () => {
-        stopSpeak();
-        isMuted = !isMuted;
-        if (isMuted) {
-            icon.classList.remove('fa-volume-up');
-            icon.classList.add('fa-volume-mute');
-        } else {
-            icon.classList.remove('fa-volume-mute');
-            icon.classList.add('fa-volume-up');
-        }
-        sessionStorage.setItem('mute', isMuted);
     });
 });

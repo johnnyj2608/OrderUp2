@@ -11,10 +11,11 @@
 <body>
     <div class="container-fluid">
         <div class="row header align-items-center">
+            <div class="col"></div>
             <div class="col text-center">
                 <%= __("project_title") %>
             </div>
-            <div class="col-auto p-0">
+            <div class="col text-right">
                 <div class="dropdown">
                     <div class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-language"></i>
@@ -29,36 +30,71 @@
         <div>
             <div class="content">
                 <br>
-                <div class="row">  
-                    <div class="col d-flex justify-content-center align-items-center">
-                        <button class="dayButton" id="prevDay"><</button>
-                        <div id="currentDay"><%= __('today') %></div>
-                        <button class="dayButton" id="nextDay">></button>
+                <div class="row justify-content-center">
+                    <div class="col-12 d-flex justify-content-around">
+                        <button class="dayButton" id="monday"><%= __('monday') %></button>
+                        <button class="dayButton" id="tuesday"><%= __('tuesday') %></button>
+                        <button class="dayButton" id="wednesday"><%= __('wednesday') %></button>
+                        <button class="dayButton" id="thursday"><%= __('thursday') %></button>
+                        <button class="dayButton" id="friday"><%= __('friday') %></button>
+                        <button class="dayButton" id="saturday"><%= __('saturday') %></button>
                     </div>
-                    <div class="col" id="numpadCol"></div>
                 </div>
-                <div class="row">
+                <br>
+                <div class="row align-items-center">
                     <div class="col text-center">
-                        <% sheetNames.forEach((sheetName, index) => { %>
-                            <% if (index % 2 === 0) { %>
+                        <h2 id="breakfast-section"><%= __("breakfast") %></h2>
+                        <% breakfastMenu.forEach((title, index) => { %>
+                            <% if (index % 3 === 0) { %>
                                 <div class="row">
                             <% } %>
-        
-                            <div class="col-md-6 mb-3 text-center">
-                                <div id="btn-<%= sheetName %>"
-                                    data-text="<%= sheetName %>" 
-                                    onclick="handleButtonClick('<%= sheetName %>'); speakText(this.getAttribute('data-text'))" 
-                                    class="panel w-100">
-                                    <img src="/img/default.png" 
-                                    class="panel-img img-padding w-100" />
-                                    <h5 class="panel-title"><%= sheetName %></h5>
+                            
+                            <div class="col-md-4 mb-4">
+                                <div id="btn-<%= title %>" 
+                                    data-text="<%= title %>" 
+                                    onclick="handleMealClick('Breakfast', '<%= title %>');" 
+                                    class="panel w-100" 
+                                    data-order="<%= index %>">
+                                    <img src="<%= '/img/default.png' %>" 
+                                    class="panel-img w-100" />
+                                    <h5 class="panel-title"><%= title %></h5>
                                 </div>
                             </div>
-        
-                            <% if ((index + 1) % 2 === 0 || index === sheetNames.length - 1) { %>
+            
+                            <% if ((index + 1) % 3 === 0 || index === breakfastMenu.length - 1) { %>
                                 </div>
                             <% } %>
                         <% }) %>
+                        <br>
+                        <h2 id="lunch-section"><%= __("lunch") %></h2>
+                        <% lunchMenu.forEach((title, index) => { %>
+                            <% if (index % 3 === 0) { %>
+                                <div class="row">
+                            <% } %>
+                            
+                            <div class="col-md-4 mb-4">
+                                <div id="btn-<%= title %>" 
+                                    data-text="<%= title %>" 
+                                    onclick="handleMealClick('Lunch', '<%= title %>');" 
+                                    class="panel w-100" 
+                                    data-order="<%= index %>">
+                                    <img src="<%= '/img/default.png' %>" 
+                                    class="panel-img w-100" />
+                                    <h5 class="panel-title"><%= title %></h5>
+                                </div>
+                            </div>
+            
+                            <% if ((index + 1) % 3 === 0 || index === lunchMenu.length - 1) { %>
+                                </div>
+                            <% } %>
+                        <% }) %>
+                    </div>
+                    <div class="col text-center">
+                        <ul id="nameList">
+                            <% names.forEach(name => { %>
+                                <li onclick="handleNameClick('<%= name %>')"><%= name %></li>
+                            <% }) %>
+                        </ul>
                     </div>
                 </div>            
             </div>
@@ -67,12 +103,6 @@
                     <button id="menuButton" class="actionButton disabled"><%= __("submit_order") %></button>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div id="errorOverlay" class="alert-overlay">
-        <div id="errorMessage" class="alert-message">
-            
         </div>
     </div>
 
@@ -88,8 +118,6 @@
         ];
     </script>
     <script src="/js/settings.js"></script>
-    <script src="/js/tts.js"></script>
-    <script src="/js/afk.js"></script>
     <script src="/js/main.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
