@@ -96,8 +96,8 @@ router.post("/submit", async (req, res) => {
                         {
                             values: [
                                 { userEnteredValue: { stringValue: memberName } },
-                                { userEnteredValue: { stringValue: breakfastName } },
-                                { userEnteredValue: { stringValue: lunchName } },
+                                { userEnteredValue: { stringValue: breakfastName === 'none' ? '' : breakfastName } },
+                                { userEnteredValue: { stringValue: lunchName === 'none' ? '' : lunchName } },
                             ]
                         }
                     ],
