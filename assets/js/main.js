@@ -91,6 +91,9 @@ document.getElementById('submitButton').addEventListener('click', async function
 
             const result = await response.json();
             if (result.success) {
+                if (selectedName) {
+                    selectedName.parentNode.removeChild(selectedName);
+                }
                 resetSelection();
             } else {
                 alert("error")
