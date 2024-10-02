@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
         const googleSheets = getGoogleSheets();
         const spreadsheet = await googleSheets.spreadsheets.values.get({
             spreadsheetId,
-            range: `${sheetName}!A2:K`
+            range: `${sheetName}!A2:L`
         });
         const data = spreadsheet.data.values;
 
@@ -30,11 +30,10 @@ router.get("/", async (req, res) => {
         const lunchMenu = data[0].slice(4);
 
         const names = [];
-        for (const innerArray of data.slice(2)) {
-            const filtered = innerArray.filter(item => item !== '' && item !== 'TRUE');
-            if (filtered.length >= 3) {
-              const fullName = `${filtered[filtered.length - 3]}. ${filtered[filtered.length - 2]} ${filtered[filtered.length - 1]}`;
-              names.push(fullName);
+        for (const member of data.slice(2)) {
+            if (member[member.length-1] != 'TRUE') {
+                const fullName = `${member[member.length-3]}. ${member[member.length-2]}, ${member[member.length-1]}`;
+                names.push(fullName);
             }
         }
 
