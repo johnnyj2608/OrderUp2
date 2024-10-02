@@ -30,14 +30,14 @@
         <div>
             <div class="content">
                 <br>
-                <div class="row justify-content-center">
-                    <div class="col-12 d-flex justify-content-around">
-                        <button class="dayButton" id="monday"><%= __('monday') %></button>
-                        <button class="dayButton" id="tuesday"><%= __('tuesday') %></button>
-                        <button class="dayButton" id="wednesday"><%= __('wednesday') %></button>
-                        <button class="dayButton" id="thursday"><%= __('thursday') %></button>
-                        <button class="dayButton" id="friday"><%= __('friday') %></button>
-                        <button class="dayButton" id="saturday"><%= __('saturday') %></button>
+                <div class="row">
+                    <div class="col d-flex justify-content-around">
+                        <div class="dayButton" id="day-1" onclick="handleDayClick(this)"><%= __('monday') %></div>
+                        <div class="dayButton" id="day-2" onclick="handleDayClick(this)"><%= __('tuesday') %></div>
+                        <div class="dayButton" id="day-3" onclick="handleDayClick(this)"><%= __('wednesday') %></div>
+                        <div class="dayButton" id="day-4" onclick="handleDayClick(this)"><%= __('thursday') %></div>
+                        <div class="dayButton" id="day-5" onclick="handleDayClick(this)"><%= __('friday') %></div>
+                        <div class="dayButton" id="day-6" onclick="handleDayClick(this)"><%= __('saturday') %></div>
                     </div>
                 </div>
                 <br>
@@ -52,7 +52,7 @@
                             <div class="col-md-4 mb-4">
                                 <div id="btn-<%= title %>" 
                                     data-text="<%= title %>" 
-                                    onclick="handleMealClick('Breakfast', '<%= title %>');" 
+                                    onclick="handleMealClick(this, 'Breakfast');" 
                                     class="panel w-100" 
                                     data-order="<%= index %>">
                                     <img src="<%= '/img/default.png' %>" 
@@ -75,7 +75,7 @@
                             <div class="col-md-4 mb-4">
                                 <div id="btn-<%= title %>" 
                                     data-text="<%= title %>" 
-                                    onclick="handleMealClick('Lunch', '<%= title %>');" 
+                                    onclick="handleMealClick(this, 'Lunch');" 
                                     class="panel w-100" 
                                     data-order="<%= index %>">
                                     <img src="<%= '/img/default.png' %>" 
@@ -92,10 +92,7 @@
                     <div class="col text-center">
                         <ul id="nameList">
                             <% names.forEach(name => { %>
-                                <li id="name-<%= name.replace(/ /g, '_') %>" 
-                                    onclick="handleNameClick('<%= name %>')">
-                                    <%= name %>
-                                </li>
+                                <li onclick="handleNameClick(this)"><%= name %></li>
                             <% }) %>
                         </ul>
                     </div>
@@ -109,17 +106,6 @@
         </div>
     </div>
 
-    <script>
-        const daysOfWeek = [
-            "<%= __('today') %>",
-            "<%= __('monday') %>",
-            "<%= __('tuesday') %>",
-            "<%= __('wednesday') %>",
-            "<%= __('thursday') %>",
-            "<%= __('friday') %>",
-            "<%= __('saturday') %>",
-        ];
-    </script>
     <script src="/js/settings.js"></script>
     <script src="/js/main.js"></script>
     <script
