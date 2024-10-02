@@ -30,14 +30,16 @@ router.get("/", async (req, res) => {
         const lunchMenu = data[0].slice(4);
 
         const names = [];
-        for (const member of data.slice(2)) {
-            const memberInfo = member.slice(8, 12);
-            if (memberInfo.length >= 3 && memberInfo[memberInfo.length-1] != 'TRUE') {
-                const id = memberInfo[memberInfo.length-3];
-                const name = memberInfo[memberInfo.length-2];
-                const chinese = memberInfo[memberInfo.length-1];
+        const memberRows = {};
+        for (let i = 2; i < data.length; i++) {
+            const member = data[i].slice(8, 12);
+            if (member.length >= 3 && member[member.length-1] != 'TRUE') {
+                const id = member[member.length-3];
+                const name = member[member.length-2];
+                const chinese = member[member.length-1];
                 const fullName = `${id}. ${name}, ${chinese}`;
                 names.push(fullName);
+                memberRows[fullName] = i+1;
             }
         }
 
@@ -45,6 +47,7 @@ router.get("/", async (req, res) => {
             breakfastMenu, 
             lunchMenu,
             names,
+            memberRows,
         });
     } catch (error) {
         console.error("Error loading sheet data: ", error);

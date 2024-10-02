@@ -70,6 +70,7 @@ document.getElementById('submitButton').addEventListener('click', async function
 
         const selectedName = document.querySelector('#nameList li.selected');
         const memberName = selectedName ? selectedName.textContent : 'None';
+        const memberRow = selectedName ? selectedName.getAttribute('data-index') : null;
 
         try {
             const response = await fetch('/submit', {
@@ -83,7 +84,9 @@ document.getElementById('submitButton').addEventListener('click', async function
                     breakfastName, 
                     lunchID, 
                     lunchName,
-                    memberName,}),
+                    memberName,
+                    memberRow,
+                }),
             });
 
             const result = await response.json();

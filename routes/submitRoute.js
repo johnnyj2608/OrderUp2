@@ -19,6 +19,7 @@ router.post("/submit", async (req, res) => {
         lunchID, 
         lunchName,
         memberName,
+        memberRow,
     } = req.body;
 
     const breakfastCol = Number(breakfastID)
@@ -55,7 +56,25 @@ router.post("/submit", async (req, res) => {
         ]);
 
         let requests = [
-
+            {
+                updateCells: {
+                    range: {
+                        sheetId: weekdaySheetId,
+                        startRowIndex: memberRow,
+                        endRowIndex: memberRow+1,
+                        startColumnIndex: 11,
+                        endColumnIndex: 12
+                    },
+                    rows: [
+                        {
+                            values: [
+                                { userEnteredValue: { boolValue: true } }
+                            ]
+                        }
+                    ],
+                    fields: 'userEnteredValue'
+                }
+            },
         ];
         
         if (breakfastRow !== null) {
