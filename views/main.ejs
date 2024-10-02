@@ -92,7 +92,10 @@
                     <div class="col text-center">
                         <ul id="nameList">
                             <% names.forEach(name => { %>
-                                <li onclick="handleNameClick('<%= name %>')"><%= name %></li>
+                                <li id="name-<%= name.replace(/ /g, '_') %>" 
+                                    onclick="handleNameClick('<%= name %>')">
+                                    <%= name %>
+                                </li>
                             <% }) %>
                         </ul>
                     </div>
@@ -100,7 +103,7 @@
             </div>
             <div class="row footer align-items-center">
                 <div class="col text-center">
-                    <button id="menuButton" class="actionButton disabled"><%= __("submit_order") %></button>
+                    <button id="submitButton" class="actionButton disabled"><%= __("submit_order") %></button>
                 </div>
             </div>
         </div>

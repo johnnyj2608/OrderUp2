@@ -112,6 +112,10 @@
       text-overflow: ellipsis;
 }
 
+.selectedBreakfast, .selectedLunch {
+      border: 3px solid #007bff;
+}
+
 #nameList {
       list-style-type: none;
       border: 2px solid #333;
