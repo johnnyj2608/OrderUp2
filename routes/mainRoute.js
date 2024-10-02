@@ -3,17 +3,20 @@ const router = express.Router();
 const { getGoogleSheets, spreadsheetId } = require('../config/googleAPI');
 
 const sheetsByWeekday = {
-    Monday: 'Mon',
-    Tuesday: 'Tue',
-    Wednesday: 'Wed',
-    Thursday: 'Thu',
-    Friday: 'Fri',
-    Saturday: 'Sat',
+    1: 'Mon',
+    2: 'Tue',
+    3: 'Wed',
+    4: 'Thu',
+    5: 'Fri',
+    6: 'Sat',
 };
 
 router.get("/", async (req, res) => {
     try {
-        let selectedDay = req.query.day || new Date().toLocaleString('en-us', { weekday: 'long' });
+        const estDate = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+        const today = new Date(estDate).getDay();
+
+        let selectedDay = req.query.day || today;
         let sheetName = sheetsByWeekday[selectedDay];
 
         const googleSheets = getGoogleSheets();

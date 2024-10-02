@@ -1,19 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const currentDayIndex = new Date().getDay(); 
-    const buttonId = `day-${currentDayIndex}`; 
+    const params = new URLSearchParams(window.location.search);
+    const selectedDay = params.get('day') || new Date().getDay(); ;
+    const buttonId = `day-${selectedDay}`; 
 
     const currentDayButton = document.getElementById(buttonId);
     currentDayButton.classList.add('selectedDay');
 });
 
-function handleDayClick(dayButton) {
-    dayButton.classList.add('selectedDay');
-
-    document.querySelectorAll('.dayButton').forEach(item => {
-        if (item !== dayButton) {
-            item.classList.remove('selectedDay');
-        }
-    });
+function handleDayClick(dayIndex) {
+    window.location.href = `?day=${dayIndex}`;
 }
 
 function handleMealClick(menuItem, menuType) {
@@ -84,7 +79,7 @@ document.getElementById('submitButton').addEventListener('click', async function
         console.log(`Lunch ID: ${lunchID}`);
         console.log(`Lunch Name: ${lunchName}`);
         console.log(`Member Name: ${memberName}`);
-        
+
         resetSelection();
     }
 });
