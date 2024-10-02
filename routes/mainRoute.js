@@ -31,7 +31,7 @@ router.get("/", async (req, res) => {
 
         const names = [];
         for (const member of data.slice(2)) {
-            if (member[member.length-1] != 'TRUE') {
+            if (member.length > 0 && member[member.length-1] != 'TRUE') {
                 const fullName = `${member[member.length-3]}. ${member[member.length-2]}, ${member[member.length-1]}`;
                 names.push(fullName);
             }
