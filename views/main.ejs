@@ -94,9 +94,7 @@
                                 data-menu="<%= menuLimit[name] %>" 
                                 onclick="handleNameClick(this)">
                                 <span class="name"><%= name %></span>
-                                <% if (menuLimit[name] !== '') { %>
-                                    <span class="menu-type"><%= menuLimit[name] %></span>
-                                <% } %>
+                                <span class="menu-type"><%= menuLimit[name] %></span>
                             </li>
                         <% }) %>
                     </ul>

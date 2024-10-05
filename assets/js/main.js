@@ -66,6 +66,7 @@ function updateButtonState() {
 function resetSelection() {
     document.querySelectorAll('.panel').forEach(panel => {
         panel.classList.remove('selectedBreakfast', 'selectedLunch');
+        panel.classList.remove('desaturate');
     });
 
     document.querySelectorAll('#nameList li').forEach(item => {
@@ -108,9 +109,19 @@ document.getElementById('submitButton').addEventListener('click', async function
 
             const result = await response.json();
             if (result.success) {
-                if (selectedName) {
+                
+                const menuValue = selectedName.getAttribute('data-menu');
+                const menuTypeSpan = selectedName.querySelector('.menu-type');
+                if (breakfastID !== 'none' && lunchID !== 'none' || menuValue !== 'A') {
                     selectedName.parentNode.removeChild(selectedName);
+                } else if (breakfastID !== 'none') {
+                    selectedName.setAttribute('data-menu', 'L');
+                    menuTypeSpan.innerText = 'L';
+                } else if (lunchID !== 'none') {
+                    selectedName.setAttribute('data-menu', 'B');
+                    menuTypeSpan.innerText = 'B';
                 }
+                
                 resetSelection();
             } else {
                 alert("error")
