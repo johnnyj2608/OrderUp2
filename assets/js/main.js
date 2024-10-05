@@ -87,7 +87,7 @@ document.getElementById('submitButton').addEventListener('click', async function
         const lunchName = (document.querySelector('.selectedLunch')?.getAttribute('data-text')) || 'none';
 
         const selectedName = document.querySelector('#nameList li.selected');
-        const memberName = selectedName ? selectedName.textContent : 'None';
+        const memberTitle = selectedName ? selectedName.textContent : 'None';
         const memberRow = selectedName ? selectedName.getAttribute('data-index') : null;
 
         try {
@@ -102,14 +102,14 @@ document.getElementById('submitButton').addEventListener('click', async function
                     breakfastName, 
                     lunchID, 
                     lunchName,
-                    memberName,
+                    memberTitle,
                     memberRow,
                 }),
             });
 
             const result = await response.json();
             if (result.success) {
-                
+
                 const menuValue = selectedName.getAttribute('data-menu');
                 const menuTypeSpan = selectedName.querySelector('.menu-type');
                 if (breakfastID !== 'none' && lunchID !== 'none' || menuValue !== 'A') {

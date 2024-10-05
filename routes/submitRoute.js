@@ -18,12 +18,13 @@ router.post("/submit", async (req, res) => {
         breakfastName, 
         lunchID, 
         lunchName,
-        memberName,
+        memberTitle,
         memberRow,
     } = req.body;
 
     const breakfastCol = Number(breakfastID)
     const lunchCol = Number(lunchID)+4
+    const memberName = memberTitle.split('\n')[1].trim();
 
     try {
         const sheetName = sheetsByWeekday[Number(weekday)]
@@ -64,25 +65,6 @@ router.post("/submit", async (req, res) => {
         ]);
 
         let requests = [
-            {
-                updateCells: {
-                    range: {
-                        sheetId: weekdaySheetId,
-                        startRowIndex: memberRow,
-                        endRowIndex: memberRow+1,
-                        startColumnIndex: 11,
-                        endColumnIndex: 12
-                    },
-                    rows: [
-                        {
-                            values: [
-                                { userEnteredValue: { boolValue: true } }
-                            ]
-                        }
-                    ],
-                    fields: 'userEnteredValue'
-                }
-            },
             {
                 updateCells: {
                     range: {
@@ -127,6 +109,25 @@ router.post("/submit", async (req, res) => {
                         fields: 'userEnteredValue'
                     }
                 },
+                {
+                    updateCells: {
+                        range: {
+                            sheetId: weekdaySheetId,
+                            startRowIndex: memberRow,
+                            endRowIndex: memberRow+1,
+                            startColumnIndex: 11,
+                            endColumnIndex: 12
+                        },
+                        rows: [
+                            {
+                                values: [
+                                    { userEnteredValue: { boolValue: true } }
+                                ]
+                            }
+                        ],
+                        fields: 'userEnteredValue'
+                    }
+                },
             );
         }
 
@@ -145,6 +146,25 @@ router.post("/submit", async (req, res) => {
                             {
                                 values: [
                                     { userEnteredValue: { stringValue: memberName } }
+                                ]
+                            }
+                        ],
+                        fields: 'userEnteredValue'
+                    }
+                },
+                {
+                    updateCells: {
+                        range: {
+                            sheetId: weekdaySheetId,
+                            startRowIndex: memberRow,
+                            endRowIndex: memberRow+1,
+                            startColumnIndex: 12,
+                            endColumnIndex: 13
+                        },
+                        rows: [
+                            {
+                                values: [
+                                    { userEnteredValue: { boolValue: true } }
                                 ]
                             }
                         ],
