@@ -1,6 +1,6 @@
 function updateHistory() {
     const weekday = new Date().getDay();
-    if (weekday === 0) { // Sunday
+    if (weekday === 1) { // Monday
       return;
     }
     
