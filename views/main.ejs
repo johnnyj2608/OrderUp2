@@ -48,7 +48,7 @@
                         <% } %>
                         
                         <div class="col-md-4 mb-4">
-                            <div id="btn-<%= title %>" 
+                            <div id="btn-b-<%= title %>" 
                                 data-text="<%= title %>" 
                                 onclick="handleMealClick(this, 'Breakfast');" 
                                 class="panel w-100" 
@@ -71,7 +71,7 @@
                         <% } %>
                         
                         <div class="col-md-4 mb-4">
-                            <div id="btn-<%= title %>" 
+                            <div id="btn-l-<%= title %>" 
                                 data-text="<%= title %>" 
                                 onclick="handleMealClick(this, 'Lunch');" 
                                 class="panel w-100" 
@@ -91,6 +91,7 @@
                     <ul id="nameList">
                         <% names.forEach(name => { %>
                             <li data-index="<%= memberRows[name] %>" 
+                                data-menu="<%= menuLimit[name] %>" 
                                 onclick="handleNameClick(this)">
                                 <%= name %>
                             </li>

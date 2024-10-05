@@ -24,7 +24,24 @@ function handleMealClick(menuItem, menuType) {
 
 function handleNameClick(listItem) {
     listItem.classList.toggle('selected');
+    const menuType = listItem.getAttribute('data-menu');
 
+    const panels = document.querySelectorAll('.panel');
+    panels.forEach(panel => {
+        panel.classList.remove('desaturate');
+    });
+
+    if (menuType !== '') {
+        panels.forEach(panel => {
+            if (menuType === 'L' && panel.id.startsWith('btn-l')) {
+                panel.classList.add('desaturate');
+                panel.classList.remove('selectedLunch');
+            } else if (menuType === 'B' && panel.id.startsWith('btn-b')) {
+                panel.classList.add('desaturate');
+                panel.classList.remove('selectedBreakfast');
+            }
+        });
+    }
     document.querySelectorAll('#nameList li').forEach(item => {
         if (item !== listItem) {
             item.classList.remove('selected');

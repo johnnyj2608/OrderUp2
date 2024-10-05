@@ -162,6 +162,12 @@ button:focus, .panel:focus, .btn:focus {
       pointer-events: none;
 }
 
+.desaturate {
+      filter: grayscale(100%);
+      opacity: 0.5;
+      pointer-events: none;
+}
+
 @media (max-width: 767px) {
       
 }

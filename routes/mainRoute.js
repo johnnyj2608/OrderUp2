@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
         const googleSheets = getGoogleSheets();
         const spreadsheet = await googleSheets.spreadsheets.values.get({
             spreadsheetId,
-            range: `${sheetName}!A2:L`
+            range: `${sheetName}!A2:M`
         });
         const data = spreadsheet.data.values;
 
@@ -31,13 +31,23 @@ router.get("/", async (req, res) => {
 
         const names = [];
         const memberRows = {};
+        const menuLimit = {};
         for (let i = 2; i < data.length; i++) {
-            const member = data[i].slice(8, 12);
-            if (member.length > 0 && member[member.length - 1] != 'TRUE') {
-                const id = member[0];
-                const name = member[2] || member[1];
-                names.push(`${id}. ${name}`);
+            const member = data[i].slice(8, 13);
+            if (member.length > 0) {
+                if (member[member.length - 2] == 'TRUE' && member[member.length - 1] == 'TRUE') {
+                    continue;
+                }
+                let orderedDay = '';
+                if (member.length == 5) {
+                    orderedDay = 'B';   // Breakfast only
+                } else if (member.length == 4) {
+                    orderedDay = 'L';   // Lunch only
+                }
+                const name = `${member[0]}. ${member[2] || member[1]}`;
+                names.push(name);
                 memberRows[name] = i+1;
+                menuLimit[name] = orderedDay;
             }
         }
 
@@ -46,6 +56,7 @@ router.get("/", async (req, res) => {
             lunchMenu,
             names,
             memberRows,
+            menuLimit,
         });
     } catch (error) {
         console.error("Error loading sheet data: ", error);
