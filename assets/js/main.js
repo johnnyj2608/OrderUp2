@@ -31,14 +31,14 @@ function handleNameClick(listItem) {
         panel.classList.remove('desaturate');
     });
 
-    if (menuType !== '') {
+    if (menuType !== 'A') {
         panels.forEach(panel => {
-            if (menuType === 'L' && panel.id.startsWith('btn-l')) {
-                panel.classList.add('desaturate');
-                panel.classList.remove('selectedLunch');
-            } else if (menuType === 'B' && panel.id.startsWith('btn-b')) {
+            if (menuType === 'L' && panel.id.startsWith('btn-b')) {
                 panel.classList.add('desaturate');
                 panel.classList.remove('selectedBreakfast');
+            } else if (menuType === 'B' && panel.id.startsWith('btn-l')) {
+                panel.classList.add('desaturate');
+                panel.classList.remove('selectedLunch');
             }
         });
     }

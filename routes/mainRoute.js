@@ -38,7 +38,7 @@ router.get("/", async (req, res) => {
                 if (member[member.length - 2] == 'TRUE' && member[member.length - 1] == 'TRUE') {
                     continue;
                 }
-                let orderedDay = '';
+                let orderedDay = 'A';
                 if (member.length == 5) {
                     orderedDay = 'B';   // Breakfast only
                 } else if (member.length == 4) {
