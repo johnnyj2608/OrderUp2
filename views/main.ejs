@@ -90,7 +90,10 @@
                 <div class="col text-center">
                     <ul id="nameList">
                         <% names.forEach(name => { %>
-                            <li data-index="<%= memberRows[name] %>" onclick="handleNameClick(this)"><%= name %></li>
+                            <li data-index="<%= memberRows[name] %>" 
+                                onclick="handleNameClick(this)">
+                                <%= name %>
+                            </li>
                         <% }) %>
                     </ul>
                 </div>

@@ -33,13 +33,11 @@ router.get("/", async (req, res) => {
         const memberRows = {};
         for (let i = 2; i < data.length; i++) {
             const member = data[i].slice(8, 12);
-            if (member.length >= 3 && member[member.length-1] != 'TRUE') {
-                const id = member[member.length-3];
-                const name = member[member.length-2];
-                const chinese = member[member.length-1];
-                const fullName = `${id}. ${name}, ${chinese}`;
-                names.push(fullName);
-                memberRows[fullName] = i+1;
+            if (member.length > 0 && member[member.length - 1] != 'TRUE') {
+                const id = member[0];
+                const name = member[2] || member[1];
+                names.push(`${id}. ${name}`);
+                memberRows[name] = i+1;
             }
         }
 
