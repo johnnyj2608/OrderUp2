@@ -60,7 +60,7 @@
       font-size: 30px;
       cursor: pointer;
       border-radius: 5px;
-      width: 180px;
+      width: 100%;
       height: 50px;
       text-align: center;
 }
@@ -189,7 +189,7 @@ button:focus, .panel:focus, .btn:focus {
 
 @media (max-width: 767px) {
       #nameList {
-            height: 40svh;
+            height: 35svh;
       }
 }
 

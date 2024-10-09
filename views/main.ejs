@@ -29,18 +29,27 @@
         <div class="content">
             <br>
             <div class="row">
-                <div class="col d-flex justify-content-around">
+                <div class="col-4 col-md-2 mb-2">
                     <div class="dayButton" data-day="1" onclick="handleDayClick(1)"><%= __('monday') %></div>
+                </div>
+                <div class="col-4 col-md-2 mb-2">
                     <div class="dayButton" data-day="2" onclick="handleDayClick(2)"><%= __('tuesday') %></div>
+                </div>
+                <div class="col-4 col-md-2 mb-2">
                     <div class="dayButton" data-day="3" onclick="handleDayClick(3)"><%= __('wednesday') %></div>
+                </div>
+                <div class="col-4 col-md-2 mb-2">
                     <div class="dayButton" data-day="4" onclick="handleDayClick(4)"><%= __('thursday') %></div>
+                </div>
+                <div class="col-4 col-md-2 mb-2">
                     <div class="dayButton" data-day="5" onclick="handleDayClick(5)"><%= __('friday') %></div>
+                </div>
+                <div class="col-4 col-md-2 mb-2">
                     <div class="dayButton" data-day="6" onclick="handleDayClick(6)"><%= __('saturday') %></div>
                 </div>
             </div>
-            <br>
-            <div class="row">
-                <div class="col-xs-12 col-md-6 order-md-12">
+            <div class="row mt-2">
+                <div class="col-12 col-md-6 order-md-12">
                     <ul id="nameList">
                         <% names.forEach(name => { %>
                             <li data-index="<%= memberRows[name] %>" 
@@ -52,7 +61,7 @@
                         <% }) %>
                     </ul>
                 </div>
-                <div class="col-xs-12 col-md-6 order-md-1">
+                <div class="col-12 col-md-6 order-md-1 mb-4">
                     <h2><%= __("breakfast") %></h2>
                     <% breakfastMenu.forEach((title, index) => { %>
                         <% if (index % 3 === 0) { %>
@@ -75,7 +84,6 @@
                             </div>
                         <% } %>
                     <% }) %>
-                    <br>
                     <h2><%= __("lunch") %></h2>
                     <% lunchMenu.forEach((title, index) => { %>
                         <% if (index % 3 === 0) { %>
