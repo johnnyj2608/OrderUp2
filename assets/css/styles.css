@@ -77,11 +77,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0;
       text-align: center;
       box-sizing: border-box; 
       cursor: pointer;
-      border: 1px solid #333;
+      border: 3px solid transparent;
 }
   
 .panel-img {
@@ -97,14 +96,16 @@
 }
   
 .panel-title {
-      width: calc(95%);
-      flex-grow: 1;
-      margin: 0;
-      padding: 0;
-      display: inline-block;
-      white-space: nowrap;
+      width: 100%;
+      border: 1px solid #333;
+}
+
+.panel-title h5 {
+      display: block;
+      margin: 0 5px;
       overflow: hidden;
       text-overflow: ellipsis;
+      width: calc(95%);
 }
 
 .selectedBreakfast, .selectedLunch {
