@@ -42,19 +42,19 @@ router.post("/submit", async (req, res) => {
             menuRowPromises[1] = getNextRow(sheetName, lunchCol);
         }
 
-        const estDate = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
-        const today = new Date(estDate).getDay();
-        let difference = Number(weekday) - today;
-        if (difference < 0) {
-            difference += 6;    // Not 7 because of Sunday
-        }
-        
         let historyCol;
         if (weekday === '0') {
-            historyCol = 0;
+            historyCol = 24;
         } else {
+            const estDate = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+            const today = new Date(estDate).getDay();
+            let difference = Number(weekday) - today;
+            if (difference <= 0) {
+                difference += 6;    // Not 7 because of Sunday
+            }
             historyCol = 24 - (difference * 4);
         }
+        
         const historyRowPromise = getNextRow('History', historyCol);
 
         const [
