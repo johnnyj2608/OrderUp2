@@ -59,19 +59,19 @@
             <div class="row mt-2">
                 <div class="col-12 col-md-6 order-md-12">
                     <ul id="nameList">
-                        <% names.forEach(name => { %>
-                            <li data-index="<%= memberRows[name] %>" 
-                                data-menu="<%= menuLimit[name] %>" 
+                        <% names.forEach(({ name, row, menu }, index) => { %>
+                            <li data-index="<%= row %>" 
+                                data-menu="<%= menu %>" 
                                 onclick="handleNameClick(this)">
                                 <span class="name"><%= name %></span>
-                                <span class="menu-type"><%= menuLimit[name] %></span>
+                                <span class="menu-type"><%= menu %></span>
                             </li>
                         <% }) %>
                     </ul>
                 </div>
                 <div class="col-12 col-md-6 order-md-1 mb-4">
                     <h2><%= __("breakfast") %></h2>
-                    <% breakfastMenu.forEach((title, index) => { %>
+                    <% breakfastMenu.forEach(({ title, image }, index) => { %>
                         <% if (index % 3 === 0) { %>
                             <div class="row">
                         <% } %>
@@ -82,7 +82,7 @@
                                 onclick="handleMealClick(this, 'Breakfast');" 
                                 class="panel w-100" 
                                 data-order="<%= index %>">
-                                <img src="<%= '/img/default.png' %>" 
+                                <img src="<%= image ? image : '/img/default.png' %>"
                                 class="panel-img w-100" />
                                 <div class="panel-title">
                                     <p><%= title %></p>
@@ -95,7 +95,7 @@
                         <% } %>
                     <% }) %>
                     <h2><%= __("lunch") %></h2>
-                    <% lunchMenu.forEach((title, index) => { %>
+                    <% lunchMenu.forEach(({ title, image }, index) => { %>
                         <% if (index % 3 === 0) { %>
                             <div class="row">
                         <% } %>
@@ -106,7 +106,7 @@
                                 onclick="handleMealClick(this, 'Lunch');" 
                                 class="panel w-100" 
                                 data-order="<%= index %>">
-                                <img src="<%= '/img/default.png' %>" 
+                                <img src="<%= image ? image : '/img/default.png' %>"
                                 class="panel-img w-100" />
                                 <div class="panel-title">
                                     <p><%= title %></p>

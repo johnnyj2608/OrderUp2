@@ -20,32 +20,37 @@ router.get("/", async (req, res) => {
         const googleSheets = getGoogleSheets();
         const spreadsheet = await googleSheets.spreadsheets.values.get({
             spreadsheetId,
-            range: `${sheetName}!A2:M`
+            range: `${sheetName}!A1:M`,
+            valueRenderOption: 'FORMULA'
         });
         const data = spreadsheet.data.values;
 
-        const breakfastMenu = data[0].slice(0, 3);
-        const lunchMenu = data[0].slice(4);
+        const breakfastMenu = [];
+        for (let i = 0; i < 3; i++) {
+            breakfastMenu.push({ title: data[1][i], image: data[0][i].slice(8, -5) });
+        }
+
+        const lunchMenu = [];
+        for (let i = 4; i < 7; i++) {
+            lunchMenu.push({ title: data[1][i], image: data[0][i].slice(8, -5) });
+        }
+
 
         const names = [];
-        const memberRows = {};
-        const menuLimit = {};
-        for (let i = 2; i < data.length; i++) {
+        for (let i = 3; i < data.length; i++) {
             const member = data[i].slice(8, 13);
             if (member.length > 0) {
                 if (member[member.length - 2] == 'TRUE' && member[member.length - 1] == 'TRUE') {
                     continue;
                 }
-                let orderedDay = 'A';
+                let menu = 'A';
                 if (member.length == 5) {
-                    orderedDay = 'B';   // Breakfast only
+                    menu = 'B';   // Breakfast only
                 } else if (member.length == 4) {
-                    orderedDay = 'L';   // Lunch only
+                    menu = 'L';   // Lunch only
                 }
                 const name = `${member[0]}. ${member[2] || member[1]}`;
-                names.push(name);
-                memberRows[name] = i+1;
-                menuLimit[name] = orderedDay;
+                names.push({name: name, row: i+1, menu: menu });
             }
         }
 
@@ -53,8 +58,6 @@ router.get("/", async (req, res) => {
             breakfastMenu, 
             lunchMenu,
             names,
-            memberRows,
-            menuLimit,
         });
     } catch (error) {
         console.error("Error loading sheet data: ", error);
