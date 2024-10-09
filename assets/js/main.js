@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (selectedDay == 0) {
         const todayCheckbox = document.getElementById('today-icon');
-        todayCheckbox.classList.add('fa-check-square');
-        todayCheckbox.classList.remove('fa-square');
+        todayCheckbox.classList.add('fa-calendar-check');
+        todayCheckbox.classList.remove('fa-calendar');
     } else {
         const currentDayButton = document.querySelector(`.dayButton[data-day="${selectedDay}"]`);
         currentDayButton.classList.add('selectedDay');
