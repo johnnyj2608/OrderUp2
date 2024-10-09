@@ -4,33 +4,36 @@ function refreshResponse() {
       return;
     }
     const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sourceSheet;
     
     switch (weekday) {
-      case 0: // Sunday
-        break;
       case 1: // Monday
-      const mondaySheet = ss.getSheetByName('Mon');
-        mondaySheet.getRangeList(['A4:G1000', 'L4:M1000']).clearContent();
+        sourceSheet = ss.getSheetByName('Mon');
         break;
       case 2: // Tuesday
-      const tuesdaySheet = ss.getSheetByName('Tue');
-        tuesdaySheet.getRangeList(['A4:G1000', 'L4:M1000']).clearContent();
+        sourceSheet = ss.getSheetByName('Tue');
         break;
       case 3: // Wednesday
-      const wednesdaySheet = ss.getSheetByName('Wed');
-        wednesdaySheet.getRangeList(['A4:G1000', 'L4:M1000']).clearContent();
+        sourceSheet = ss.getSheetByName('Wed');
         break;
       case 4: // Thursday
-      const thursdaySheet = ss.getSheetByName('Thu');
-        thursdaySheet.getRangeList(['A4:G1000', 'L4:M1000']).clearContent();
+        sourceSheet = ss.getSheetByName('Thu');
         break;
       case 5: // Friday
-      const fridaySheet = ss.getSheetByName('Fri');
-        fridaySheet.getRangeList(['A4:G1000', 'L4:M1000']).clearContent();
+        sourceSheet = ss.getSheetByName('Fri');
         break;
       case 6: // Saturday
-      const saturdaySheet = ss.getSheetByName('Sat');
-        saturdaySheet.getRangeList(['A4:G1000', 'L4:M1000']).clearContent();
+        sourceSheet = ss.getSheetByName('Sat');
         break;
     }
-  }
+  
+    if (sourceSheet) {
+      const todaySheet = ss.getSheetByName('Today');
+      todaySheet.clear(); 
+  
+      const sourceRange = sourceSheet.getRange('A1:M500');
+      sourceRange.copyTo(todaySheet.getRange('A1'));
+  
+      sourceSheet.getRangeList(['A4:G500', 'L4:M500']).clearContent();
+    }
+}

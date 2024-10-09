@@ -1,9 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
-    const selectedDay = params.get('day') || new Date().getDay(); ;
+    const selectedDay = params.get('day') || 0;
     
-    const currentDayButton = document.querySelector(`.dayButton[data-day="${selectedDay}"]`);
-    currentDayButton.classList.add('selectedDay');
+    if (selectedDay == 0) {
+        const todayCheckbox = document.getElementById('today-icon');
+        todayCheckbox.classList.add('fa-check-square');
+        todayCheckbox.classList.remove('fa-square');
+    } else {
+        const currentDayButton = document.querySelector(`.dayButton[data-day="${selectedDay}"]`);
+        currentDayButton.classList.add('selectedDay');
+    }
 });
 
 function handleDayClick(dayIndex) {

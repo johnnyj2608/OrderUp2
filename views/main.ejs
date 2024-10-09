@@ -11,6 +11,14 @@
 <body>
     <div class="container-fluid">
         <div class="row header">
+            <div class="col-auto p-0">
+                <div class="dropdown">
+                    <span onclick="handleDayClick(0);">
+                        <%= __("today") %>
+                        <i class="fas fa-square" id="today-icon"></i> 
+                    </span>
+                </div>
+            </div>
             <div class="col text-center">
                 <%= __("project_title") %>
             </div>
