@@ -50,7 +50,7 @@ router.get("/", async (req, res) => {
                     menu = 'L';   // Lunch only
                 }
                 const name = `${member[0]}. ${member[2] || member[1]}`;
-                names.push({name: name, row: i+1, menu: menu });
+                names.push({name: name, row: i, menu: menu });
             }
         }
 
