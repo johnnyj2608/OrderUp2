@@ -119,6 +119,7 @@
       height: 70svh;
       overflow-y: auto;
       background-color: #f9f9f9;
+      text-align: center;
 }
   
 #nameList li {
@@ -187,7 +188,9 @@ button:focus, .panel:focus, .btn:focus {
 } 
 
 @media (max-width: 767px) {
-      
+      #nameList {
+            height: 40svh;
+      }
 }
 
 @media (min-width: 1366px) {
