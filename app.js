@@ -3,6 +3,8 @@ const favicon = require('serve-favicon');
 const path = require("path");
 const i18n = require("i18n");
 const cookieParser = require("cookie-parser");
+const basicAuth = require('express-basic-auth');
+require('dotenv').config();
 
 const { initializeGoogleSheets } = require('./config/googleAPI');
 
@@ -11,6 +13,16 @@ const submitRoute = require('./routes/submitRoute');
 const switchRoute = require('./routes/switchRoute');
 
 const app = express();
+
+const customAuth = (username, password) => {
+    return password === process.env.ADMIN_PASSWORD;
+};
+
+app.use(basicAuth({
+    authorizer: customAuth,
+    challenge: true,
+    unauthorizedResponse: 'Unauthorized'
+}));
 
 i18n.configure({
     locales: ['en', 'zh'],
