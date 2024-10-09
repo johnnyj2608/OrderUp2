@@ -15,7 +15,7 @@ function updateHistory() {
   
     const todayDate = new Date();
     const futureDate = new Date(todayDate);
-    futureDate.setDate(todayDate.getDate() + 6);
+    futureDate.setDate(todayDate.getDate() + 7);
   
     historySheet.getRange('A1').setValue(futureDate).setNumberFormat("MM/dd/yy");
     historySheet.getRange('A2').setValue('Name');

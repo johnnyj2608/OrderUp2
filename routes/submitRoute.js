@@ -3,6 +3,7 @@ const router = express.Router();
 const { spreadsheetId, getGoogleSheets, getSheetId, getNextRow } = require('../config/googleAPI');
 
 const sheetsByWeekday = {
+    0: 'Today',
     1: 'Mon',
     2: 'Tue',
     3: 'Wed',
@@ -47,8 +48,13 @@ router.post("/submit", async (req, res) => {
         if (difference < 0) {
             difference += 6;    // Not 7 because of Sunday
         }
-        const historyCol = 20 - (difference * 4);
         
+        let historyCol;
+        if (weekday === '0') {
+            historyCol = 0;
+        } else {
+            historyCol = 24 - (difference * 4);
+        }
         const historyRowPromise = getNextRow('History', historyCol);
 
         const [
