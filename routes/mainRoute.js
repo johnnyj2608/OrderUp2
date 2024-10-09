@@ -40,7 +40,7 @@ router.get("/", async (req, res) => {
         for (let i = 3; i < data.length; i++) {
             const member = data[i].slice(8, 13);
             if (member.length > 0) {
-                if (member[member.length - 2] == 'TRUE' && member[member.length - 1] == 'TRUE') {
+                if (member[member.length - 2] == true && member[member.length - 1] == true) {
                     continue;
                 }
                 let menu = 'A';
