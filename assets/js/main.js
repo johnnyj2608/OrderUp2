@@ -28,6 +28,16 @@ function handleMealClick(menuItem, menuType) {
     updateButtonState();
 }
 
+function searchNames() {
+    const input = document.getElementById('searchBar').value.toLowerCase();
+    const listItems = document.querySelectorAll('#nameList li');
+
+    listItems.forEach(item => {
+        const name = item.textContent.toLowerCase();
+        item.style.display = name.includes(input) ? '' : 'none';
+    });
+}
+
 function handleNameClick(listItem) {
     listItem.classList.toggle('selected');
     const menuType = listItem.getAttribute('data-menu');
