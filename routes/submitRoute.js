@@ -127,7 +127,7 @@ router.post("/submit", async (req, res) => {
                         rows: [
                             {
                                 values: [
-                                    { userEnteredValue: { boolValue: true } }
+                                    { userEnteredValue: { stringValue: breakfastName } }
                                 ]
                             }
                         ],
@@ -170,7 +170,7 @@ router.post("/submit", async (req, res) => {
                         rows: [
                             {
                                 values: [
-                                    { userEnteredValue: { boolValue: true } }
+                                    { userEnteredValue: { stringValue: lunchName } }
                                 ]
                             }
                         ],
