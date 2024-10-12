@@ -40,14 +40,14 @@ router.get("/", async (req, res) => {
         for (let i = 3; i < data.length; i++) {
             const member = data[i].slice(8, 13);
             if (member.length > 0) {
-                if (member.length >= 5 && member[3] && member[4]) {
-                    continue;
+                if (member.length == 5 && member[3] && member[4]) {
+                    continue;   // Ordered for both meals already
                 }
                 let menu = 'A';
                 if (member.length == 5) {
-                    menu = 'B';   // Breakfast only
+                    menu = 'B';   // Ordered for lunch, breakfast only
                 } else if (member.length == 4) {
-                    menu = 'L';   // Lunch only
+                    menu = 'L';   // Ordered for breakfast, lunch only
                 }
                 const name = `${member[0]}. ${member[2] || member[1]}`;
                 names.push({name: name, row: i, menu: menu });
