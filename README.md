@@ -6,5 +6,6 @@
 - **Member Filtering**: Search for specific members within the member list.
 - **Response Handling**: Clears order responses at the start of each weekday.
 - **Order History**: Keeps a record of meal selections for up to 30 days.
+- **Nickname Priority**: Display members' Chinese names if preferred.
 - **Language Switching**: Easily switch languages via a dropdown menu.
 - **Basic Auth**: Secure access with a username and password.
