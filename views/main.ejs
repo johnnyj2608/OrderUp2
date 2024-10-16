@@ -71,7 +71,7 @@
                     </ul>
                 </div>
                 <div class="col-12 col-md-6 order-md-1 mb-4">
-                    <h2><%= __("breakfast") %></h2>
+                    <h2 id="breakfastSection"><%= __("breakfast") %></h2>
                     <% breakfastMenu.forEach(({ title, image }, index) => { %>
                         <% if (index % 3 === 0) { %>
                             <div class="row">
@@ -95,7 +95,7 @@
                             </div>
                         <% } %>
                     <% }) %>
-                    <h2><%= __("lunch") %></h2>
+                    <h2 id="lunchSection"><%= __("lunch") %></h2>
                     <% lunchMenu.forEach(({ title, image }, index) => { %>
                         <% if (index % 3 === 0) { %>
                             <div class="row">
@@ -119,8 +119,8 @@
                             </div>
                         <% } %>
                     <% }) %>
-                </div>  
-            </div>       
+                </div>
+            </div>
         </div>
         <div class="row footer align-items-center">
             <div class="col text-center">

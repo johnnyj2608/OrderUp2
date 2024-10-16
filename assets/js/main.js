@@ -26,6 +26,7 @@ function handleMealClick(menuItem, menuType) {
         }
     });
     updateButtonState();
+    handleScroll();
 }
 
 function searchNames() {
@@ -138,6 +139,7 @@ document.getElementById('submitButton').addEventListener('click', async function
                     menuTypeSpan.innerText = 'B';
                 }
                 
+                handleScroll()
                 resetSelection();
             } else {
                 alert("error")
@@ -147,3 +149,19 @@ document.getElementById('submitButton').addEventListener('click', async function
         }
     }
 });
+
+function handleScroll() {
+    const selectedBreakfast = document.querySelector('.selectedBreakfast');
+    const selectedLunch = document.querySelector('.selectedLunch');
+
+    const breakfastSection = document.getElementById('breakfastSection');
+    const lunchSection = document.getElementById('lunchSection');
+
+    if (selectedBreakfast && selectedLunch) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (selectedBreakfast) {
+        lunchSection.scrollIntoView({ behavior: 'smooth' });
+    } else if (selectedLunch) {
+        breakfastSection.scrollIntoView({ behavior: 'smooth' });
+    }
+}

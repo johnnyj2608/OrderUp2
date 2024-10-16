@@ -210,3 +210,7 @@ button:focus, .panel:focus, .btn:focus {
 @media (min-width: 1366px) {
       
 }
+
+#breakfastSection, #lunchSection {
+      scroll-margin-top: 7svh;
+}
