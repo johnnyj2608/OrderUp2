@@ -153,12 +153,15 @@ document.getElementById('submitButton').addEventListener('click', async function
 function handleScroll() {
     const selectedBreakfast = document.querySelector('.selectedBreakfast');
     const selectedLunch = document.querySelector('.selectedLunch');
+    const selectedName = document.querySelector('#nameList li.selected');
 
     const breakfastSection = document.getElementById('breakfastSection');
     const lunchSection = document.getElementById('lunchSection');
 
     if (selectedBreakfast && selectedLunch) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (!selectedName) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     } else if (selectedBreakfast) {
         lunchSection.scrollIntoView({ behavior: 'smooth' });
     } else if (selectedLunch) {
