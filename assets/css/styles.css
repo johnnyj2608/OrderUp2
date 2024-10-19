@@ -196,7 +196,12 @@ button:focus, .panel:focus, .btn:focus {
       filter: grayscale(100%);
       opacity: 0.5;
       pointer-events: none;
-} 
+}
+
+
+#breakfastSection, #lunchSection {
+      scroll-margin-top: 7svh;
+}
 
 @media (max-width: 767px) {
       #nameList {
@@ -219,12 +224,11 @@ button:focus, .panel:focus, .btn:focus {
       #project-title {
             display: none;
       }
+      .actionButton {
+            width: 66.66666%;
+      }
 }
 
 @media (min-width: 1366px) {
       
-}
-
-#breakfastSection, #lunchSection {
-      scroll-margin-top: 7svh;
 }
