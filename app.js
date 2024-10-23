@@ -9,6 +9,8 @@ require('dotenv').config();
 const { initializeGoogleSheets } = require('./config/googleAPI');
 
 const mainRoute = require('./routes/mainRoute');
+const responseRoute = require('./routes/responseRoute');
+const historyRoute = require('./routes/historyRoute');
 const submitRoute = require('./routes/submitRoute');
 const switchRoute = require('./routes/switchRoute');
 
@@ -43,6 +45,8 @@ app.use(express.static(path.join(__dirname, 'assets')));
 app.use(favicon(path.join(__dirname,'assets','img','favicon.ico')));
 
 app.use('/', mainRoute);
+app.use('/', responseRoute);
+app.use('/', historyRoute);
 app.use('/', submitRoute);
 app.use('/', switchRoute);
 
