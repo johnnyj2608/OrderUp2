@@ -14,11 +14,12 @@
 	"already_ordered": "You have already ordered for %s.",
 	"invalid_weekday": "Invalid day of the week.",
 	"today": "Today",
-    "monday": "Mon",
-    "tuesday": "Tues",
-    "wednesday": "Wed",
-    "thursday": "Thu",
-    "friday": "Fri",
-    "saturday": "Sat",
-	"search_Name": "Search for names.."
+	"monday": "Mon",
+	"tuesday": "Tues",
+	"wednesday": "Wed",
+	"thursday": "Thu",
+	"friday": "Fri",
+	"saturday": "Sat",
+	"search_Name": "Search for names...",
+	"back": "Back"
 }
