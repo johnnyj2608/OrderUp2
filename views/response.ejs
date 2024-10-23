@@ -56,16 +56,60 @@
                     <div class="dayButton" data-day="6" onclick="handleDayClick(6)"><%= __('saturday') %></div>
                 </div>
             </div>
+            <!-- If screen too small, make two tabs -->
+            <div class="row mt-4">
+                <% breakfastResponses.forEach(({ title, image, count, names }, index) => { %>
+                    <div class="col-md-2">
+                        <div class="row">
+                            <div class="col panel">
+                                <img src="<%= image ? image : '/img/default.png' %>" class="panel-img w-100" />
+                                <div class="panel-title">
+                                    <p><%= title %></p>
+                                    <p>Count: <%= count %></p>
+                                </div>
+                                <% if (names && names.length > 0) { %>
+                                    <ul class="nameResponses">
+                                        <% names.forEach(name => { %>
+                                            <li><%= name %></li>
+                                        <% }) %>
+                                    </ul>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+
+                <% lunchResponses.forEach(({ title, image, count, names }, index) => { %>
+                    <div class="col-md-2">
+                        <div class="row">
+                            <div class="col panel">
+                                <img src="<%= image ? image : '/img/default.png' %>" class="panel-img w-100" />
+                                <div class="panel-title">
+                                    <p><%= title %></p>
+                                    <p>Count: <%= count %></p>
+                                </div>
+                                <% if (names && names.length > 0) { %>
+                                    <ul class="nameResponses">
+                                        <% names.forEach(name => { %>
+                                            <li><%= name %></li>
+                                        <% }) %>
+                                    </ul>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
         </div>
         <div class="row footer align-items-center">
             <div class="col text-center">
-                <!-- <button id="submitButton" class="actionButton disabled"><%= __("submit_order") %></button> -->
+                <!-- Button to go back -->
+                <!-- Button to switch to menu responses, edit mode, & history -->
             </div>
         </div>
     </div>
 
     <script src="/js/settings.js"></script>
-    <script src="/js/main.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"

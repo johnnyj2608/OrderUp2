@@ -203,6 +203,25 @@ button:focus, .panel:focus, .btn:focus {
       scroll-margin-top: 7svh;
 }
 
+.nameResponses {
+      list-style-type: none;
+      border: 1px solid #333;
+      width: 100%;
+      background-color: #f9f9f9;
+      text-align: center;
+}
+
+.nameResponses li {
+      
+      padding: 10px;
+      font-size: 20px;
+      border-bottom: 1px solid #ddd;
+      /* justify-content: center;
+      display: flex; 
+      justify-content: space-between;
+      align-items: center; */
+}
+
 @media (max-width: 767px) {
       #nameList {
             height: 35svh;
