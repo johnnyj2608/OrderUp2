@@ -22,17 +22,11 @@
             <div class="col text-center" id="project-title">
                 <%= __("project_title") %>
             </div>
-            <div class="col-auto d-flex align-items-center">
-                <i id="edit-button" class="fas fa-pencil-alt"></i>
+            <div class="col-auto">
                 <div class="dropdown">
-                    <div class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-language"></i>
-                    </div>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" data-lang="en"><%= __("english") %></a></li>
-                        <li><a class="dropdown-item" href="#" data-lang="zh"><%= __("chinese") %></a></li>
-                    </ul>
+                    <i id="edit-button" class="fas fa-pencil-alt"></i>
                 </div>
+                
             </div>
         </div>
         <div class="content">
@@ -106,7 +100,7 @@
         <div class="row footer align-items-center">
             <div class="col button-container">
                 <button id="backButton" class="actionButton"><%= __("back") %></button>
-                <button id="backButton" class="actionButton"><%= __("back") %></button>
+                <button class="actionButton"><%= __("done") %></button>
             </div>
         </div>
     </div>

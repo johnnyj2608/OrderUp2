@@ -29,7 +29,7 @@
 }
 
 #edit-button {
-      margin-right: 20px;
+      margin-right: 25px;
 }
 
 .dropdown {
@@ -181,6 +181,7 @@ button:focus, .panel:focus, .btn:focus {
 .button-container {
       display: flex;
       justify-content: center;
+      justify-content: space-between;
 }
   
 .button-container .actionButton {
@@ -190,14 +191,11 @@ button:focus, .panel:focus, .btn:focus {
       border: none;
       color: black;
       cursor: pointer;
+      text-decoration: none;
 }
 
-.button-container:has(.actionButton:only-child) {
-      justify-content: center;
-}
-
-.button-container:not(:has(.actionButton:only-child)) {
-      justify-content: space-between;
+.button-container .actionButton:hover {
+      background-color: #ffddc1;
 }
 
 .disabled {
