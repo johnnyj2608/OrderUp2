@@ -39,15 +39,16 @@
 
 .dropdown:hover {
       color: #ffddc1;
+      cursor: pointer;
 }
 
 .dropdown-item {
-      cursor: pointer;
       width: 100%;
       font-size: 20px;
 }
 
 .dropdown-item:hover {
+      cursor: pointer;
       background-color: #ffddc1 !important;
 }
 

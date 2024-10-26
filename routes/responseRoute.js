@@ -31,12 +31,12 @@ router.get('/response', async (req, res) => {
             const image = data[0][i].slice(8, -5);
             
             const names = data.slice(3).map(row => row[i]).filter(name => name);
-            const count = names.length;
+            const amt = names.length;
             
             breakfastResponses.push({
                 image,
                 title,
-                count,
+                amt,
                 names
             });
         }
@@ -47,11 +47,11 @@ router.get('/response', async (req, res) => {
             const image = data[0][i].slice(8, -5);
             
             const names = data.slice(3).map(row => row[i]).filter(name => name);
-            const count = names.length;
+            const amt = names.length;
             lunchResponses.push({
                 image,
                 title,
-                count,
+                amt,
                 names
             });
         }

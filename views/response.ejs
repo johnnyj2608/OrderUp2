@@ -54,14 +54,14 @@
             <!-- If screen too small, make two tabs -->
              <!-- Freeze title when scrolling -->
             <div class="row mt-4">
-                <% breakfastResponses.forEach(({ title, image, count, names }, index) => { %>
+                <% breakfastResponses.forEach(({ title, image, amt, names }, index) => { %>
                     <div class="col-md-2">
                         <div class="row">
                             <div class="col panel">
                                 <img src="<%= image ? image : '/img/default.png' %>" class="panel-img w-100" />
                                 <div class="panel-title">
                                     <p><%= title %></p>
-                                    <p>Count: <%= count %></p>
+                                    <p><%= __('count')%>: <%= amt %></p>
                                 </div>
                                 <% if (names && names.length > 0) { %>
                                     <ul class="nameResponses">
@@ -75,14 +75,14 @@
                     </div>
                 <% }) %>
 
-                <% lunchResponses.forEach(({ title, image, count, names }, index) => { %>
+                <% lunchResponses.forEach(({ title, image, amt, names }, index) => { %>
                     <div class="col-md-2">
                         <div class="row">
                             <div class="col panel">
                                 <img src="<%= image ? image : '/img/default.png' %>" class="panel-img w-100" />
                                 <div class="panel-title">
                                     <p><%= title %></p>
-                                    <p>Count: <%= count %></p>
+                                    <p><%= __('count')%>: <%= amt %></p>
                                 </div>
                                 <% if (names && names.length > 0) { %>
                                     <ul class="nameResponses">
