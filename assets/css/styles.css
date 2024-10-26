@@ -178,17 +178,26 @@ button:focus, .panel:focus, .btn:focus {
       outline: none;
 }
 
-.actionButton {
-      height: 100%;
+.button-container {
+      display: flex;
+      justify-content: center;
+}
+  
+.button-container .actionButton {
       width: 33.33333%;
+      height: 100%;
       background-color: white;
       border: none;
       color: black;
       cursor: pointer;
 }
 
-.actionButton:hover {
-      background-color: #ffddc1;
+.button-container:has(.actionButton:only-child) {
+      justify-content: center;
+}
+
+.button-container:not(:has(.actionButton:only-child)) {
+      justify-content: space-between;
 }
 
 .disabled {
