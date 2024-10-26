@@ -16,6 +16,15 @@ function handleDayClick(dayIndex) {
     window.location.href = `?day=${dayIndex}`;
 }
 
+function handleEditClick() {
+    // Edit image link
+    // Edit item name
+    // Trash can next to times
+    // Back -> Cancel
+    // Views -> Save
+    // Use Stack
+}
+
 document.getElementById('backButton').addEventListener('click', async () => {
     window.location.href = '/';
 });
