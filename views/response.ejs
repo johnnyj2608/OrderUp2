@@ -100,7 +100,17 @@
         <div class="row footer align-items-center">
             <div class="col button-container">
                 <button id="backButton" class="actionButton"><%= __("back") %></button>
-                <button class="actionButton"><%= __("done") %></button>
+                <!-- <button class="actionButton"><%= __("done") %></button> -->
+                <div class="dropdown actionButton">
+                    <button class="dropdown-toggle actionButton w-100" data-bs-toggle="dropdown" aria-expanded="false">
+                        <%= __("views") %>
+                    </button>
+                    <ul class="dropdown-menu w-100 text-center">
+                        <li><a class="dropdown-item" href="#">Responses</a></li>
+                        <li><a class="dropdown-item" href="#">Members</a></li>
+                        <li><a class="dropdown-item" href="#">History</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

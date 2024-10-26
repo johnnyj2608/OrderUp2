@@ -43,6 +43,12 @@
 
 .dropdown-item {
       cursor: pointer;
+      width: 100%;
+      font-size: 20px;
+}
+
+.dropdown-item:hover {
+      background-color: #ffddc1 !important;
 }
 
 .footer {
