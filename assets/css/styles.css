@@ -8,6 +8,10 @@
       -ms-user-select: none; 
 }
 
+.pointer {
+      cursor: pointer;
+}
+
 .header, .footer {
       height: 7svh;
       background-color: rgb(105, 20, 35, 0.9);
@@ -92,7 +96,6 @@
       align-items: center;
       text-align: center;
       box-sizing: border-box; 
-      cursor: pointer;
       border: 3px solid transparent;
 }
   
