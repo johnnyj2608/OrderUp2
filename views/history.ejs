@@ -52,26 +52,10 @@
                     <div class="dayButton" data-day="6" onclick="handleDayClick(6)"><%= __('saturday') %></div>
                 </div>
             </div>
+
+            <!-- Dates on the left -->
+            <!-- History List on the right -->
             
-            <% memberList.forEach(member => { %>
-                <div class="row">
-                    <div class="col">
-                        <p><%= member.id %></p>
-                    </div>
-                    <div class="col">
-                        <p><%= member.name %></p>
-                    </div>
-                    <div class="col">
-                        <p><%= member.chinese %></p>
-                    </div>
-                    <div class="col">
-                        <p><%= member.breakfast %></p>
-                    </div>
-                    <div class="col">
-                        <p><%= member.lunch %></p>    
-                    </div>
-                </div>
-            <% }); %>
             <div class="row footer align-items-center">
                 <div class="col button-container">
                     <button id="backButton" class="actionButton"><%= __("back") %></button>
