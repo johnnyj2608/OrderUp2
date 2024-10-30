@@ -20,7 +20,7 @@ router.get('/member', async (req, res) => {
         const googleSheets = getGoogleSheets();
         const spreadsheet = await googleSheets.spreadsheets.values.get({
             spreadsheetId,
-            range: `${sheetName}!I3:M`,
+            range: `${sheetName}!I4:M`,
             valueRenderOption: 'FORMULA'
         });
         const data = spreadsheet.data.values;

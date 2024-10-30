@@ -53,25 +53,30 @@
                 </div>
             </div>
             
-            <% memberList.forEach(member => { %>
-                <div class="row">
-                    <div class="col">
-                        <p><%= member.id %></p>
-                    </div>
-                    <div class="col">
-                        <p><%= member.name %></p>
-                    </div>
-                    <div class="col">
-                        <p><%= member.chinese %></p>
-                    </div>
-                    <div class="col">
-                        <p><%= member.breakfast %></p>
-                    </div>
-                    <div class="col">
-                        <p><%= member.lunch %></p>    
-                    </div>
-                </div>
-            <% }); %>
+            <table class="table table-striped table-bordered mt-4">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">ID</th>
+                        <th>Name</th>
+                        <th>Chinese</th>
+                        <th>Breakfast</th>
+                        <th>Lunch</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% memberList.forEach(member => { %>
+                        <tr>
+                            <td style="width: 10%;"><%= member.id %></td>
+                            <td><%= member.name %></td>
+                            <td><%= member.chinese %></td>
+                            <td><%= member.breakfast %></td>
+                            <td><%= member.lunch %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <br>         
+
             <div class="row footer align-items-center">
                 <div class="col button-container">
                     <button id="backButton" class="actionButton"><%= __("back") %></button>
