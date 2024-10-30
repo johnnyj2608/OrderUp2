@@ -236,10 +236,10 @@ button:focus, .panel:focus, .btn:focus {
       padding: 10px;
       font-size: 20px;
       border-bottom: 1px solid #ddd;
-      /* justify-content: center;
-      display: flex; 
-      justify-content: space-between;
-      align-items: center; */
+}
+
+th {
+      width: 25%;
 }
 
 @media (max-width: 767px) {
