@@ -42,7 +42,7 @@ async function getSheetId(sheetName) {
 
 async function getNextRow(sheetName, column) {
     try {
-        const columnLetter = String.fromCharCode(65 + parseInt(column));
+        const columnLetter = getColumnLetter(column)
         const range = `${sheetName}!${columnLetter}:${columnLetter}`;
         const response = await googleSheets.spreadsheets.values.get({
             spreadsheetId,
@@ -55,6 +55,15 @@ async function getNextRow(sheetName, column) {
         console.error('Error fetching next row:', error);
         throw error;
     }
+}
+
+function getColumnLetter(columnNumber) {
+    let letter = '';
+    while (columnNumber >= 0) {
+        letter = String.fromCharCode((columnNumber % 26) + 65) + letter;
+        columnNumber = Math.floor(columnNumber / 26) - 1;
+    }
+    return letter;
 }
 
 module.exports = {

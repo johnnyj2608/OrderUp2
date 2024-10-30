@@ -44,7 +44,7 @@ router.post("/submit", async (req, res) => {
 
         let historyCol;
         if (weekday === '0') {
-            historyCol = 24;
+            historyCol = 30;
         } else {
             const estDate = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
             const today = new Date(estDate).getDay();
@@ -52,9 +52,9 @@ router.post("/submit", async (req, res) => {
             if (difference <= 0) {
                 difference += 6;    // Not 7 because of Sunday
             }
-            historyCol = 24 - (difference * 4);
+            historyCol = 30 - (difference * 5);
         }
-        
+
         const historyRowPromise = getNextRow('History', historyCol);
 
         const [
@@ -69,7 +69,13 @@ router.post("/submit", async (req, res) => {
             historyRowPromise,
             ...menuRowPromises,
         ]);
-
+        
+        let timestamp = new Date().toLocaleString("en-US", {
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+        });
         let requests = [
             {
                 updateCells: {
@@ -78,7 +84,7 @@ router.post("/submit", async (req, res) => {
                         startRowIndex: historyRow - 1,
                         endRowIndex: historyRow,
                         startColumnIndex: historyCol,
-                        endColumnIndex: historyCol + 3
+                        endColumnIndex: historyCol + 4
                     },
                     rows: [
                         {
@@ -86,6 +92,7 @@ router.post("/submit", async (req, res) => {
                                 { userEnteredValue: { stringValue: memberName } },
                                 { userEnteredValue: { stringValue: breakfastName === 'none' ? '' : breakfastName } },
                                 { userEnteredValue: { stringValue: lunchName === 'none' ? '' : lunchName } },
+                                { userEnteredValue: { stringValue: timestamp } },
                             ]
                         }
                     ],
