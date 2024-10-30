@@ -16,13 +16,37 @@ function handleDayClick(dayIndex) {
     window.location.href = `?day=${dayIndex}`;
 }
 
+let editMode = false;
 function handleEditClick() {
+    editMode = !editMode;
+
+    const editButtons = document.getElementById('edit-buttons');
+    const viewButtons = document.getElementById('view-buttons');
+
+    if (editMode) {
+        viewButtons.style.display = 'none';
+        editButtons.style.display = 'flex';
+
+        const trashIcons = document.querySelectorAll('.trash-icon');
+        trashIcons.forEach(icon => {
+            icon.style.display = 'inline';
+        });
+    } else {
+        viewButtons.style.display = 'flex';
+        editButtons.style.display = 'none';
+
+        const trashIcons = document.querySelectorAll('.trash-icon');
+        trashIcons.forEach(icon => {
+            icon.style.display = 'none';
+        });
+    }
+
     // Edit image link
     // Edit item name
-    // Trash can next to times
     // Back -> Cancel
     // Views -> Save
-    // Use Stack
+    // Use Stack to track changes
+    // Undo / Redo buttons
 }
 
 document.getElementById('backButton').addEventListener('click', async () => {

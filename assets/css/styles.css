@@ -189,11 +189,14 @@ button:focus, .panel:focus, .btn:focus {
 
 .button-container {
       display: flex;
-      justify-content: center;
       justify-content: space-between;
 }
-  
-.button-container .actionButton {
+
+.actionButton:hover {
+      background-color: #ffddc1;
+}
+
+.actionButton {
       width: 33.33333%;
       height: 100%;
       background-color: white;
@@ -201,10 +204,6 @@ button:focus, .panel:focus, .btn:focus {
       color: black;
       cursor: pointer;
       text-decoration: none;
-}
-
-.button-container .actionButton:hover {
-      background-color: #ffddc1;
 }
 
 .disabled {
@@ -240,6 +239,27 @@ button:focus, .panel:focus, .btn:focus {
 
 th {
       width: 20%;
+}
+
+.name-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+}
+  
+.name-text {
+      flex-grow: 1;
+}
+
+.trash-icon {
+      cursor: pointer; 
+      position: absolute;
+      right: 7.5px;
+      display: none;
+}
+
+#edit-buttons {
+      display: none;
 }
 
 @media (max-width: 767px) {

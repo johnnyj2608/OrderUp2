@@ -67,7 +67,12 @@
                                 <% if (names && names.length > 0) { %>
                                     <ul class="nameResponses">
                                         <% names.forEach(name => { %>
-                                            <li><%= name %></li>
+                                            <li class="name-item">
+                                                <span class="name-text"><%= name %></span>
+                                                <span class="trash-icon">
+                                                    <i class="fas fa-trash"></i>
+                                                </span>
+                                            </li>
                                         <% }) %>
                                     </ul>
                                 <% } %>
@@ -88,7 +93,12 @@
                                 <% if (names && names.length > 0) { %>
                                     <ul class="nameResponses">
                                         <% names.forEach(name => { %>
-                                            <li><%= name %></li>
+                                            <li>
+                                                <%= name %>
+                                                <span class="trash-icon">
+                                                    <i class="fas fa-trash"></i>
+                                                </span>
+                                            </li>
                                         <% }) %>
                                     </ul>
                                 <% } %>
@@ -98,10 +108,9 @@
                 <% }) %>
             </div>
         </div>
-        <div class="row footer align-items-center">
+        <div id="view-buttons" class="row footer align-items-center">
             <div class="col button-container">
                 <button id="backButton" class="actionButton"><%= __("back") %></button>
-                <!-- <button class="actionButton"><%= __("done") %></button> -->
                 <div class="dropdown actionButton">
                     <button class="dropdown-toggle actionButton w-100" data-bs-toggle="dropdown" aria-expanded="false">
                         <%= __("views") %>
@@ -112,6 +121,23 @@
                         <li><a class="dropdown-item" href="/history">History</a></li>
                     </ul>
                 </div>
+            </div>
+        </div>
+        <div id="edit-buttons" class="row footer align-items-center">
+            <div class="col button-container">
+                <button id="cancelButton" class="actionButton"><%= __("cancel") %></button>
+                <span>
+                    <button id="undoButton" class="btn btn-icon">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                    <button id="plusButton" class="btn btn-icon">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button id="redoButton" class="btn btn-icon">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </span>
+                <button id="doneButton" class="actionButton"><%= __("done") %></button>
             </div>
         </div>
     </div>
