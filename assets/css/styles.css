@@ -263,10 +263,13 @@ button:focus, .panel:focus, .btn:focus {
 }
 
 .nameResponses li {
-      padding: 5px;
+      padding: 5px 15px;
       font-size: 20px;
       border-bottom: 1px solid #ddd;
       position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
 }
 
 th {
@@ -282,7 +285,7 @@ th {
 .trash-icon {
       cursor: pointer; 
       position: absolute;
-      right: 3px;
+      right: 1px;
 }
 
 .trash-icon:hover {

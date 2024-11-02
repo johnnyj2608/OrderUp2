@@ -52,14 +52,46 @@ function handleEditClick() {
             icon.classList.add('hidden');
         });
     }
-
-    // Use Stack to track changes
-    // Undo, Add, Redo buttons
 }
 
-function handleDelete(nameItem) {
-    const liElement = nameItem.parentNode;
+function handleDelete(deleteButton) {
+    const liElement = deleteButton.parentNode;
     liElement.parentNode.removeChild(liElement);
+}
+
+function handleAdd(addButton) {
+    const newLi = document.createElement('li');
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.style.width = '100%';
+    input.style.textAlign = 'center';
+
+    newLi.appendChild(input);
+
+    const nameResponsesList = addButton.parentElement;
+    nameResponsesList.insertBefore(newLi, addButton);
+
+    input.focus();
+
+    input.addEventListener('blur', function() {
+        const nameValue = input.value.trim();
+        
+        if (nameValue) {
+            newLi.innerText = nameValue;
+            
+            const trashIcon = document.createElement('span');
+            trashIcon.className = 'trash-icon';
+            trashIcon.onclick = function() {
+                handleDelete(this); 
+            };
+            trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
+            
+            newLi.appendChild(trashIcon);
+        } else {
+            newLi.remove();
+        }
+    });
 }
 
 document.getElementById('backButton').addEventListener('click', async () => {
