@@ -263,6 +263,10 @@ th {
       display: none;
 }
 
+.trash-icon:hover {
+      color: red;
+}
+
 #edit-buttons {
       display: none;
 }
