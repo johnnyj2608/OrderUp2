@@ -225,6 +225,11 @@ button:focus, .panel:focus, .btn:focus {
       cursor: pointer;
       text-decoration: none;
       padding: 0 10px;
+      text-align: center;
+}
+
+#undoButton, #redoButton {
+      width: 50%;
 }
 
 .disabled {
