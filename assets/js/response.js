@@ -53,10 +53,13 @@ function handleEditClick() {
         });
     }
 
-    // Edit image link
-    // Edit item name
     // Use Stack to track changes
     // Undo, Add, Redo buttons
+}
+
+function handleDelete(nameItem) {
+    const liElement = nameItem.parentNode;
+    liElement.parentNode.removeChild(liElement);
 }
 
 document.getElementById('backButton').addEventListener('click', async () => {

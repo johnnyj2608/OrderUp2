@@ -74,7 +74,7 @@
                                     <% names.forEach(name => { %>
                                         <li>
                                             <%= name %>
-                                            <span class="trash-icon hidden">
+                                            <span class="trash-icon hidden" onclick="handleDelete(this)">
                                                 <i class="fas fa-trash"></i>
                                             </span>
                                         </li>
@@ -107,7 +107,7 @@
                                     <% names.forEach(name => { %>
                                         <li>
                                             <%= name %>
-                                            <span class="trash-icon hidden">
+                                            <span class="trash-icon hidden" onclick="handleDelete(this)">
                                                 <i class="fas fa-trash"></i>
                                             </span>
                                         </li>
