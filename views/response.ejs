@@ -59,17 +59,23 @@
                     <div class="col-md-2">
                         <div class="row">
                             <div class="col panel">
-                                <img src="<%= image ? image : '/img/default.png' %>" class="panel-img w-100" />
-                                <div class="panel-title">
-                                    <p><%= title %></p>
-                                    <p><%= __('count')%>: <%= amt %></p>
+
+                                <div class="image-container view-mode">
+                                    <img src="<%= image ? image : '/img/default.png' %>" class="panel-img w-100" />
+                                    <div class="amount-overlay"><%= amt %></div>
                                 </div>
+                                <div class="panel-title view-mode">
+                                    <p><%= title %></p>
+                                </div>
+                                <input type="text" class="panel-img w-100 edit-mode hidden" data-orig="<%= image ? image : '' %>"/>
+                                <input class="panel-title edit-mode hidden" type="text" data-orig="<%= title %>"/>
+
                                 <% if (names && names.length > 0) { %>
                                     <ul class="nameResponses">
                                         <% names.forEach(name => { %>
-                                            <li class="name-item">
-                                                <span class="name-text"><%= name %></span>
-                                                <span class="trash-icon">
+                                            <li>
+                                                <%= name %>
+                                                <span class="trash-icon hidden">
                                                     <i class="fas fa-trash"></i>
                                                 </span>
                                             </li>
@@ -85,17 +91,23 @@
                     <div class="col-md-2">
                         <div class="row">
                             <div class="col panel">
-                                <img src="<%= image ? image : '/img/default.png' %>" class="panel-img w-100" />
-                                <div class="panel-title">
-                                    <p><%= title %></p>
-                                    <p><%= __('count')%>: <%= amt %></p>
+
+                                <div class="image-container view-mode">
+                                    <img src="<%= image ? image : '/img/default.png' %>" class="panel-img w-100" />
+                                    <div class="amount-overlay"><%= amt %></div>
                                 </div>
+                                <div class="panel-title view-mode">
+                                    <p><%= title %></p>
+                                </div>
+                                <input type="text" class="panel-img w-100 edit-mode hidden" data-orig="<%= image ? image : '' %>"/>
+                                <input class="panel-title edit-mode hidden" type="text" data-orig="<%= title %>"/>
+
                                 <% if (names && names.length > 0) { %>
                                     <ul class="nameResponses">
                                         <% names.forEach(name => { %>
                                             <li>
                                                 <%= name %>
-                                                <span class="trash-icon">
+                                                <span class="trash-icon hidden">
                                                     <i class="fas fa-trash"></i>
                                                 </span>
                                             </li>
@@ -108,7 +120,7 @@
                 <% }) %>
             </div>
         </div>
-        <div id="view-buttons" class="row footer align-items-center">
+        <div class="row footer align-items-center view-mode">
             <div class="col button-container">
                 <button id="backButton" class="actionButton"><%= __("back") %></button>
                 <div class="dropdown actionButton">
@@ -123,7 +135,7 @@
                 </div>
             </div>
         </div>
-        <div id="edit-buttons" class="row footer align-items-center">
+        <div class="row footer align-items-center edit-mode hidden">
             <div class="col button-container">
                 <button id="cancelButton" class="actionButton"><%= __("cancel") %></button>
                 <span>

@@ -20,33 +20,43 @@ let editMode = false;
 function handleEditClick() {
     editMode = !editMode;
 
-    const editButtons = document.getElementById('edit-buttons');
-    const viewButtons = document.getElementById('view-buttons');
+    const editSections = document.querySelectorAll('.edit-mode');
+    const viewSections = document.querySelectorAll('.view-mode');
+    const trashIcons = document.querySelectorAll('.trash-icon');
 
     if (editMode) {
-        viewButtons.style.display = 'none';
-        editButtons.style.display = 'flex';
-
-        const trashIcons = document.querySelectorAll('.trash-icon');
+        editSections.forEach(section => {
+            section.classList.remove('hidden');
+            if (section.hasAttribute('data-orig')) {
+                section.value = section.getAttribute('data-orig');
+            }
+        });
+    
+        viewSections.forEach(section => {
+            section.classList.add('hidden');
+        });
+    
         trashIcons.forEach(icon => {
-            icon.style.display = 'inline';
+            icon.classList.remove('hidden');
         });
     } else {
-        viewButtons.style.display = 'flex';
-        editButtons.style.display = 'none';
-
-        const trashIcons = document.querySelectorAll('.trash-icon');
+        editSections.forEach(section => {
+            section.classList.add('hidden');
+        });
+    
+        viewSections.forEach(section => {
+            section.classList.remove('hidden');
+        });
+    
         trashIcons.forEach(icon => {
-            icon.style.display = 'none';
+            icon.classList.add('hidden');
         });
     }
 
     // Edit image link
     // Edit item name
-    // Back -> Cancel
-    // Views -> Save
     // Use Stack to track changes
-    // Undo / Redo buttons
+    // Undo, Add, Redo buttons
 }
 
 document.getElementById('backButton').addEventListener('click', async () => {
