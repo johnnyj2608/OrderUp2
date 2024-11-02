@@ -85,8 +85,12 @@
       background-color: #555;
 }
 
+.dayButton:hover {
+      background-color: #555;
+}
+
 .selectedDay {
-      background-color: #007bff;
+      background-color: #007bff !important;
 }
 
 .panel {
@@ -204,6 +208,7 @@ button:focus, .panel:focus, .btn:focus {
       color: black;
       cursor: pointer;
       text-decoration: none;
+      padding: 0 10px;
 }
 
 .disabled {
