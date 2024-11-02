@@ -67,8 +67,8 @@
                                 <div class="panel-title view-mode">
                                     <p><%= title %></p>
                                 </div>
-                                <input type="text" class="panel-img w-100 edit-mode hidden" data-orig="<%= image ? image : '' %>"/>
-                                <input class="panel-title edit-mode hidden" type="text" data-orig="<%= title %>"/>
+                                <textarea class="panel-img w-100 edit-mode hidden" data-orig="<%= image ? image : '' %>"></textarea>
+                                <input class="panel-title edit-mode hidden" data-orig="<%= title %>"/>
 
                                 <ul class="nameResponses">
                                     <% names.forEach(name => { %>
@@ -79,7 +79,7 @@
                                             </span>
                                         </li>
                                     <% }) %>
-                                    <li class="edit-mode hidden">
+                                    <li class="addButton edit-mode hidden">
                                         <i class="fas fa-plus"></i>
                                     </li>
                                 </ul>
@@ -100,8 +100,8 @@
                                 <div class="panel-title view-mode">
                                     <p><%= title %></p>
                                 </div>
-                                <input type="text" class="panel-img w-100 edit-mode hidden" data-orig="<%= image ? image : '' %>"/>
-                                <input class="panel-title edit-mode hidden" type="text" data-orig="<%= title %>"/>
+                                <textarea class="panel-img w-100 edit-mode hidden" data-orig="<%= image ? image : '' %>"></textarea>
+                                <input class="panel-title edit-mode hidden" data-orig="<%= title %>"/>
 
                                 <ul class="nameResponses">
                                     <% names.forEach(name => { %>
@@ -112,7 +112,7 @@
                                             </span>
                                         </li>
                                     <% }) %>
-                                    <li class="edit-mode hidden">
+                                    <li class="addButton edit-mode hidden">
                                         <i class="fas fa-plus"></i>
                                     </li>
                                 </ul>
@@ -141,10 +141,10 @@
             <div class="col button-container">
                 <button id="cancelButton" class="actionButton"><%= __("cancel") %></button>
                 <span>
-                    <button id="undoButton" class="actionButton">
+                    <button id="undoButton" class="actionButton desaturate">
                         <i class="fas fa-undo"></i>
                     </button>
-                    <button id="redoButton" class="actionButton">
+                    <button id="redoButton" class="actionButton desaturate">
                         <i class="fas fa-redo"></i>
                     </button>
                 </span>
