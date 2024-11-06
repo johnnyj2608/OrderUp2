@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-function handleDayClick(dayIndex) {
+function handleDayClick(dayButton) {
+    const dayIndex = dayButton.getAttribute('data-day');
     window.location.href = `?day=${dayIndex}`;
 }
 

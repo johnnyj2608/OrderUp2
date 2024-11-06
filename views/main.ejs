@@ -13,7 +13,7 @@
         <div class="row header">
             <div class="col-auto">
                 <div class="dropdown">
-                    <span onclick="handleDayClick(0);">
+                    <span data-day="0" onclick="handleDayClick(this);">
                         <%= __("today") %>
                         <i class="fas fa-calendar" id="today-icon"></i> 
                     </span>
@@ -37,24 +37,12 @@
         <div class="content">
             <br>
             <div class="row">
-                <div class="col-4 col-md-2 mb-2">
-                    <div class="dayButton" data-day="1" onclick="handleDayClick(1)"><%= __('monday') %></div>
-                </div>
-                <div class="col-4 col-md-2 mb-2">
-                    <div class="dayButton" data-day="2" onclick="handleDayClick(2)"><%= __('tuesday') %></div>
-                </div>
-                <div class="col-4 col-md-2 mb-2">
-                    <div class="dayButton" data-day="3" onclick="handleDayClick(3)"><%= __('wednesday') %></div>
-                </div>
-                <div class="col-4 col-md-2 mb-2">
-                    <div class="dayButton" data-day="4" onclick="handleDayClick(4)"><%= __('thursday') %></div>
-                </div>
-                <div class="col-4 col-md-2 mb-2">
-                    <div class="dayButton" data-day="5" onclick="handleDayClick(5)"><%= __('friday') %></div>
-                </div>
-                <div class="col-4 col-md-2 mb-2">
-                    <div class="dayButton" data-day="6" onclick="handleDayClick(6)"><%= __('saturday') %></div>
-                </div>
+                <% const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']; %>
+                <% days.forEach((day, index) => { %>
+                    <div class="col-4 col-md-2 mb-2">
+                        <div class="dayButton" data-day="<%= index + 1 %>" onclick="handleDayClick(this)"><%= __(day) %></div>
+                    </div>
+                <% }); %>
             </div>
             <div class="row mt-4">
                 <div class="col-12 col-md-6 order-md-12">
