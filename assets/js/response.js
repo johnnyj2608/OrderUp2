@@ -133,8 +133,14 @@ function handleAdd(addButton) {
             };
             trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
 
+            const nextSibling = newLi.nextElementSibling;
             redoStack = [];
-            undoStack.push({ action: 'add', element: newLi, parent: nameResponsesList });
+            undoStack.push({
+                action: 'add', 
+                element: newLi, 
+                parent: nameResponsesList,
+                nextSibling: nextSibling
+            });
             newLi.appendChild(trashIcon);
             toggleUndoRedoButtons();
         } else {
@@ -184,7 +190,18 @@ function undo() {
 }
 
 function redo() {
+    const lastAction = redoStack.pop();
 
+    if (lastAction) {
+        if (lastAction.action === 'add') {
+            lastAction.parent.insertBefore(lastAction.element, lastAction.nextSibling);
+            undoStack.push(lastAction);
+        } else if (lastAction.action === 'delete') {
+            lastAction.parent.removeChild(lastAction.element);
+            undoStack.push(lastAction);
+        }
+        toggleUndoRedoButtons();
+    }
 }
 
 function handleCancel() {
