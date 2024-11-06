@@ -46,6 +46,7 @@
 
 .dropdown {
       overflow: visible;
+      width: 33%;
 }
 
 .dropdown:hover {
