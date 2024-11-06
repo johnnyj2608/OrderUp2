@@ -92,10 +92,10 @@
             <div class="col button-container">
                 <button id="cancelButton" class="actionButton" onclick="handleCancel()"><%= __("cancel") %></button>
                 <span>
-                    <button id="undoButton" class="actionButton desaturate">
+                    <button id="undo-button" onclick="undo()" class="actionButton desaturate">
                         <i class="fas fa-undo"></i>
                     </button>
-                    <button id="redoButton" class="actionButton desaturate">
+                    <button id="redo-button" onclick="redo()" class="actionButton desaturate">
                         <i class="fas fa-redo"></i>
                     </button>
                 </span>

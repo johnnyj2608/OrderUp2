@@ -239,7 +239,7 @@ button:focus, .panel:focus, .btn:focus {
       cursor: pointer;
 }
 
-#undoButton, #redoButton {
+#undo-button, #redo-button {
       width: 50%;
 }
 
@@ -253,7 +253,6 @@ button:focus, .panel:focus, .btn:focus {
       opacity: 0.5;
       pointer-events: none;
 }
-
 
 #breakfastSection, #lunchSection {
       scroll-margin-top: 7svh;

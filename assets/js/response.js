@@ -17,12 +17,16 @@ function handleDayClick(dayButton) {
     window.location.href = `?day=${dayIndex}`;
 }
 
+let undoStack = [];
+let redoStack = [];
 function handleEditClick() {
     const editButton = document.getElementById('edit-button');
     if (editButton.classList.contains('active-edit')) {
         return;
     }
     editButton.classList.toggle('active-edit');
+    undoStack = [];
+    redoStack = [];
 
     const editSections = document.querySelectorAll('.edit-mode');
     const viewSections = document.querySelectorAll('.view-mode');
@@ -84,7 +88,19 @@ function handleEditClick() {
 
 function handleDelete(deleteButton) {
     const liElement = deleteButton.parentNode;
-    liElement.parentNode.removeChild(liElement);
+    const parentElement = liElement.parentNode;
+    const nextSibling = liElement.nextElementSibling;
+
+    redoStack = [];
+    undoStack.push({
+        action: 'delete', 
+        element: liElement, 
+        parent: parentElement,
+        nextSibling: nextSibling
+    });
+
+    parentElement.removeChild(liElement);
+    toggleUndoRedoButtons();
 }
 
 function handleAdd(addButton) {
@@ -102,6 +118,8 @@ function handleAdd(addButton) {
 
     input.focus();
 
+    let keyPressed = false;
+
     function handleInput() {
         const nameValue = input.value.trim();
 
@@ -115,20 +133,59 @@ function handleAdd(addButton) {
             };
             trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
 
+            redoStack = [];
+            undoStack.push({ action: 'add', element: newLi, parent: nameResponsesList });
             newLi.appendChild(trashIcon);
+            toggleUndoRedoButtons();
         } else {
             newLi.remove();
         }
     }
 
-    input.addEventListener('blur', handleInput);
     input.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
+            keyPressed = true;
+            handleInput();
+        } else if (event.key === 'Escape') {
+            keyPressed = true;
+            input.value = '';
+            handleInput();
+        }
+    });
+
+    input.addEventListener('blur', function() {
+        if (!keyPressed) {
             handleInput();
         }
     });
 }
 
+function toggleUndoRedoButtons() {
+    const undoButton = document.getElementById('undo-button');
+    const redoButton = document.getElementById('redo-button');
+
+    undoButton.classList.toggle('desaturate', undoStack.length === 0);
+    redoButton.classList.toggle('desaturate', redoStack.length === 0);
+}
+
+function undo() {
+    const lastAction = undoStack.pop();
+
+    if (lastAction) {
+        if (lastAction.action === 'add') {
+            lastAction.parent.removeChild(lastAction.element);
+            redoStack.push(lastAction);
+        } else if (lastAction.action === 'delete') {
+            lastAction.parent.insertBefore(lastAction.element, lastAction.nextSibling);
+            redoStack.push(lastAction);
+        }
+        toggleUndoRedoButtons();
+    }
+}
+
+function redo() {
+
+}
 
 function handleCancel() {
     const editButton = document.getElementById('edit-button');
