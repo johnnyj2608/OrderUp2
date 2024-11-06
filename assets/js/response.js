@@ -19,6 +19,7 @@ function handleDayClick(dayButton) {
 
 let undoStack = [];
 let redoStack = [];
+let originalText = "";
 function handleEditClick() {
     const editButton = document.getElementById('edit-button');
     if (editButton.classList.contains('active-edit')) {
@@ -47,12 +48,41 @@ function handleEditClick() {
 
         if (viewTitle && editTitleInput) {
             editTitleInput.value = viewTitle.innerText;
+
+            editTitleInput.addEventListener('focus', function() {
+                originalText = editTitleInput.value;
+            });
+            editTitleInput.addEventListener('blur', function() {
+                if (editTitleInput.value !== originalText) {
+                    undoStack.push({
+                        action: 'edit', 
+                        element: editTitleInput, 
+                        originalText: originalText,
+                        newText: editTitleInput.value
+                    });
+                    toggleUndoRedoButtons();
+                }
+            });
         }
 
         if (viewImage && editImageTextarea) {
             editImageTextarea.value = viewImage.src;
+            editImageTextarea.addEventListener('focus', function() {
+                originalText = editImageTextarea.value;
+            });
+            editImageTextarea.addEventListener('blur', function() {
+                if (editImageTextarea.value !== originalText) {
+                    undoStack.push({
+                        action: 'edit', 
+                        element: editImageTextarea, 
+                        originalText: originalText,
+                        newText: editImageTextarea.value
+                    });
+                    toggleUndoRedoButtons();
+                }
+            });
         }
-        
+
         editList.innerHTML = '';
         viewListItems.forEach(name => {
             const newLi = document.createElement('li');
@@ -178,13 +208,16 @@ function undo() {
     const lastAction = undoStack.pop();
 
     if (lastAction) {
-        if (lastAction.action === 'add') {
+        if (lastAction.action === 'edit') {
+            lastAction.element.value = lastAction.originalText;
+        }
+        else if (lastAction.action === 'add') {
             lastAction.parent.removeChild(lastAction.element);
-            redoStack.push(lastAction);
         } else if (lastAction.action === 'delete') {
             lastAction.parent.insertBefore(lastAction.element, lastAction.nextSibling);
-            redoStack.push(lastAction);
+            
         }
+        redoStack.push(lastAction);
         toggleUndoRedoButtons();
     }
 }
@@ -193,13 +226,16 @@ function redo() {
     const lastAction = redoStack.pop();
 
     if (lastAction) {
-        if (lastAction.action === 'add') {
+        if (lastAction.action === 'edit') {
+            lastAction.element.value = lastAction.newText;
+        }
+        else if (lastAction.action === 'add') {
             lastAction.parent.insertBefore(lastAction.element, lastAction.nextSibling);
-            undoStack.push(lastAction);
         } else if (lastAction.action === 'delete') {
             lastAction.parent.removeChild(lastAction.element);
-            undoStack.push(lastAction);
+            
         }
+        undoStack.push(lastAction);
         toggleUndoRedoButtons();
     }
 }
