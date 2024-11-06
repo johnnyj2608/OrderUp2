@@ -86,7 +86,7 @@ function redo() {
 
 function handleCancel() {
     const editButton = document.getElementById('edit-button');
-    editButton.classList.toggle('active-edit');
+    editButton.classList.remove('active-edit');
 
     const editSections = document.querySelectorAll('.edit-mode');
     const viewSections = document.querySelectorAll('.view-mode');
