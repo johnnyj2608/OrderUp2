@@ -39,7 +39,6 @@ function handleEditClick() {
 
     const editSections = document.querySelectorAll('.edit-mode');
     const viewSections = document.querySelectorAll('.view-mode');
-    const trashIcons = document.querySelectorAll('.trash-icon');
 
     const editFooter = document.getElementById('edit-footer');
     const viewFooter = document.getElementById('view-footer');
@@ -50,10 +49,6 @@ function handleEditClick() {
 
     editSections.forEach(editSection => {
         editSection.classList.remove('hidden');
-    });
-
-    trashIcons.forEach(icon => {
-        icon.classList.remove('hidden');
     });
 
     editFooter.classList.remove('hidden');
@@ -90,7 +85,6 @@ function handleCancel() {
 
     const editSections = document.querySelectorAll('.edit-mode');
     const viewSections = document.querySelectorAll('.view-mode');
-    const trashIcons = document.querySelectorAll('.trash-icon');
 
     const editFooter = document.getElementById('edit-footer');
     const viewFooter = document.getElementById('view-footer');
@@ -103,10 +97,6 @@ function handleCancel() {
         editSection.classList.add('hidden');
     });
 
-    trashIcons.forEach(icon => {
-        icon.classList.add('hidden');
-    });
-
     editFooter.classList.add('hidden');
     viewFooter.classList.remove('hidden');
 }
@@ -114,10 +104,6 @@ function handleCancel() {
 function handleSave() {
 
 }
-
-document.getElementById('backButton').addEventListener('click', async () => {
-    window.location.href = '/';
-});
 
 document.getElementById('backButton').addEventListener('click', async () => {
     window.location.href = '/';
