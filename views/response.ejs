@@ -51,78 +51,42 @@
                 <div class="col-4 col-md-2 mb-2">
                     <div class="dayButton" data-day="6" onclick="handleDayClick(6)"><%= __('saturday') %></div>
                 </div>
+                
             </div>
             <!-- If screen too small, make two tabs -->
-             <!-- Freeze title when scrolling -->
+            <!-- Freeze title when scrolling -->
             <div class="row mt-4">
-                <% breakfastResponses.forEach(({ title, image, amt, names }, index) => { %>
-                    <div class="col-md-2">
-                        <div class="row">
-                            <div class="col panel">
-
-                                <div class="image-container view-mode">
-                                    <img src="<%= image ? image : '/img/default.png' %>" class="panel-img w-100" />
+                <% function renderPanel(responses) { %>
+                    <% responses.forEach(({ title, image, amt, names }, index) => { %>
+                        <div class="col-md-2 panel">
+                            <div class="view-mode w-100">
+                                <div class="image-container">
+                                    <img src="<%= image %>" class="panel-img w-100" />
                                     <div class="amount-overlay"><%= amt %></div>
                                 </div>
-                                <div class="panel-title view-mode">
-                                    <p><%= title %></p>
-                                </div>
-                                <textarea class="panel-img w-100 edit-mode hidden" data-orig="<%= image ? image : '' %>"></textarea>
-                                <input class="panel-title edit-mode hidden" data-orig="<%= title %>"/>
-
+                                <p class="panel-title"><%= title %></p>
                                 <ul class="nameResponses">
                                     <% names.forEach(name => { %>
-                                        <li>
-                                            <%= name %>
-                                            <span class="trash-icon hidden" onclick="handleDelete(this)">
-                                                <i class="fas fa-trash"></i>
-                                            </span>
-                                        </li>
+                                        <li><%= name %></li>
                                     <% }) %>
-                                    <li class="addButton edit-mode hidden" onclick="handleAdd(this)">
-                                        <i class="fas fa-plus"></i>
-                                    </li>
+                                </ul>
+                            </div>
+                            <div class="edit-mode w-100 hidden">
+                                <textarea class="panel-img w-100 d-flex"></textarea>
+                                <input class="panel-title"/>
+                                <ul class="nameResponses">
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                <% }) %>
-
-                <% lunchResponses.forEach(({ title, image, amt, names }, index) => { %>
-                    <div class="col-md-2">
-                        <div class="row">
-                            <div class="col panel">
-
-                                <div class="image-container view-mode">
-                                    <img src="<%= image ? image : '/img/default.png' %>" class="panel-img w-100" />
-                                    <div class="amount-overlay"><%= amt %></div>
-                                </div>
-                                <div class="panel-title view-mode">
-                                    <p><%= title %></p>
-                                </div>
-                                <textarea class="panel-img w-100 edit-mode hidden" data-orig="<%= image ? image : '' %>"></textarea>
-                                <input class="panel-title edit-mode hidden" data-orig="<%= title %>"/>
-
-                                <ul class="nameResponses">
-                                    <% names.forEach(name => { %>
-                                        <li>
-                                            <%= name %>
-                                            <span class="trash-icon hidden" onclick="handleDelete(this)">
-                                                <i class="fas fa-trash"></i>
-                                            </span>
-                                        </li>
-                                    <% }) %>
-                                    <li class="addButton edit-mode hidden" onclick="handleAdd(this)">
-                                        <i class="fas fa-plus"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                <% }) %>
+                    <% }) %>
+                <% } %>
+                
+                <%= renderPanel(breakfastResponses) %>
+                <%= renderPanel(lunchResponses) %>
+                
             </div>
         </div>
-        <div class="row footer align-items-center view-mode">
+        <div id="view-footer" class="row footer align-items-center">
             <div class="col button-container">
                 <button id="backButton" class="actionButton"><%= __("back") %></button>
                 <div class="dropdown actionButton">
@@ -137,9 +101,9 @@
                 </div>
             </div>
         </div>
-        <div class="row footer align-items-center edit-mode hidden">
+        <div id="edit-footer" class="row footer align-items-center hidden">
             <div class="col button-container">
-                <button id="cancelButton" class="actionButton"><%= __("cancel") %></button>
+                <button id="cancelButton" class="actionButton" onclick="handleCancel()"><%= __("cancel") %></button>
                 <span>
                     <button id="undoButton" class="actionButton desaturate">
                         <i class="fas fa-undo"></i>
@@ -148,7 +112,7 @@
                         <i class="fas fa-redo"></i>
                     </button>
                 </span>
-                <button id="saveButton" class="actionButton"><%= __("save") %></button>
+                <button id="saveButton" class="actionButton" onclick="handleSave()"><%= __("save") %></button>
             </div>
         </div>
     </div>

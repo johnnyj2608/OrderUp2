@@ -36,6 +36,14 @@
       margin-right: 25px;
 }
 
+#edit-button.active-edit {
+      color: #ffddc1;
+      user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      cursor: default;
+}  
+
 .dropdown {
       overflow: visible;
 }
@@ -45,7 +53,7 @@
       cursor: pointer;
 }
 
-.dropdown-item {
+.dropdown- item {
       width: 100%;
       font-size: 20px;
 }
@@ -129,21 +137,17 @@
       font-weight: bold;
       border: 1px solid #333;
 }
-  
-  
-.panel-title {
-      width: 100%;
-      border: 1px solid #333;
-}
 
-.panel-title p, .panel-title {
-      margin: 0 5px;
+.panel-title {
+      margin: 0;
       overflow: hidden;
       text-overflow: ellipsis;
       font-size: 20px;
       align-items: center;
       text-align: center;
       font-weight: bold;
+      width: 100%;
+      border: 1px solid #333;
 }
 
 .selectedBreakfast, .selectedLunch {
