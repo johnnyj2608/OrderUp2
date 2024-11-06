@@ -295,15 +295,10 @@ function handleSave() {
             `;
             viewList.appendChild(newLi);
         });
-
-        viewSection.classList.remove('hidden');
-
         const liCount = viewList.querySelectorAll('li').length;
         const amountOverlay = viewSection.querySelector('.amount-overlay');
         amountOverlay.textContent = liCount;
-    });
 
-    viewSections.forEach(viewSection => {
         viewSection.classList.remove('hidden');
     });
 
