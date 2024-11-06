@@ -40,8 +40,6 @@ function handleEditClick() {
     const viewTableBody = document.querySelector('#data-body.view-mode');
     const editTableBody = document.querySelector('#data-body.edit-mode');
 
-    
-
     editTableBody.innerHTML = '';
     viewTableBody.querySelectorAll('tr').forEach(viewRow => {
         const editRow = document.createElement('tr');
@@ -97,26 +95,47 @@ function handleCancel() {
     const editButton = document.getElementById('edit-button');
     editButton.classList.remove('active-edit');
 
-    const editSections = document.querySelectorAll('.edit-mode');
-    const viewSections = document.querySelectorAll('.view-mode');
+    const viewTableBody = document.querySelector('#data-body.view-mode');
+    const editTableBody = document.querySelector('#data-body.edit-mode');
+
+    viewTableBody.classList.remove('hidden');
+    editTableBody.classList.add('hidden');
 
     const editFooter = document.getElementById('edit-footer');
     const viewFooter = document.getElementById('view-footer');
-
-    viewSections.forEach(viewSection => {
-        viewSection.classList.remove('hidden');
-    });
-
-    editSections.forEach(editSection => {
-        editSection.classList.add('hidden');
-    });
-
     editFooter.classList.add('hidden');
     viewFooter.classList.remove('hidden');
 }
 
 function handleSave() {
+    const editButton = document.getElementById('edit-button');
+    editButton.classList.remove('active-edit');
+    
+    const viewTableBody = document.querySelector('#data-body.view-mode');
+    const editTableBody = document.querySelector('#data-body.edit-mode');
+    
+    viewTableBody.innerHTML = '';
+    editTableBody.querySelectorAll('tr').forEach(editRow => {
+        const viewRow = document.createElement('tr');
+        
+        editRow.querySelectorAll('td').forEach(editCell => {
+            const viewCell = document.createElement('td');
 
+            const inputField = editCell.querySelector('input');
+            const cellText = inputField.value;
+            viewCell.innerText = cellText;
+            viewRow.appendChild(viewCell);
+        });
+        viewTableBody.appendChild(viewRow);
+    });
+
+    viewTableBody.classList.remove('hidden');
+    editTableBody.classList.add('hidden');
+
+    const editFooter = document.getElementById('edit-footer');
+    const viewFooter = document.getElementById('view-footer');
+    editFooter.classList.add('hidden');
+    viewFooter.classList.remove('hidden');
 }
 
 document.getElementById('backButton').addEventListener('click', async () => {
