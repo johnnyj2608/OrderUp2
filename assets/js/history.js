@@ -37,20 +37,34 @@ function handleEditClick() {
     undoStack = [];
     redoStack = [];
 
-    const editSections = document.querySelectorAll('.edit-mode');
-    const viewSections = document.querySelectorAll('.view-mode');
+    const viewTableBody = document.querySelector('#data-body.view-mode');
+    const editTableBody = document.querySelector('#data-body.edit-mode');
+
+    
+
+    editTableBody.innerHTML = '';
+    viewTableBody.querySelectorAll('tr').forEach(viewRow => {
+        const editRow = document.createElement('tr');
+        
+        viewRow.querySelectorAll('td').forEach(viewCell => {
+            const editCell = document.createElement('td');
+
+            const cellText = viewCell.textContent.trim();
+            const inputField = document.createElement('input');
+            inputField.type = 'text';
+            inputField.value = cellText;
+
+            editCell.appendChild(inputField);
+            editRow.appendChild(editCell);
+        });
+        editTableBody.appendChild(editRow);
+    });
+
+    viewTableBody.classList.add('hidden');
+    editTableBody.classList.remove('hidden');
 
     const editFooter = document.getElementById('edit-footer');
     const viewFooter = document.getElementById('view-footer');
-
-    viewSections.forEach(viewSection => {
-        viewSection.classList.add('hidden');
-    });
-
-    editSections.forEach(editSection => {
-        editSection.classList.remove('hidden');
-    });
-
     editFooter.classList.remove('hidden');
     viewFooter.classList.add('hidden');
 }
