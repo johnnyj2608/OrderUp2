@@ -59,50 +59,34 @@
                     </ul>
                 </div>
                 <div class="col-12 col-md-6 order-md-1 mb-4">
-                    <h2 id="breakfastSection"><%= __("breakfast") %></h2>
-                    <% breakfastMenu.forEach(({ title, image }, index) => { %>
-                        <% if (index % 3 === 0) { %>
-                            <div class="row">
-                        <% } %>
+                    <% function renderMealSection(mealType, menu) { %>
+                        <h2 id="<%= mealType %>Section"><%= __(mealType) %></h2>
                         
-                        <div class="col-md-4 mb-4">
-                            <div id="btn-b-<%= title %>" 
-                                data-text="<%= title %>" 
-                                onclick="handleMealClick(this, 'Breakfast');" 
-                                class="panel pointer w-100" 
-                                data-order="<%= index %>">
-                                <img src="<%= image ? image : '/img/default.png' %>"
-                                class="panel-img w-100" />
-                                <p class="panel-title"><%= title %></p>
+                        <% menu.forEach(({ title, image }, index) => { %>
+                            <% if (index % 3 === 0) { %>
+                                <div class="row">
+                            <% } %>
+                            
+                            <div class="col-md-4 mb-4">
+                                <div id="btn-<%= mealType.charAt(0) %>-<%= title %>" 
+                                    data-text="<%= title %>" 
+                                    onclick="handleMealClick(this)" 
+                                    class="panel pointer w-100" 
+                                    data-order="<%= index %>" 
+                                    data-meal-type="<%= mealType %>">
+                                    <img src="<%= image ? image : '/img/default.png' %>" class="panel-img w-100" />
+                                    <p class="panel-title"><%= title %></p>
+                                </div>
                             </div>
-                        </div>
-        
-                        <% if ((index + 1) % 3 === 0 || index === breakfastMenu.length - 1) { %>
-                            </div>
-                        <% } %>
-                    <% }) %>
-                    <h2 id="lunchSection"><%= __("lunch") %></h2>
-                    <% lunchMenu.forEach(({ title, image }, index) => { %>
-                        <% if (index % 3 === 0) { %>
-                            <div class="row">
-                        <% } %>
-                        
-                        <div class="col-md-4 mb-4">
-                            <div id="btn-l-<%= title %>" 
-                                data-text="<%= title %>" 
-                                onclick="handleMealClick(this, 'Lunch');" 
-                                class="panel pointer w-100" 
-                                data-order="<%= index %>">
-                                <img src="<%= image ? image : '/img/default.png' %>"
-                                class="panel-img w-100" />
-                                <p class="panel-title"><%= title %></p>
-                            </div>
-                        </div>
-        
-                        <% if ((index + 1) % 3 === 0 || index === lunchMenu.length - 1) { %>
-                            </div>
-                        <% } %>
-                    <% }) %>
+                            
+                            <% if ((index + 1) % 3 === 0 || index === menu.length - 1) { %>
+                                </div>
+                            <% } %>
+                        <% }) %>
+                    <% } %>
+                    
+                    <% renderMealSection('breakfast', breakfastMenu); %>
+                    <% renderMealSection('lunch', lunchMenu); %>                    
                 </div>
             </div>
         </div>

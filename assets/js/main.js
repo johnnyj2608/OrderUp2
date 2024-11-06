@@ -17,8 +17,9 @@ function handleDayClick(dayButton) {
     window.location.href = `?day=${dayIndex}`;
 }
 
-function handleMealClick(menuItem, menuType) {
-    const selectedMenu = `selected${menuType}`;
+function handleMealClick(menuItem) {
+    const menuType = menuItem.getAttribute('data-meal-type'); 
+    const selectedMenu = `selected${menuType.charAt(0).toUpperCase() + menuType.slice(1)}`;
     menuItem.classList.toggle(selectedMenu);
 
     document.querySelectorAll('.panel').forEach(btn => {
