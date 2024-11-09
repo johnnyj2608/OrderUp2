@@ -58,6 +58,18 @@ function handleEditClick() {
         editTableBody.appendChild(editRow);
     });
 
+    const addRow = document.createElement('tr');
+    const addCell = document.createElement('td');
+    addCell.colSpan = 4;
+    addCell.style.textAlign = 'center'; 
+
+    addCell.classList.add('addButton');
+    addCell.setAttribute('onclick', 'handleAdd()');
+    addCell.innerHTML = `<i class="fas fa-plus"></i>`;
+
+    addRow.appendChild(addCell);
+    editTableBody.appendChild(addRow);
+
     viewTableBody.classList.add('hidden');
     editTableBody.classList.remove('hidden');
 
@@ -71,8 +83,20 @@ function handleDelete(deleteButton) {
 
 }
 
-function handleAdd(addButton) {
+function handleAdd() {
+    const editTableBody = document.querySelector('#data-body.edit-mode');
 
+    const newRow = document.createElement('tr');
+    for (let i = 0; i < 4; i++) {
+        const newCell = document.createElement('td');
+        const inputField = document.createElement('input');
+        inputField.type = 'text';
+        newCell.appendChild(inputField);
+        newRow.appendChild(newCell);
+    }
+
+    const addButtonRow = editTableBody.lastElementChild;
+    editTableBody.insertBefore(newRow, addButtonRow);
 }
 
 function toggleUndoRedoButtons() {
@@ -110,7 +134,7 @@ function handleCancel() {
 function handleSave() {
     const editButton = document.getElementById('edit-button');
     editButton.classList.remove('active-edit');
-    
+
     const viewTableBody = document.querySelector('#data-body.view-mode');
     const editTableBody = document.querySelector('#data-body.edit-mode');
     
