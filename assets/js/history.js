@@ -139,7 +139,9 @@ function handleSave() {
     const editTableBody = document.querySelector('#data-body.edit-mode');
     
     viewTableBody.innerHTML = '';
-    editTableBody.querySelectorAll('tr').forEach(editRow => {
+    const editRows = editTableBody.querySelectorAll('tr');
+    editRows.forEach((editRow, index) => {
+        if (index === editRows.length - 1) return;
         const viewRow = document.createElement('tr');
         
         editRow.querySelectorAll('td').forEach(editCell => {
