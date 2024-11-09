@@ -142,6 +142,13 @@ function handleSave() {
     const editRows = editTableBody.querySelectorAll('tr');
     editRows.forEach((editRow, index) => {
         if (index === editRows.length - 1) return;
+
+        const hasData = Array.from(editRow.querySelectorAll('td')).some(editCell => {
+            const inputField = editCell.querySelector('input');
+            return inputField && inputField.value.trim() !== '';
+        });
+        if (!hasData) return;
+        
         const viewRow = document.createElement('tr');
         
         editRow.querySelectorAll('td').forEach(editCell => {
