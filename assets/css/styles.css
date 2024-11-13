@@ -54,7 +54,7 @@
       cursor: pointer;
 }
 
-.dropdown- item {
+.dropdown-item {
       width: 100%;
       font-size: 20px;
 }
@@ -210,10 +210,6 @@
       border-color: white;
 }
 
-button:focus, .panel:focus, .btn:focus {
-      outline: none;
-}
-
 .button-container {
       display: flex;
       justify-content: space-between;
@@ -221,6 +217,8 @@ button:focus, .panel:focus, .btn:focus {
 
 .actionButton:hover {
       background-color: #ffddc1;
+      text-decoration: none;
+      color: black; 
 }
 
 .actionButton {

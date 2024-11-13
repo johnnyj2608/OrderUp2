@@ -1,22 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const params = new URLSearchParams(window.location.search);
-    const selectedDay = params.get('day') || 0;
-    
-    if (selectedDay == 0) {
-        const todayCheckbox = document.getElementById('today-icon');
-        todayCheckbox.classList.add('fa-calendar-check');
-        todayCheckbox.classList.remove('fa-calendar');
-    } else {
-        const currentDayButton = document.querySelector(`.dayButton[data-day="${selectedDay}"]`);
-        currentDayButton.classList.add('selectedDay');
-    }
-});
-
-function handleDayClick(dayButton) {
-    const dayIndex = dayButton.getAttribute('data-day');
-    window.location.href = `?day=${dayIndex}`;
-}
-
 let undoStack = [];
 let redoStack = [];
 let originalText = "";
@@ -209,7 +190,19 @@ function redo() {
 }
 
 function handleCancel() {
+    const editButton = document.getElementById('edit-button');
+    editButton.classList.remove('active-edit');
 
+    const viewTableBody = document.querySelector('#data-body.view-mode');
+    const editTableBody = document.querySelector('#data-body.edit-mode');
+
+    viewTableBody.classList.remove('hidden');
+    editTableBody.classList.add('hidden');
+
+    const editFooter = document.getElementById('edit-footer');
+    const viewFooter = document.getElementById('view-footer');
+    editFooter.classList.add('hidden');
+    viewFooter.classList.remove('hidden');
 }
 
 function handleSave() {
@@ -251,7 +244,3 @@ function handleSave() {
     editFooter.classList.add('hidden');
     viewFooter.classList.remove('hidden');
 }
-
-document.getElementById('backButton').addEventListener('click', async () => {
-    window.location.href = '/';
-});
