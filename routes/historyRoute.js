@@ -50,6 +50,20 @@ router.get('/history', async (req, res) => {
     }
 });
 
+router.post("/historyEdit", async (req, res) => {
+    const { 
+        dataUpdate
+    } = req.body;
+
+    try {
+        console.log(dataUpdate)
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error:', error);
+        res.json({ success: false });
+    }
+});
+
 function convertSerialToDate(serial) {
     const excelEpoch = new Date(Date.UTC(1899, 11, 30));
     const dayInMilliseconds = 24 * 60 * 60 * 1000;

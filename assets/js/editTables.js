@@ -208,7 +208,7 @@ function handleCancel() {
     viewFooter.classList.remove('hidden');
 }
 
-function handleSave() {
+async function handleSave() {
     const editButton = document.getElementById('edit-button');
     editButton.classList.remove('active-edit');
 
@@ -265,8 +265,43 @@ function handleSave() {
             modifiedElements.add(row);
         }
     }
+    
+    dataUpdate = []
     modifiedElements.forEach(row => {
-        console.log(row.getAttribute('data-row'));
-        // If 0, it means newly added row
+        const dataRow = row.getAttribute('data-row');
+        const cells = row.querySelectorAll('td');
+        
+        const rowData = {
+            row: dataRow, // data-row attribute
+            name: cells[0].querySelector('input').value,
+            breakfast: cells[1].querySelector('input').value,
+            lunch: cells[2].querySelector('input').value,
+            timestamp: cells[3].querySelector('input').value,
+        };
+
+        dataUpdate.push(rowData);
     });
+
+    console.log(dataUpdate)
+
+    try {
+        const response = await fetch('/historyEdit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                dataUpdate
+            }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+
+        } else {
+            alert("error")
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
 }
