@@ -57,15 +57,15 @@
                 <thead>
                     <tr>
                         <th style="width: 10%;">ID</th>
-                        <th>Name</th>
-                        <th>Breakfast</th>
-                        <th>Lunch</th>
+                        <th style="width: 40%;">Name</th>
+                        <th style="width: 25%;">Breakfast</th>
+                        <th style="width: 25%;">Lunch</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% memberList.forEach(member => { %>
                         <tr>
-                            <td style="width: 10%;"><%= member.id %></td>
+                            <td><%= member.id %></td>
                             <td><%= member.name %></td>
                             <td><%= member.breakfast %></td>
                             <td><%= member.lunch %></td>
