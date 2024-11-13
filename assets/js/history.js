@@ -130,9 +130,16 @@ function handleAdd() {
         }
         newRow.appendChild(newCell);
     }
-
     const addButtonRow = editTableBody.lastElementChild;
     editTableBody.insertBefore(newRow, addButtonRow);
+
+    redoStack = [];
+    undoStack.push({
+        action: 'add', 
+        element: newRow, 
+        nextSibling: addButtonRow
+    });
+    toggleUndoRedoButtons();
 }
 
 function toggleUndoRedoButtons() {
