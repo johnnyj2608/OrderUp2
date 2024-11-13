@@ -85,12 +85,16 @@ function handleEditClick() {
         editList.innerHTML = '';
         viewListItems.forEach(name => {
             const newLi = document.createElement('li');
-            newLi.innerHTML = `
-                ${name.textContent}
-                <span class="trash-icon" onclick="handleDelete(this)">
-                    <i class="fas fa-trash"></i>
-                </span>
-            `;
+            newLi.textContent = name.textContent;
+
+            const trashIcon = document.createElement('span');
+            trashIcon.classList.add('trash-icon');
+            trashIcon.setAttribute('onclick', 'handleDelete(this)');
+            trashIcon.style.position = "absolute";
+            trashIcon.style.right = "3px";
+            trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
+
+            newLi.appendChild(trashIcon);
             editList.appendChild(newLi);
         });
 
