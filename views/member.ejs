@@ -58,7 +58,6 @@
                     <tr>
                         <th style="width: 10%;">ID</th>
                         <th>Name</th>
-                        <th>Chinese</th>
                         <th>Breakfast</th>
                         <th>Lunch</th>
                     </tr>
@@ -68,7 +67,6 @@
                         <tr>
                             <td style="width: 10%;"><%= member.id %></td>
                             <td><%= member.name %></td>
-                            <td><%= member.chinese %></td>
                             <td><%= member.breakfast %></td>
                             <td><%= member.lunch %></td>
                         </tr>
@@ -77,11 +75,10 @@
             </table>
             <br>         
 
-            <div class="row footer align-items-center">
+            <div id="view-footer" class="row footer align-items-center">
                 <div class="col button-container">
                     <button id="backButton" class="actionButton"><%= __("back") %></button>
-                    <!-- <button class="actionButton"><%= __("done") %></button> -->
-                    <div class="dropdown actionButton">
+                    <div class="dropdown">
                         <button class="dropdown-toggle actionButton w-100" data-bs-toggle="dropdown" aria-expanded="false">
                             <%= __("views") %>
                         </button>
@@ -91,6 +88,20 @@
                             <li><a class="dropdown-item" href="/history">History</a></li>
                         </ul>
                     </div>
+                </div>
+            </div>
+            <div id="edit-footer" class="row footer align-items-center hidden">
+                <div class="col button-container">
+                    <button id="cancelButton" class="actionButton" onclick="handleCancel()"><%= __("cancel") %></button>
+                    <span>
+                        <button id="undo-button" onclick="undo()" class="actionButton desaturate">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                        <button id="redo-button" onclick="redo()" class="actionButton desaturate">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </span>
+                    <button id="saveButton" class="actionButton" onclick="handleSave()"><%= __("save") %></button>
                 </div>
             </div>
         </div>

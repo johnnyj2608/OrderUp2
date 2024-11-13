@@ -20,7 +20,7 @@ router.get('/member', async (req, res) => {
         const googleSheets = getGoogleSheets();
         const spreadsheet = await googleSheets.spreadsheets.values.get({
             spreadsheetId,
-            range: `${sheetName}!I4:M`,
+            range: `${sheetName}!I4:L`,
             valueRenderOption: 'FORMULA'
         });
         const data = spreadsheet.data.values;
@@ -31,9 +31,8 @@ router.get('/member', async (req, res) => {
             const member = {
                 id: row[0],
                 name: row[1],
-                chinese: row[2],
-                breakfast: row[3],
-                lunch: row[4],
+                breakfast: row[2],
+                lunch: row[3],
             };
             memberList.push(member);
         });

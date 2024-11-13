@@ -34,6 +34,6 @@ function refreshResponse() {
       const sourceRange = sourceSheet.getRange('A1:M500');
       sourceRange.copyTo(todaySheet.getRange('A1'));
   
-      sourceSheet.getRangeList(['A4:G500', 'L4:M500']).clearContent();
+      sourceSheet.getRangeList(['A4:G500', 'K4:L500']).clearContent();
     }
 }
