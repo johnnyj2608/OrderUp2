@@ -10,7 +10,7 @@ const { initializeGoogleSheets } = require('./config/googleAPI');
 
 const mainRoute = require('./routes/mainRoute');
 const responseRoute = require('./routes/responseRoute');
-const memberRoute = require('./routes/memberRoute');
+const membersRoute = require('./routes/membersRoute');
 const historyRoute = require('./routes/historyRoute');
 const submitRoute = require('./routes/submitRoute');
 const switchRoute = require('./routes/switchRoute');
@@ -47,7 +47,7 @@ app.use(favicon(path.join(__dirname,'assets','img','favicon.ico')));
 
 app.use('/', mainRoute);
 app.use('/', responseRoute);
-app.use('/', memberRoute);
+app.use('/', membersRoute);
 app.use('/', historyRoute);
 app.use('/', submitRoute);
 app.use('/', switchRoute);

@@ -12,7 +12,7 @@ const sheetsByWeekday = {
     6: 'Sat',
 };
 
-router.get('/member', async (req, res) => {
+router.get('/members', async (req, res) => {
     try {
         let selectedDay = req.query.day || 0;
         let sheetName = sheetsByWeekday[selectedDay];
@@ -37,7 +37,7 @@ router.get('/member', async (req, res) => {
             memberList.push(member);
         });
 
-        res.render('member', { memberList });
+        res.render('members', { memberList });
     } catch (error) {
         console.error("Error loading sheet data: ", error);
         res.status(500).send("Error loading sheet data");
