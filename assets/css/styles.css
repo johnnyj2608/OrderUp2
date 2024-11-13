@@ -289,8 +289,7 @@ th {
 
 .trash-icon {
       cursor: pointer; 
-      position: absolute;
-      right: 1px;
+      margin-left: 8px;
 }
 
 .trash-icon:hover {

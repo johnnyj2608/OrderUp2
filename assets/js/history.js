@@ -44,15 +44,27 @@ function handleEditClick() {
     viewTableBody.querySelectorAll('tr').forEach(viewRow => {
         const editRow = document.createElement('tr');
         
-        viewRow.querySelectorAll('td').forEach(viewCell => {
+        const totalCells = viewRow.querySelectorAll('td')
+        totalCells.forEach((viewCell, index) => {
             const editCell = document.createElement('td');
 
             const cellText = viewCell.textContent.trim();
             const inputField = document.createElement('input');
             inputField.type = 'text';
             inputField.value = cellText;
-
+            inputField.style.width = "100%";
             editCell.appendChild(inputField);
+
+            if (index === totalCells.length - 1) {
+                editCell.style.display = 'flex';
+                editCell.style.justifyContent = "space-between";
+
+                const trashIcon = document.createElement('span');
+                trashIcon.classList.add('trash-icon');
+                trashIcon.setAttribute('onclick', 'handleDelete(this)');
+                trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
+                editCell.appendChild(trashIcon);
+            }
             editRow.appendChild(editCell);
         });
         editTableBody.appendChild(editRow);
@@ -80,7 +92,7 @@ function handleEditClick() {
 }
 
 function handleDelete(deleteButton) {
-
+    console.log('hi')
 }
 
 function handleAdd() {
@@ -148,7 +160,7 @@ function handleSave() {
             return inputField && inputField.value.trim() !== '';
         });
         if (!hasData) return;
-        
+
         const viewRow = document.createElement('tr');
         
         editRow.querySelectorAll('td').forEach(editCell => {
