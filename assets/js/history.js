@@ -53,6 +53,22 @@ function handleEditClick() {
             inputField.type = 'text';
             inputField.value = cellText;
             inputField.style.width = "100%";
+
+            inputField.addEventListener('focus', function() {
+                originalText = inputField.value;
+            });
+            inputField.addEventListener('blur', function() {
+                if (inputField.value !== originalText) {
+                    undoStack.push({
+                        action: 'edit', 
+                        element: inputField, 
+                        originalText: originalText,
+                        newText: inputField.value
+                    });
+                    toggleUndoRedoButtons();
+                }
+            });
+
             editCell.appendChild(inputField);
 
             if (index === totalCells.length - 1) {
@@ -116,6 +132,22 @@ function handleAdd() {
         const inputField = document.createElement('input');
         inputField.type = 'text';
         inputField.style.width = "100%";
+
+        inputField.addEventListener('focus', function() {
+            originalText = inputField.value;
+        });
+        inputField.addEventListener('blur', function() {
+            if (inputField.value !== originalText) {
+                undoStack.push({
+                    action: 'edit', 
+                    element: inputField, 
+                    originalText: originalText,
+                    newText: inputField.value
+                });
+                toggleUndoRedoButtons();
+            }
+        });
+
         newCell.appendChild(inputField);
 
         if (i === 3) {
