@@ -105,7 +105,19 @@ function handleAdd() {
         const newCell = document.createElement('td');
         const inputField = document.createElement('input');
         inputField.type = 'text';
+        inputField.style.width = "100%";
         newCell.appendChild(inputField);
+
+        if (i === 3) {
+            newCell.style.display = 'flex';
+            newCell.style.justifyContent = "space-between";
+
+            const trashIcon = document.createElement('span');
+            trashIcon.classList.add('trash-icon');
+            trashIcon.setAttribute('onclick', 'handleDelete(this)');
+            trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
+            newCell.appendChild(trashIcon);
+        }
         newRow.appendChild(newCell);
     }
 
