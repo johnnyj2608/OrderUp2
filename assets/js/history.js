@@ -94,7 +94,17 @@ function handleEditClick() {
 function handleDelete(deleteButton) {
     const editCell = deleteButton.closest('td');
     const editRow = editCell.closest('tr');
+    const nextRow = editRow.nextElementSibling;
+
+    redoStack = [];
+    undoStack.push({
+        action: 'delete', 
+        element: editRow, 
+        nextSibling: nextRow
+    });
+
     editRow.remove();
+    toggleUndoRedoButtons();
 }
 
 function handleAdd() {
@@ -134,11 +144,37 @@ function toggleUndoRedoButtons() {
 }
 
 function undo() {
+    const lastAction = undoStack.pop();
 
+    if (lastAction) {
+        const editTableBody = document.querySelector('#data-body.edit-mode');
+        if (lastAction.action === 'edit') {
+            lastAction.element.value = lastAction.originalText;
+        } else if (lastAction.action === 'add') {
+            editTableBody.removeChild(lastAction.element);
+        } else if (lastAction.action === 'delete') {
+            editTableBody.insertBefore(lastAction.element, lastAction.nextSibling);
+        }
+        redoStack.push(lastAction);
+        toggleUndoRedoButtons();
+    }
 }
 
 function redo() {
+    const lastAction = redoStack.pop();
 
+    if (lastAction) {
+        const editTableBody = document.querySelector('#data-body.edit-mode');
+        if (lastAction.action === 'edit') {
+            lastAction.element.value = lastAction.newText;
+        } else if (lastAction.action === 'add') {
+            editTableBody.insertBefore(lastAction.element, lastAction.nextSibling);
+        } else if (lastAction.action === 'delete') {
+            editTableBody.removeChild(lastAction.element);
+        }
+        undoStack.push(lastAction);
+        toggleUndoRedoButtons();
+    }
 }
 
 function handleCancel() {
