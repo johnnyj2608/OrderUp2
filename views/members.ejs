@@ -50,7 +50,7 @@
                         <th style="width: 25%;">Lunch</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="data-body" class="view-mode">
                     <% memberList.forEach(member => { %>
                         <tr>
                             <td><%= member.id %></td>
@@ -60,7 +60,9 @@
                         </tr>
                     <% }); %>
                 </tbody>
+                <tbody id="data-body" class="edit-mode hidden"></tbody>
             </table>
+            
             <br>         
 
             <div id="view-footer" class="row footer align-items-center">
