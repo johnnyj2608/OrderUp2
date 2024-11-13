@@ -61,7 +61,7 @@
                             <% 
                             const todayDate = Object.keys(result)[6];
                             result[todayDate].forEach(item => { %>
-                                <tr>
+                                <tr data-row="<%= item.row %>">
                                     <td><%= item.name %></td>
                                     <td><%= item.breakfast %></td>
                                     <td><%= item.lunch %></td>

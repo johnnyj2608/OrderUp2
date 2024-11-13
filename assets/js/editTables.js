@@ -16,6 +16,7 @@ function handleEditClick() {
     editTableBody.innerHTML = '';
     viewTableBody.querySelectorAll('tr').forEach(viewRow => {
         const editRow = document.createElement('tr');
+        editRow.setAttribute('data-row', viewRow.getAttribute('data-row'));
         
         const totalCells = viewRow.querySelectorAll('td')
         totalCells.forEach((viewCell, index) => {
@@ -101,6 +102,7 @@ function handleAdd() {
     const editTableBody = document.querySelector('#data-body.edit-mode');
 
     const newRow = document.createElement('tr');
+    newRow.setAttribute('data-row', 0)
     for (let i = 0; i < 4; i++) {
         const newCell = document.createElement('td');
         const inputField = document.createElement('input');
@@ -225,6 +227,7 @@ function handleSave() {
         if (!hasData) return;
 
         const viewRow = document.createElement('tr');
+        viewRow.setAttribute('data-row', editRow.getAttribute('data-row'));
         
         editRow.querySelectorAll('td').forEach(editCell => {
             const viewCell = document.createElement('td');
@@ -244,4 +247,26 @@ function handleSave() {
     const viewFooter = document.getElementById('view-footer');
     editFooter.classList.add('hidden');
     viewFooter.classList.remove('hidden');
+
+    const modifiedElements = new Set();
+    while (undoStack.length > 0) {
+        const change = undoStack.pop();
+        let row = change.element
+
+        if (change.action === "edit") {
+            row = change.element.closest('tr');
+        }
+        const hasData = Array.from(row.querySelectorAll('td')).some(cell => {
+            const inputField = cell.querySelector('input');
+            return inputField && inputField.value.trim() !== '';
+        });
+    
+        if (hasData) {
+            modifiedElements.add(row);
+        }
+    }
+    modifiedElements.forEach(row => {
+        console.log(row.getAttribute('data-row'));
+        // If 0, it means newly added row
+    });
 }

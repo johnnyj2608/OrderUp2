@@ -27,12 +27,14 @@ router.get('/history', async (req, res) => {
                     continue;
                 }
 
+                const row = i
                 const name = data[i][j]
                 const breakfast = data[i][j+1]
                 const lunch = data[i][j+2]
                 const timestamp = data[i][j+3]
 
                 result[date].push({
+                    row: row,
                     name: name,
                     breakfast: breakfast,
                     lunch: lunch,
