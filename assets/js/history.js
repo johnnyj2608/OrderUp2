@@ -92,7 +92,9 @@ function handleEditClick() {
 }
 
 function handleDelete(deleteButton) {
-    console.log('hi')
+    const editCell = deleteButton.closest('td');
+    const editRow = editCell.closest('tr');
+    editRow.remove();
 }
 
 function handleAdd() {
