@@ -78,6 +78,7 @@ function handleEditClick() {
     const viewFooter = document.getElementById('view-footer');
     editFooter.classList.remove('hidden');
     viewFooter.classList.add('hidden');
+    toggleUndoRedoButtons();
 }
 
 function handleDelete(deleteButton) {

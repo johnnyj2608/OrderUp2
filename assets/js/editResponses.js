@@ -94,6 +94,7 @@ function handleEditClick() {
 
     editFooter.classList.remove('hidden');
     viewFooter.classList.add('hidden');
+    toggleUndoRedoButtons();
 }
 
 function handleDelete(deleteButton) {
