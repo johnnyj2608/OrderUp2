@@ -27,12 +27,20 @@ async function getMenuItems(client, selectedDay, menuType) {
 async function getMembersForDay(client, selectedDay, targetDate) {
     const selectedDayColumn = dayOfWeekColumns[selectedDay];
     const query = `
-        SELECT id, name
-        FROM members
+        SELECT m.id, m.name, 
+            CASE 
+                WHEN o.breakfast IS NOT NULL AND o.lunch IS NOT NULL THEN 'X'
+                WHEN o.breakfast IS NOT NULL THEN 'L'
+                WHEN o.lunch IS NOT NULL THEN 'B'
+                ELSE 'A'
+            END AS menu
+        FROM members m
+        LEFT JOIN orders o
+        ON m.id = o.member_id AND o.date = $1
         WHERE ${selectedDayColumn} = TRUE;
     `;
-    const result = await client.query(query);
-    return result.rows || [];
+    const result = await client.query(query, [targetDate]);
+    return result.rows.filter(member => member.menu !== 'X');
 }
 
 // Helper function to map the rows into a structured menu format
