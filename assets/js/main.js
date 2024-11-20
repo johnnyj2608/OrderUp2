@@ -103,7 +103,7 @@ document.getElementById('submitButton').addEventListener('click', async function
         const today = new Date();
         const currentWeekday = today.getDay();
 
-        let nextTargetDate;
+        let nextTargetDate = new Date(today);
         if (weekday === 0) {
             nextTargetDate = new Date(today);
         } else {
@@ -111,7 +111,6 @@ document.getElementById('submitButton').addEventListener('click', async function
             if (daysToAdd <= 0) {
                 daysToAdd += 7;
             }
-            nextTargetDate = new Date(today);
             nextTargetDate.setDate(today.getDate() + daysToAdd);
         }
         const formattedDate = nextTargetDate.toISOString().split('T')[0];

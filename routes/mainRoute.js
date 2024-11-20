@@ -24,7 +24,7 @@ async function getMenuItems(client, selectedDay, menuType) {
 }
 
 // Helper function to get members for a specific day
-async function getMembersForDay(client, selectedDay) {
+async function getMembersForDay(client, selectedDay, targetDate) {
     const selectedDayColumn = dayOfWeekColumns[selectedDay];
     const query = `
         SELECT id, name
@@ -32,7 +32,6 @@ async function getMembersForDay(client, selectedDay) {
         WHERE ${selectedDayColumn} = TRUE;
     `;
     const result = await client.query(query);
-    console.log(result)
     return result.rows || [];
 }
 
@@ -52,11 +51,23 @@ function mapMenuItems(menuRow) {
 
 router.get("/", async (req, res) => {
     try {
+        const today = new Date();
+        const currentWeekday = today.getDay();
+
         let selectedDay = req.query.day || 0;
         let dayOfWeek = Number(selectedDay);
+
+        let nextTargetDate = new Date(today);
         if (dayOfWeek === 0) {
-            dayOfWeek = new Date().getDay();
+            dayOfWeek = currentWeekday;
+        } else {
+            let daysToAdd = dayOfWeek - currentWeekday;
+            if (daysToAdd <= 0) {
+                daysToAdd += 7;
+            }
+            nextTargetDate.setDate(today.getDate() + daysToAdd);
         }
+        const formattedDate = nextTargetDate.toISOString().split('T')[0];
 
         const client = await connectToDb();
 
@@ -66,11 +77,11 @@ router.get("/", async (req, res) => {
         const breakfastMenu = mapMenuItems(breakfastRow);
         const lunchMenu = mapMenuItems(lunchRow);
 
-        const members = await getMembersForDay(client, dayOfWeek);
+        const members = await getMembersForDay(client, dayOfWeek, formattedDate);
         const names = members.map(member => ({
             id: member.id,
             name: member.name,
-            menu: 'A', // Placeholder, need to update
+            menu: member.menu,
         }));
 
         res.render("main", { 
