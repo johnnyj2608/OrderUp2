@@ -99,19 +99,21 @@ function handleScroll() {
 
 document.getElementById('submitButton').addEventListener('click', async function() {
     if (!this.classList.contains('disabled')) {
-        const weekday = (document.querySelector('.selectedDay')?.getAttribute('data-day')) || '0';
+        const weekday = Number(document.querySelector('.selectedDay')?.getAttribute('data-day')) || 0;
         const today = new Date();
         const currentWeekday = today.getDay();
-        let daysToAdd = Number(weekday) - currentWeekday;
 
-        if (daysToAdd === 0) {
-            daysToAdd = 0;
-        } else if (daysToAdd < 0) {
-            daysToAdd += 7;
+        let nextTargetDate;
+        if (weekday === 0) {
+            nextTargetDate = new Date(today);
+        } else {
+            let daysToAdd = weekday - currentWeekday;
+            if (daysToAdd <= 0) {
+                daysToAdd += 7;
+            }
+            nextTargetDate = new Date(today);
+            nextTargetDate.setDate(today.getDate() + daysToAdd);
         }
-
-        const nextTargetDate = new Date(today);
-        nextTargetDate.setDate(today.getDate() + daysToAdd);
         const formattedDate = nextTargetDate.toISOString().split('T')[0];
 
         const breakfastName = (document.querySelector('.selectedBreakfast')?.getAttribute('data-text')) || 'none';
