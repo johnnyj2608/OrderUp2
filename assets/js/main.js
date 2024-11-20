@@ -80,9 +80,6 @@ document.getElementById('submitButton').addEventListener('click', async function
     if (!this.classList.contains('disabled')) {
         const weekday = (document.querySelector('.selectedDay')?.getAttribute('data-day')) || '0';
 
-        const breakfastID = (document.querySelector('.selectedBreakfast')?.getAttribute('data-order')) || 'none';
-        const lunchID = (document.querySelector('.selectedLunch')?.getAttribute('data-order')) || 'none';
-
         const breakfastName = (document.querySelector('.selectedBreakfast')?.getAttribute('data-text')) || 'none';
         const lunchName = (document.querySelector('.selectedLunch')?.getAttribute('data-text')) || 'none';
 

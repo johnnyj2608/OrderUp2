@@ -12,7 +12,7 @@ const sheetsByWeekday = {
     6: 'Sat',
 };
 
-router.get('/response', async (req, res) => {
+router.get('/orders', async (req, res) => {
     try {
         let selectedDay = req.query.day || 0;
         let sheetName = sheetsByWeekday[selectedDay];

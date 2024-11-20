@@ -7,10 +7,9 @@ const basicAuth = require('express-basic-auth');
 require('dotenv').config();
 
 const { initializeGoogleSheets } = require('./config/googleAPI');
-const { connectToDb } = require('./database/db');
 
 const mainRoute = require('./routes/mainRoute');
-const responseRoute = require('./routes/responseRoute');
+const ordersRoute = require('./routes/ordersRoute');
 const membersRoute = require('./routes/membersRoute');
 const historyRoute = require('./routes/historyRoute');
 const submitRoute = require('./routes/submitRoute');
@@ -47,7 +46,7 @@ app.use(express.static(path.join(__dirname, 'assets')));
 app.use(favicon(path.join(__dirname,'assets','img','favicon.ico')));
 
 app.use('/', mainRoute);
-app.use('/', responseRoute);
+app.use('/', ordersRoute);
 app.use('/', membersRoute);
 app.use('/', historyRoute);
 app.use('/', submitRoute);
