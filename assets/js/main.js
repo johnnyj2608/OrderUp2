@@ -76,60 +76,6 @@ function resetSelection() {
     updateButtonState();
 }
 
-document.getElementById('submitButton').addEventListener('click', async function() {
-    if (!this.classList.contains('disabled')) {
-        const weekday = (document.querySelector('.selectedDay')?.getAttribute('data-day')) || '0';
-
-        const breakfastName = (document.querySelector('.selectedBreakfast')?.getAttribute('data-text')) || 'none';
-        const lunchName = (document.querySelector('.selectedLunch')?.getAttribute('data-text')) || 'none';
-
-        const selectedName = document.querySelector('#nameList li.selected');
-        const memberTitle = selectedName ? selectedName.textContent : 'None';
-        const memberRow = selectedName ? selectedName.getAttribute('data-index') : null;
-
-        try {
-            const response = await fetch('/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    weekday,
-                    breakfastID, 
-                    breakfastName, 
-                    lunchID, 
-                    lunchName,
-                    memberTitle,
-                    memberRow,
-                }),
-            });
-
-            const result = await response.json();
-            if (result.success) {
-
-                const menuValue = selectedName.getAttribute('data-menu');
-                const menuTypeSpan = selectedName.querySelector('.menu-type');
-                if (breakfastID !== 'none' && lunchID !== 'none' || menuValue !== 'A') {
-                    selectedName.parentNode.removeChild(selectedName);
-                } else if (breakfastID !== 'none') {
-                    selectedName.setAttribute('data-menu', 'L');
-                    menuTypeSpan.innerText = 'L';
-                } else if (lunchID !== 'none') {
-                    selectedName.setAttribute('data-menu', 'B');
-                    menuTypeSpan.innerText = 'B';
-                }
-                
-                handleScroll()
-                resetSelection();
-            } else {
-                alert("error")
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-});
-
 function handleScroll() {
     const selectedBreakfast = document.querySelector('.selectedBreakfast');
     const selectedLunch = document.querySelector('.selectedLunch');
@@ -148,3 +94,68 @@ function handleScroll() {
         breakfastSection.scrollIntoView({ behavior: 'smooth' });
     }
 }
+
+
+
+document.getElementById('submitButton').addEventListener('click', async function() {
+    if (!this.classList.contains('disabled')) {
+        const weekday = (document.querySelector('.selectedDay')?.getAttribute('data-day')) || '0';
+        const today = new Date();
+        const currentWeekday = today.getDay();
+        let daysToAdd = Number(weekday) - currentWeekday;
+
+        if (daysToAdd === 0) {
+            daysToAdd = 0;
+        } else if (daysToAdd < 0) {
+            daysToAdd += 7;
+        }
+
+        const nextTargetDate = new Date(today);
+        nextTargetDate.setDate(today.getDate() + daysToAdd);
+        const formattedDate = nextTargetDate.toISOString().split('T')[0];
+
+        const breakfastName = (document.querySelector('.selectedBreakfast')?.getAttribute('data-text')) || 'none';
+        const lunchName = (document.querySelector('.selectedLunch')?.getAttribute('data-text')) || 'none';
+
+        const selectedName = document.querySelector('#nameList li.selected');
+        const memberID = selectedName ? selectedName.getAttribute('data-index') : null;
+
+        try {
+            const response = await fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    memberID,
+                    formattedDate,
+                    breakfastName, 
+                    lunchName,
+                }),
+            });
+
+            const result = await response.json();
+            if (result.success) {
+
+                const menuValue = selectedName.getAttribute('data-menu');
+                const menuTypeSpan = selectedName.querySelector('.menu-type');
+                if (breakfastName !== 'none' && lunchName !== 'none' || menuValue !== 'A') {
+                    selectedName.parentNode.removeChild(selectedName);
+                } else if (breakfastName !== 'none') {
+                    selectedName.setAttribute('data-menu', 'L');
+                    menuTypeSpan.innerText = 'L';
+                } else if (lunchName !== 'none') {
+                    selectedName.setAttribute('data-menu', 'B');
+                    menuTypeSpan.innerText = 'B';
+                }
+                
+                handleScroll()
+                resetSelection();
+            } else {
+                alert("error")
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+});
