@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const { getGoogleSheets, spreadsheetId } = require('../config/googleAPI');
 
 const sheetsByWeekday = {
     0: 'Today',

@@ -6,8 +6,6 @@ const cookieParser = require("cookie-parser");
 const basicAuth = require('express-basic-auth');
 require('dotenv').config();
 
-const { initializeGoogleSheets } = require('./config/googleAPI');
-
 const mainRoute = require('./routes/mainRoute');
 const ordersRoute = require('./routes/ordersRoute');
 const membersRoute = require('./routes/membersRoute');
@@ -54,13 +52,11 @@ app.use('/', switchRoute);
 
 const startServer = async () => {
     try {
-        await initializeGoogleSheets();
         const port = process.env.PORT || 1337;
         app.listen(port, () => {
             console.log(`Server is running on port ${port}`);
         });
     } catch (error) {
-        console.error('Failed to initialize Google Sheets client:', error);
         process.exit(1);
     }
 };
