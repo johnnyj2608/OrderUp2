@@ -252,20 +252,28 @@ async function handleSave() {
     while (undoStack.length > 0) {
         const change = undoStack.pop();
         let row = change.element
+        const action = change.action;
 
-        if (change.action === "edit") {
+        if (action === "edit") {
             row = change.element.closest('tr');
         }
+
         const hasData = Array.from(row.querySelectorAll('td')).some(cell => {
             const inputField = cell.querySelector('input');
             return inputField && inputField.value.trim() !== '';
         });
-    
-        if (hasData) {
-            modifiedElements.add(row);
+
+        if (hasData || row.getAttribute('data-row') !== '0') {  // Not an empty add
+            if (action !== "delete") {
+                modifiedElements.add(row);
+            } else {
+                const deleteRow = document.createElement('tr');
+                deleteRow.setAttribute('data-row', row.getAttribute('data-row'));
+                modifiedElements.add(deleteRow)
+            }
         }
     }
-    
+
     dataUpdate = []
     modifiedElements.forEach(row => {
         const dataRow = row.getAttribute('data-row');
@@ -273,16 +281,14 @@ async function handleSave() {
         
         const rowData = {
             row: dataRow, // data-row attribute
-            name: cells[0].querySelector('input').value,
-            breakfast: cells[1].querySelector('input').value,
-            lunch: cells[2].querySelector('input').value,
-            timestamp: cells[3].querySelector('input').value,
+            name: cells[0]?.querySelector('input')?.value ?? '',
+            breakfast: cells[1]?.querySelector('input')?.value ?? '',
+            lunch: cells[2]?.querySelector('input')?.value ?? '',
+            timestamp: cells[3]?.querySelector('input')?.value ?? '',
         };
 
         dataUpdate.push(rowData);
     });
-
-    console.log(dataUpdate)
 
     try {
         const response = await fetch('/historyEdit', {
@@ -297,7 +303,7 @@ async function handleSave() {
 
         const result = await response.json();
         if (result.success) {
-
+            // Update data-row attributes for newly added rows
         } else {
             alert("error")
         }
