@@ -11,7 +11,7 @@ const { connectToDb } = require('./database/db');
 
 const mainRoute = require('./routes/mainRoute');
 const responseRoute = require('./routes/responseRoute');
-// const membersRoute = require('./routes/membersRoute');
+const membersRoute = require('./routes/membersRoute');
 const historyRoute = require('./routes/historyRoute');
 const submitRoute = require('./routes/submitRoute');
 const switchRoute = require('./routes/switchRoute');
@@ -48,22 +48,10 @@ app.use(favicon(path.join(__dirname,'assets','img','favicon.ico')));
 
 app.use('/', mainRoute);
 app.use('/', responseRoute);
-// app.use('/', membersRoute);
+app.use('/', membersRoute);
 app.use('/', historyRoute);
 app.use('/', submitRoute);
 app.use('/', switchRoute);
-
-app.get('/members', async (req, res) => {
-    try {
-        const client = await connectToDb(); // Get the PostgreSQL client
-        const result = await client.query('SELECT * FROM members;');
-        res.json(result.rows);  // Send members data as JSON
-        client.end(); // Close the connection
-    } catch (err) {
-        console.error('Error fetching members:', err.stack);
-        res.status(500).send('Error fetching members');
-    }
-});
 
 const startServer = async () => {
     try {

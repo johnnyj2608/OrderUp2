@@ -1,58 +1,72 @@
 const express = require('express');
 const router = express.Router();
-const { getGoogleSheets, spreadsheetId } = require('../config/googleAPI');
+const { connectToDb } = require('../database/db');
 
-const sheetsByWeekday = {
-    0: 'Today',
-    1: 'Mon',
-    2: 'Tue',
-    3: 'Wed',
-    4: 'Thu',
-    5: 'Fri',
-    6: 'Sat',
-};
+const dayOfWeekColumns = [
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+  ];
+
+// Helper function to fetch menu items for a given day and menu type
+async function getMenuItems(client, selectedDay, menuType) {
+    const query = `
+        SELECT item_1, item_2, item_3, image_1, image_2, image_3
+        FROM menu
+        WHERE day_of_week = $1 AND menu_type = $2;
+    `;
+    const result = await client.query(query, [selectedDay, menuType]);
+    return result.rows[0]; // Only ever one row per menu type
+}
+
+// Helper function to get members for a specific day
+async function getMembersForDay(client, selectedDay) {
+    const selectedDayColumn = dayOfWeekColumns[selectedDay];
+    const query = `
+        SELECT id, name
+        FROM members
+        WHERE ${selectedDayColumn} = TRUE;
+    `;
+    const result = await client.query(query);
+    return result.rows;
+}
+
+// Helper function to map the rows into a structured menu format
+function mapMenuItems(menuRow) {
+    const menuItems = [];
+    for (let i = 1; i <= 3; i++) {
+        const itemKey = `item_${i}`;
+        const imageKey = `image_${i}`;
+        menuItems.push({
+            title: menuRow[itemKey],
+            image: menuRow[imageKey],
+        });
+    }
+    return menuItems;
+}
 
 router.get("/", async (req, res) => {
     try {
         let selectedDay = req.query.day || 0;
-        let sheetName = sheetsByWeekday[selectedDay];
 
-        const googleSheets = getGoogleSheets();
-        const spreadsheet = await googleSheets.spreadsheets.values.get({
-            spreadsheetId,
-            range: `${sheetName}!A1:M`,
-            valueRenderOption: 'FORMULA'
-        });
-        const data = spreadsheet.data.values;
+        const client = await connectToDb();
 
-        const breakfastMenu = [];
-        for (let i = 0; i < 3; i++) {
-            breakfastMenu.push({ title: data[1][i], image: data[0][i].slice(8, -5) });
-        }
+        const breakfastRow = await getMenuItems(client, selectedDay, 'Breakfast');
+        const lunchRow = await getMenuItems(client, selectedDay, 'Lunch');
 
-        const lunchMenu = [];
-        for (let i = 4; i < 7; i++) {
-            lunchMenu.push({ title: data[1][i], image: data[0][i].slice(8, -5) });
-        }
+        const breakfastMenu = mapMenuItems(breakfastRow);
+        const lunchMenu = mapMenuItems(lunchRow);
 
+        const members = await getMembersForDay(client, selectedDay);
 
-        const names = [];
-        for (let i = 3; i < data.length; i++) {
-            const member = data[i].slice(8, 13);
-            if (member.length > 0) {
-                if (member.length == 5 && member[3] && member[4]) {
-                    continue;   // Ordered for both meals already
-                }
-                let menu = 'A';
-                if (member.length == 5) {
-                    menu = 'B';   // Ordered for lunch, breakfast only
-                } else if (member.length == 4) {
-                    menu = 'L';   // Ordered for breakfast, lunch only
-                }
-                const name = `${member[0]}. ${member[2] || member[1]}`;
-                names.push({name: name, row: i, menu: menu });
-            }
-        }
+        const names = members.map(member => ({
+            id: member.id,
+            name: member.name,
+            menu: 'A', // Placeholder, need to update
+        }));
 
         res.render("main", { 
             breakfastMenu, 
@@ -61,7 +75,7 @@ router.get("/", async (req, res) => {
         });
     } catch (error) {
         console.error("Error loading sheet data: ", error);
-        res.status(500).send("Error loading sheet data");
+        res.status(500).send("Error loading database data");
     }
 });
 

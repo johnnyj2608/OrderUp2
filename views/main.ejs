@@ -48,8 +48,8 @@
                 <div class="col-12 col-md-6 order-md-12">
                     <input type="text" id="searchBar" placeholder="<%= __('search_Name') %>" onkeyup="searchNames()">
                     <ul id="nameList">
-                        <% names.forEach(({ name, row, menu }, index) => { %>
-                            <li data-index="<%= row %>" 
+                        <% names.forEach(({ id, name, menu }, index) => { %>
+                            <li data-index="<%= id %>" 
                                 data-menu="<%= menu %>" 
                                 onclick="handleNameClick(this)">
                                 <span class="name"><%= name %></span>
