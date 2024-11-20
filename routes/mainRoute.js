@@ -3,6 +3,7 @@ const router = express.Router();
 const { connectToDb } = require('../database/db');
 
 const dayOfWeekColumns = [
+    'today',
     'monday',
     'tuesday',
     'wednesday',
@@ -31,7 +32,8 @@ async function getMembersForDay(client, selectedDay) {
         WHERE ${selectedDayColumn} = TRUE;
     `;
     const result = await client.query(query);
-    return result.rows;
+    console.log(result)
+    return result.rows || [];
 }
 
 // Helper function to map the rows into a structured menu format
@@ -51,17 +53,20 @@ function mapMenuItems(menuRow) {
 router.get("/", async (req, res) => {
     try {
         let selectedDay = req.query.day || 0;
+        let dayOfWeek = Number(selectedDay);
+        if (dayOfWeek === 0) {
+            dayOfWeek = new Date().getDay();
+        }
 
         const client = await connectToDb();
 
-        const breakfastRow = await getMenuItems(client, selectedDay, 'Breakfast');
-        const lunchRow = await getMenuItems(client, selectedDay, 'Lunch');
+        const breakfastRow = await getMenuItems(client, dayOfWeek, 'Breakfast');
+        const lunchRow = await getMenuItems(client, dayOfWeek, 'Lunch');
 
         const breakfastMenu = mapMenuItems(breakfastRow);
         const lunchMenu = mapMenuItems(lunchRow);
 
-        const members = await getMembersForDay(client, selectedDay);
-
+        const members = await getMembersForDay(client, dayOfWeek);
         const names = members.map(member => ({
             id: member.id,
             name: member.name,
@@ -74,7 +79,7 @@ router.get("/", async (req, res) => {
             names,
         });
     } catch (error) {
-        console.error("Error loading sheet data: ", error);
+        console.error("Error loading data: ", error);
         res.status(500).send("Error loading database data");
     }
 });
