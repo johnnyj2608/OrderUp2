@@ -32,22 +32,18 @@
         </div>
         <div class="content">
             <br>
-            <div class="row">
-                <% const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']; %>
-                <% days.forEach((day, index) => { %>
-                    <div class="col-4 col-md-2 mb-2">
-                        <div class="dayButton" data-day="<%= index + 1 %>" onclick="handleDayClick(this)"><%= __(day) %></div>
-                    </div>
-                <% }); %>
-            </div>
-            
-            <table class="table table-striped table-bordered mt-4">
+            <h3 class="text-center">Member List</h3>
+            <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th style="width: 10%;">ID</th>
-                        <th style="width: 40%;">Name</th>
-                        <th style="width: 25%;">Breakfast</th>
-                        <th style="width: 25%;">Lunch</th>
+                        <th style="width: 30%;">Name</th>
+                        <th style="width: 10%;">Monday</th>
+                        <th style="width: 10%;">Tuesday</th>
+                        <th style="width: 10%;">Wednesday</th>
+                        <th style="width: 10%;">Thursday</th>
+                        <th style="width: 10%;">Friday</th>
+                        <th style="width: 10%;">Saturday</th>
                     </tr>
                 </thead>
                 <tbody id="data-body" class="view-mode">
@@ -55,8 +51,12 @@
                         <tr>
                             <td><%= member.id %></td>
                             <td><%= member.name %></td>
-                            <td><%= member.breakfast %></td>
-                            <td><%= member.lunch %></td>
+                            <td><%= member.monday ? "Yes" : "No" %></td>
+                            <td><%= member.tuesday ? "Yes" : "No" %></td>
+                            <td><%= member.wednesday ? "Yes" : "No" %></td>
+                            <td><%= member.thursday ? "Yes" : "No" %></td>
+                            <td><%= member.friday ? "Yes" : "No" %></td>
+                            <td><%= member.saturday ? "Yes" : "No" %></td>
                         </tr>
                     <% }); %>
                 </tbody>
@@ -97,7 +97,6 @@
         </div>
     </div>
 
-    <script src="/js/dayNav.js"></script>
     <script src="/js/editTables.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
