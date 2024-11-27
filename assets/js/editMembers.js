@@ -46,6 +46,12 @@ function handleEditClick() {
                     }
                 });
 
+                if (index === 0) {
+                    inputField.addEventListener('input', function() {
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                    });
+                }
+
                 editCell.appendChild(inputField);
 
             } else {
@@ -70,15 +76,8 @@ function handleEditClick() {
         const lastCell = editRow.querySelectorAll('td')[7];
         lastCell.style.position = 'relative';
 
-        const trashIcon = document.createElement('span');
-        trashIcon.classList.add('trash-icon');
-        trashIcon.style.position = 'absolute';
-        trashIcon.style.right = '10px';
-        trashIcon.style.top = '45%';
-        trashIcon.style.transform = 'translateY(-50%)';
+        const trashIcon = createTrashIcon();
         trashIcon.setAttribute('onclick', 'handleDelete(this)');
-        trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
-        trashIcon.style.fontSize = '20px';
 
         lastCell.appendChild(trashIcon);
         editTableBody.appendChild(editRow);
@@ -151,6 +150,12 @@ function handleAdd() {
                 }
             });
 
+            if (i === 0) {
+                inputField.addEventListener('input', function() {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            }
+
             newCell.appendChild(inputField);
         } else {
             const checkbox = document.createElement('input');
@@ -172,15 +177,8 @@ function handleAdd() {
     const lastCell = newRow.querySelectorAll('td')[7];
     lastCell.style.position = 'relative';
 
-    const trashIcon = document.createElement('span');
-    trashIcon.classList.add('trash-icon');
-    trashIcon.style.position = 'absolute';
-    trashIcon.style.right = '10px';
-    trashIcon.style.top = '45%';
-    trashIcon.style.transform = 'translateY(-50%)';
+    const trashIcon = createTrashIcon();
     trashIcon.setAttribute('onclick', 'handleDelete(this)');
-    trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
-    trashIcon.style.fontSize = '20px';
 
     lastCell.appendChild(trashIcon);
 
@@ -259,6 +257,9 @@ function handleCancel() {
 }
 
 async function handleSave() {
+    if (!checkEmptyTextInputs()) {
+        return;
+    }
     const editButton = document.getElementById('edit-button');
     editButton.classList.remove('active-edit');
 
@@ -368,4 +369,32 @@ async function handleSave() {
     // } catch (error) {
     //     console.error('Error:', error);
     // }
+}
+
+function createTrashIcon() {
+    const trashIcon = document.createElement('span');
+    trashIcon.classList.add('trash-icon');
+    trashIcon.style.position = 'absolute';
+    trashIcon.style.right = '10px';
+    trashIcon.style.top = '45%';
+    trashIcon.style.transform = 'translateY(-50%)';
+    trashIcon.style.fontSize = '20px';
+    trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
+    return trashIcon;
+}
+
+function checkEmptyTextInputs() {
+    const editTableBody = document.querySelector('#data-body.edit-mode');
+    const rows = editTableBody.querySelectorAll('tr');
+
+    for (let tr = 0; tr < rows.length - 1; tr++) {
+        for (let td = 0; td < 2; td++) {
+            const cell = rows[tr].querySelectorAll('td')[td];
+            const inputField = cell.querySelector('input[type="text"]');
+            if (inputField.value.trim() === '') {
+                return false;
+            }
+        }
+    }
+    return true
 }
