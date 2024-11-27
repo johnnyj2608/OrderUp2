@@ -1,6 +1,7 @@
 let undoStack = [];
 let redoStack = [];
 let originalText = "";
+
 function handleEditClick() {
     const editButton = document.getElementById('edit-button');
     if (editButton.classList.contains('active-edit')) {
@@ -16,53 +17,77 @@ function handleEditClick() {
     editTableBody.innerHTML = '';
     viewTableBody.querySelectorAll('tr').forEach(viewRow => {
         const editRow = document.createElement('tr');
-        editRow.setAttribute('data-row', viewRow.getAttribute('data-row'));
-        
-        const totalCells = viewRow.querySelectorAll('td')
+        editRow.classList.add('text-center');
+
+        const totalCells = viewRow.querySelectorAll('td');
         totalCells.forEach((viewCell, index) => {
             const editCell = document.createElement('td');
 
-            const cellText = viewCell.textContent.trim();
-            const inputField = document.createElement('input');
-            inputField.type = 'text';
-            inputField.value = cellText;
-            inputField.style.width = "100%";
+            // For the first two columns, use text inputs
+            if (index < 2) {
+                const cellText = viewCell.textContent.trim();
+                const inputField = document.createElement('input');
+                inputField.type = 'text';
+                inputField.value = cellText;
+                inputField.style.width = "100%";
 
-            inputField.addEventListener('focus', function() {
-                originalText = inputField.value;
-            });
-            inputField.addEventListener('blur', function() {
-                if (inputField.value !== originalText) {
+                inputField.addEventListener('focus', function() {
+                    originalText = inputField.value;
+                });
+                inputField.addEventListener('blur', function() {
+                    if (inputField.value !== originalText) {
+                        undoStack.push({
+                            action: 'edit',
+                            element: inputField,
+                            originalText: originalText,
+                            newText: inputField.value
+                        });
+                        toggleUndoRedoButtons();
+                    }
+                });
+
+                editCell.appendChild(inputField);
+
+            } else {
+                // For other columns, use checkboxes (toggle buttons)
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = viewCell.querySelector('i').classList.contains('fa-check');
+                checkbox.classList.add('checkbox-large');
+
+                checkbox.addEventListener('change', function() {
                     undoStack.push({
-                        action: 'edit', 
-                        element: inputField, 
-                        originalText: originalText,
-                        newText: inputField.value
+                        action: 'toggle',
+                        element: checkbox,
                     });
                     toggleUndoRedoButtons();
-                }
-            });
+                });
 
-            editCell.appendChild(inputField);
-
-            if (index === totalCells.length - 1) {
-                editCell.style.display = 'flex';
-                editCell.style.justifyContent = "space-between";
-
-                const trashIcon = document.createElement('span');
-                trashIcon.classList.add('trash-icon');
-                trashIcon.setAttribute('onclick', 'handleDelete(this)');
-                trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
-                editCell.appendChild(trashIcon);
+                editCell.appendChild(checkbox);
             }
             editRow.appendChild(editCell);
         });
+        const lastCell = editRow.querySelectorAll('td')[7];
+        lastCell.style.position = 'relative';
+
+        const trashIcon = document.createElement('span');
+        trashIcon.classList.add('trash-icon');
+        trashIcon.style.position = 'absolute';
+        trashIcon.style.right = '10px';
+        trashIcon.style.top = '45%';
+        trashIcon.style.transform = 'translateY(-50%)';
+        trashIcon.setAttribute('onclick', 'handleDelete(this)');
+        trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
+        trashIcon.style.fontSize = '20px';
+
+        lastCell.appendChild(trashIcon);
         editTableBody.appendChild(editRow);
     });
 
+    // Add row to allow adding new rows
     const addRow = document.createElement('tr');
     const addCell = document.createElement('td');
-    addCell.colSpan = 4;
+    addCell.colSpan = 8;
     addCell.style.textAlign = 'center'; 
 
     addCell.classList.add('addButton');
@@ -83,8 +108,7 @@ function handleEditClick() {
 }
 
 function handleDelete(deleteButton) {
-    const editCell = deleteButton.closest('td');
-    const editRow = editCell.closest('tr');
+    const editRow = deleteButton.closest('tr');
     const nextRow = editRow.nextElementSibling;
 
     redoStack = [];
@@ -102,42 +126,64 @@ function handleAdd() {
     const editTableBody = document.querySelector('#data-body.edit-mode');
 
     const newRow = document.createElement('tr');
-    newRow.setAttribute('data-row', 0)
-    for (let i = 0; i < 4; i++) {
+    newRow.classList.add("text-center");
+    
+    for (let i = 0; i < 8; i++) {
         const newCell = document.createElement('td');
-        const inputField = document.createElement('input');
-        inputField.type = 'text';
-        inputField.style.width = "100%";
+        
+        if (i < 2) {
+            const inputField = document.createElement('input');
+            inputField.type = 'text';
+            inputField.style.width = "100%";
 
-        inputField.addEventListener('focus', function() {
-            originalText = inputField.value;
-        });
-        inputField.addEventListener('blur', function() {
-            if (inputField.value !== originalText) {
+            inputField.addEventListener('focus', function() {
+                originalText = inputField.value;
+            });
+            inputField.addEventListener('blur', function() {
+                if (inputField.value !== originalText) {
+                    undoStack.push({
+                        action: 'edit', 
+                        element: inputField, 
+                        originalText: originalText,
+                        newText: inputField.value
+                    });
+                    toggleUndoRedoButtons();
+                }
+            });
+
+            newCell.appendChild(inputField);
+        } else {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.classList.add('checkbox-large');
+
+            checkbox.addEventListener('change', function() {
                 undoStack.push({
-                    action: 'edit', 
-                    element: inputField, 
-                    originalText: originalText,
-                    newText: inputField.value
+                    action: 'toggle',
+                    element: checkbox,
                 });
                 toggleUndoRedoButtons();
-            }
-        });
+            });
 
-        newCell.appendChild(inputField);
-
-        if (i === 3) {
-            newCell.style.display = 'flex';
-            newCell.style.justifyContent = "space-between";
-
-            const trashIcon = document.createElement('span');
-            trashIcon.classList.add('trash-icon');
-            trashIcon.setAttribute('onclick', 'handleDelete(this)');
-            trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
-            newCell.appendChild(trashIcon);
+            newCell.appendChild(checkbox);
         }
         newRow.appendChild(newCell);
     }
+    const lastCell = newRow.querySelectorAll('td')[7];
+    lastCell.style.position = 'relative';
+
+    const trashIcon = document.createElement('span');
+    trashIcon.classList.add('trash-icon');
+    trashIcon.style.position = 'absolute';
+    trashIcon.style.right = '10px';
+    trashIcon.style.top = '45%';
+    trashIcon.style.transform = 'translateY(-50%)';
+    trashIcon.setAttribute('onclick', 'handleDelete(this)');
+    trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
+    trashIcon.style.fontSize = '20px';
+
+    lastCell.appendChild(trashIcon);
+
     const addButtonRow = editTableBody.lastElementChild;
     editTableBody.insertBefore(newRow, addButtonRow);
 
@@ -163,7 +209,9 @@ function undo() {
 
     if (lastAction) {
         const editTableBody = document.querySelector('#data-body.edit-mode');
-        if (lastAction.action === 'edit') {
+        if (lastAction.action === 'toggle') {
+            lastAction.element.checked = !lastAction.element.checked;
+        } else if (lastAction.action === 'edit') {
             lastAction.element.value = lastAction.originalText;
         } else if (lastAction.action === 'add') {
             editTableBody.removeChild(lastAction.element);
@@ -180,7 +228,9 @@ function redo() {
 
     if (lastAction) {
         const editTableBody = document.querySelector('#data-body.edit-mode');
-        if (lastAction.action === 'edit') {
+        if (lastAction.action === 'toggle') {
+            lastAction.element.checked = !lastAction.element.checked;
+        } else if (lastAction.action === 'edit') {
             lastAction.element.value = lastAction.newText;
         } else if (lastAction.action === 'add') {
             editTableBody.insertBefore(lastAction.element, lastAction.nextSibling);
@@ -227,14 +277,23 @@ async function handleSave() {
         if (!hasData) return;
 
         const viewRow = document.createElement('tr');
-        viewRow.setAttribute('data-row', editRow.getAttribute('data-row'));
+        viewRow.classList.add("text-center");
         
-        editRow.querySelectorAll('td').forEach(editCell => {
+        editRow.querySelectorAll('td').forEach((editCell, index) => {
             const viewCell = document.createElement('td');
 
             const inputField = editCell.querySelector('input');
-            const cellText = inputField.value;
-            viewCell.innerText = cellText;
+            if (index < 2) {
+                const cellText = inputField.value.trim();
+                viewCell.innerText = cellText;
+            } else {
+                const checkbox = editCell.querySelector('input[type="checkbox"]');
+                const icon = checkbox.checked 
+                    ? "<i class='fas fa-check'></i>"
+                    : "<i class='fas fa-times'></i>";
+
+                viewCell.innerHTML = icon;
+            }
             viewRow.appendChild(viewCell);
         });
         viewTableBody.appendChild(viewRow);
@@ -263,51 +322,50 @@ async function handleSave() {
             return inputField && inputField.value.trim() !== '';
         });
 
-        if (hasData || row.getAttribute('data-row') !== '0') {  // Not an empty add
+        if (hasData) {  // Not an empty add
             if (action !== "delete") {
                 modifiedElements.add(row);
             } else {
                 const deleteRow = document.createElement('tr');
-                deleteRow.setAttribute('data-row', row.getAttribute('data-row'));
                 modifiedElements.add(deleteRow)
             }
         }
     }
 
-    dataUpdate = []
-    modifiedElements.forEach(row => {
-        const dataRow = row.getAttribute('data-row');
-        const cells = row.querySelectorAll('td');
+    // dataUpdate = []
+    // modifiedElements.forEach(row => {
+    //     const dataRow = row.getAttribute('data-row');
+    //     const cells = row.querySelectorAll('td');
         
-        const rowData = {
-            row: dataRow, // data-row attribute
-            name: cells[0]?.querySelector('input')?.value ?? '',
-            breakfast: cells[1]?.querySelector('input')?.value ?? '',
-            lunch: cells[2]?.querySelector('input')?.value ?? '',
-            timestamp: cells[3]?.querySelector('input')?.value ?? '',
-        };
+    //     const rowData = {
+    //         row: dataRow, // data-row attribute
+    //         name: cells[0]?.querySelector('input')?.value ?? '',
+    //         breakfast: cells[1]?.querySelector('input')?.value ?? '',
+    //         lunch: cells[2]?.querySelector('input')?.value ?? '',
+    //         timestamp: cells[3]?.querySelector('input')?.value ?? '',
+    //     };
 
-        dataUpdate.push(rowData);
-    });
+    //     dataUpdate.push(rowData);
+    // });
 
-    try {
-        const response = await fetch('/historyEdit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-                dataUpdate
-            }),
-        });
+    // try {
+    //     const response = await fetch('/historyEdit', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ 
+    //             dataUpdate
+    //         }),
+    //     });
 
-        const result = await response.json();
-        if (result.success) {
-            // Update data-row attributes for newly added rows
-        } else {
-            alert("error")
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
+    //     const result = await response.json();
+    //     if (result.success) {
+    //         // Update data-row attributes for newly added rows
+    //     } else {
+    //         alert("error")
+    //     }
+    // } catch (error) {
+    //     console.error('Error:', error);
+    // }
 }

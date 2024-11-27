@@ -279,6 +279,22 @@ th {
       width: 20%;
 }
 
+td .fa-check {
+      font-size: 20px;
+      color: green;
+}
+  
+td .fa-times {
+      font-size: 20px;
+      color: red;
+}
+
+.checkbox-large {
+      transform: scale(1.5);
+      margin: 0;
+      accent-color: green;
+}
+
 .name-item {
       display: flex;
       align-items: center;
