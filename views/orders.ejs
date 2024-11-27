@@ -43,17 +43,18 @@
             <!-- If screen too small, make two tabs -->
             <!-- Freeze title when scrolling -->
             <div class="row mt-4">
-                <% function renderPanel(responses) { %>
-                    <% responses.forEach(({ title, image, amt, names }, index) => { %>
+                <% function renderPanel(menuItems) { %>
+                    <% for (let title in menuItems) { %>
+                        <% let item = menuItems[title]; %>
                         <div class="col-md-2 panel">
                             <div class="view-mode w-100">
                                 <div class="image-container">
-                                    <img src="<%= image %>" class="panel-img w-100" />
-                                    <div class="amount-overlay"><%= amt %></div>
+                                    <img src="<%= item.image ? item.image : '/img/default.png' %>" class="panel-img w-100" />
+                                    <div class="amount-overlay"><%= item.amt %></div>
                                 </div>
                                 <p class="panel-title"><%= title %></p>
                                 <ul class="nameResponses">
-                                    <% names.forEach(name => { %>
+                                    <% item.names.forEach(name => { %>
                                         <li><%= name %></li>
                                     <% }) %>
                                 </ul>
@@ -65,11 +66,11 @@
                                 </ul>
                             </div>
                         </div>
-                    <% }) %>
+                    <% } %>
                 <% } %>
                 
-                <%= renderPanel(breakfastResponses) %>
-                <%= renderPanel(lunchResponses) %>
+                <%= renderPanel(breakfastMenu) %>
+                <%= renderPanel(lunchMenu) %>
                 
             </div>
         </div>
