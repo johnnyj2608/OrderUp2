@@ -20,11 +20,12 @@
 	"thursday": "Thu",
 	"friday": "Fri",
 	"saturday": "Sat",
-	"search_Name": "Search for names...",
+	"search_name": "Search for names...",
 	"back": "Back",
 	"orders": "Orders",
 	"count": "Count",
 	"save": "Save",
 	"views": "Views",
-	"cancel": "Cancel"
+	"cancel": "Cancel",
+	"apply_filter": "Apply Filter"
 }

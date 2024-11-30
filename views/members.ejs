@@ -16,15 +16,35 @@
                     <div class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-filter"></i>
                     </div>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" data-lang="en"><%= __("monday") %></a></li>
-                        <li><a class="dropdown-item" href="#" data-lang="zh"><%= __("tuesday") %></a></li>
-                        <li><a class="dropdown-item" href="#" data-lang="en"><%= __("wednesday") %></a></li>
-                        <li><a class="dropdown-item" href="#" data-lang="zh"><%= __("thursday") %></a></li>
-                        <li><a class="dropdown-item" href="#" data-lang="en"><%= __("friday") %></a></li>
-                        <li><a class="dropdown-item" href="#" data-lang="zh"><%= __("saturday") %></a></li>
+                    <ul class="dropdown-menu p-3">
+                        <li><div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="monday" id="filter-monday">
+                            <label class="form-check-label" for="filter-monday"><%= __("monday") %></label>
+                        </div></li>
+                        <li><div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="tuesday" id="filter-tuesday">
+                            <label class="form-check-label" for="filter-tuesday"><%= __("tuesday") %></label>
+                        </div></li>
+                        <li><div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="wednesday" id="filter-wednesday">
+                            <label class="form-check-label" for="filter-wednesday"><%= __("wednesday") %></label>
+                        </div></li>
+                        <li><div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="thursday" id="filter-thursday">
+                            <label class="form-check-label" for="filter-thursday"><%= __("thursday") %></label>
+                        </div></li>
+                        <li><div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="friday" id="filter-friday">
+                            <label class="form-check-label" for="filter-friday"><%= __("friday") %></label>
+                        </div></li>
+                        <li><div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="saturday" id="filter-saturday">
+                            <label class="form-check-label" for="filter-saturday"><%= __("saturday") %></label>
+                        </div></li>
+                        <li><button class="dropdown-item" onclick="applyFilter()"><%= __("apply_filter") %></button></li>
                     </ul>
                 </div>
+
                 <input type="file" id="fileInput" accept=".csv">
                 <i id="edit-header" class="dropdown fas fa-plus hidden"></i>
             </div>

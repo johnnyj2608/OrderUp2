@@ -406,3 +406,31 @@ function populateTableFromCSV(content) {
     });
     toggleUndoRedoButtons();
 }
+
+function applyFilter() {
+    const selectedDays = [];
+
+    if (document.getElementById('filter-monday').checked) selectedDays.push(3);
+    if (document.getElementById('filter-tuesday').checked) selectedDays.push(4);
+    if (document.getElementById('filter-wednesday').checked) selectedDays.push(5);
+    if (document.getElementById('filter-thursday').checked) selectedDays.push(6);
+    if (document.getElementById('filter-friday').checked) selectedDays.push(7);
+    if (document.getElementById('filter-saturday').checked) selectedDays.push(8);
+
+    const rows = document.querySelectorAll('#data-body tr');
+
+    rows.forEach(row => {
+        let shouldShowRow = false;
+
+        for (let i = 0; i < selectedDays.length; i++) {
+            const dayColumnIndex = selectedDays[i];
+            const cell = row.cells[dayColumnIndex - 1];
+
+            if (cell && cell.querySelector('i.fas.fa-check')) {
+                shouldShowRow = true;
+                break;
+            }
+        }
+        row.style.display = shouldShowRow ? '' : 'none';
+    });
+}

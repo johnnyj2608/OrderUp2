@@ -20,11 +20,12 @@
     "thursday": "星期四",
     "friday": "星期五",
     "saturday": "星期六",
-	"search_Name": "搜索名字...",
+	"search_name": "搜索名字...",
 	"back": "退回",
 	"orders": "订单",
 	"count": "多少",
 	"save": "保存",
 	"views": "屏幕",
-	"cancel": "取消"
+	"cancel": "取消",
+	"apply_filter": "应用过滤器"
 }
