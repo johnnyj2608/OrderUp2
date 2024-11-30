@@ -352,6 +352,19 @@ td .fa-times {
       display: none;
 }
 
+#filter-dropdown {
+      background-color: transparent;
+      border: none;
+}
+
+#filter-dropdown i {
+      color: white;
+}
+
+#filter-dropdown::after {
+      color: white !important;
+}
+
 .dropdown-menu .form-check-label {
       width: 100%;
 }
