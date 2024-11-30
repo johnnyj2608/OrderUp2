@@ -351,3 +351,13 @@ td .fa-times {
 #fileInput {
       display: none;
 }
+
+.dropdown-menu .form-check-label {
+      width: 100%;
+}
+
+.dropdown-menu .form-check:hover {
+      background: #ffddc1;
+      cursor: pointer;
+}
+
