@@ -7,7 +7,7 @@ function handleEditClick() {
     if (editButton.classList.contains('active-edit')) {
         return;
     }
-    editButton.classList.toggle('active-edit');
+    activeEdit(true);
     undoStack = [];
     redoStack = [];
 
@@ -53,16 +53,6 @@ function handleEditClick() {
     addRow.appendChild(addCell);
     editTableBody.appendChild(addRow);
 
-    viewTableBody.classList.add('hidden');
-    editTableBody.classList.remove('hidden');
-
-    const uploadButton = document.getElementById('upload-button');
-    uploadButton.classList.remove('hidden');
-
-    const editFooter = document.getElementById('edit-footer');
-    const viewFooter = document.getElementById('view-footer');
-    editFooter.classList.remove('hidden');
-    viewFooter.classList.add('hidden');
     toggleUndoRedoButtons();
 }
 
@@ -161,22 +151,7 @@ function redo() {
 }
 
 function handleCancel() {
-    const editButton = document.getElementById('edit-button');
-    editButton.classList.remove('active-edit');
-
-    const viewTableBody = document.querySelector('#data-body.view-mode');
-    const editTableBody = document.querySelector('#data-body.edit-mode');
-
-    viewTableBody.classList.remove('hidden');
-    editTableBody.classList.add('hidden');
-
-    const uploadButton = document.getElementById('upload-button');
-    uploadButton.classList.add('hidden')
-
-    const editFooter = document.getElementById('edit-footer');
-    const viewFooter = document.getElementById('view-footer');
-    editFooter.classList.add('hidden');
-    viewFooter.classList.remove('hidden');
+    activeEdit(false);
 }
 
 async function handleSave() {
@@ -184,8 +159,7 @@ async function handleSave() {
         alert("Please fill in all text fields.");
         return;
     }
-    const editButton = document.getElementById('edit-button');
-    editButton.classList.remove('active-edit');
+    activeEdit(false);
 
     const viewTableBody = document.querySelector('#data-body.view-mode');
     const editTableBody = document.querySelector('#data-body.edit-mode');
@@ -223,17 +197,6 @@ async function handleSave() {
         viewTableBody.appendChild(viewRow);
     });
 
-    viewTableBody.classList.remove('hidden');
-    editTableBody.classList.add('hidden');
-
-    const uploadButton = document.getElementById('upload-button');
-    uploadButton.classList.add('hidden')
-
-    const editFooter = document.getElementById('edit-footer');
-    const viewFooter = document.getElementById('view-footer');
-    editFooter.classList.add('hidden');
-    viewFooter.classList.remove('hidden');
-
     const modifiedElements = new Set();
     while (undoStack.length > 0) {
         const change = undoStack.pop();
@@ -258,43 +221,6 @@ async function handleSave() {
             }
         }
     }
-
-    // dataUpdate = []
-    // modifiedElements.forEach(row => {
-    //     const dataRow = row.getAttribute('data-row');
-    //     const cells = row.querySelectorAll('td');
-        
-    //     const rowData = {
-    //         row: dataRow, // data-row attribute
-    //         name: cells[0]?.querySelector('input')?.value ?? '',
-    //         breakfast: cells[1]?.querySelector('input')?.value ?? '',
-    //         lunch: cells[2]?.querySelector('input')?.value ?? '',
-    //         timestamp: cells[3]?.querySelector('input')?.value ?? '',
-    //     };
-
-    //     dataUpdate.push(rowData);
-    // });
-
-    // try {
-    //     const response = await fetch('/historyEdit', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ 
-    //             dataUpdate
-    //         }),
-    //     });
-
-    //     const result = await response.json();
-    //     if (result.success) {
-    //         // Update data-row attributes for newly added rows
-    //     } else {
-    //         alert("error")
-    //     }
-    // } catch (error) {
-    //     console.error('Error:', error);
-    // }
 }
 
 function createEditRow(content = false) {
@@ -353,6 +279,43 @@ function createEditRow(content = false) {
     return newRow;
 }
 
+function activeEdit(status) {
+    const editButton = document.getElementById('edit-button');
+    
+    const viewTableBody = document.querySelector('#data-body.view-mode');
+    const editTableBody = document.querySelector('#data-body.edit-mode');
+
+    const editHeader = document.getElementById('edit-header');
+    const viewHeader = document.getElementById('view-header');
+
+    const editFooter = document.getElementById('edit-footer');
+    const viewFooter = document.getElementById('view-footer');
+
+    if (status) {
+        editButton.classList.add('active-edit');
+
+        viewTableBody.classList.add('hidden');
+        editTableBody.classList.remove('hidden');
+
+        editHeader.classList.remove('hidden');
+        viewHeader.classList.add('hidden');
+
+        editFooter.classList.remove('hidden');
+        viewFooter.classList.add('hidden');
+    } else {
+        editButton.classList.remove('active-edit');
+
+        viewTableBody.classList.remove('hidden');
+        editTableBody.classList.add('hidden');
+
+        editHeader.classList.add('hidden');
+        viewHeader.classList.remove('hidden');
+
+        editFooter.classList.add('hidden');
+        viewFooter.classList.remove('hidden');
+    }
+}
+
 function createTrashIcon() {
     const trashIcon = document.createElement('span');
     trashIcon.classList.add('trash-icon');
@@ -381,7 +344,7 @@ function checkEmptyTextInputs() {
     return true
 }
 
-document.getElementById('upload-button').addEventListener('click', () => {
+document.getElementById('edit-header').addEventListener('click', () => {
     document.getElementById('fileInput').value = '';
     document.getElementById('fileInput').click();
 });
