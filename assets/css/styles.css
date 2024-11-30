@@ -279,6 +279,10 @@ th {
       width: 20%;
 }
 
+tr {
+      text-align: center;
+}
+
 td .fa-check {
       font-size: 20px;
       color: green;
@@ -342,4 +346,8 @@ td .fa-times {
 
 @media (min-width: 1366px) {
       
+}
+
+#fileInput {
+      display: none;
 }

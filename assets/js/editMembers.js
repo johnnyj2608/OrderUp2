@@ -33,7 +33,6 @@ function handleEditClick() {
     const addRow = document.createElement('tr');
     const addCell = document.createElement('td');
     addCell.colSpan = 8;
-    addCell.style.textAlign = 'center'; 
 
     addCell.classList.add('addButton');
     addCell.setAttribute('onclick', 'handleAdd()');
@@ -44,6 +43,9 @@ function handleEditClick() {
 
     viewTableBody.classList.add('hidden');
     editTableBody.classList.remove('hidden');
+
+    const uploadButton = document.getElementById('upload-button');
+    uploadButton.classList.remove('hidden');
 
     const editFooter = document.getElementById('edit-footer');
     const viewFooter = document.getElementById('view-footer');
@@ -148,6 +150,9 @@ function handleCancel() {
     viewTableBody.classList.remove('hidden');
     editTableBody.classList.add('hidden');
 
+    const uploadButton = document.getElementById('upload-button');
+    uploadButton.classList.add('hidden')
+
     const editFooter = document.getElementById('edit-footer');
     const viewFooter = document.getElementById('view-footer');
     editFooter.classList.add('hidden');
@@ -176,7 +181,6 @@ async function handleSave() {
         if (!hasData) return;
 
         const viewRow = document.createElement('tr');
-        viewRow.classList.add("text-center");
         
         editRow.querySelectorAll('td').forEach((editCell, index) => {
             const viewCell = document.createElement('td');
@@ -200,6 +204,9 @@ async function handleSave() {
 
     viewTableBody.classList.remove('hidden');
     editTableBody.classList.add('hidden');
+
+    const uploadButton = document.getElementById('upload-button');
+    uploadButton.classList.add('hidden')
 
     const editFooter = document.getElementById('edit-footer');
     const viewFooter = document.getElementById('view-footer');
@@ -271,7 +278,6 @@ async function handleSave() {
 
 function createRow(viewRow = false) {
     const newRow = document.createElement('tr');
-    newRow.classList.add('text-center');
 
     for (let i = 0; i < 8; i++) {
         const newCell = document.createElement('td');
@@ -352,4 +358,62 @@ function checkEmptyTextInputs() {
         }
     }
     return true
+}
+
+document.getElementById('upload-button').addEventListener('click', () => {
+    document.getElementById('fileInput').click();
+});
+document.getElementById('fileInput').addEventListener('change', handleUploadClick);
+
+function handleUploadClick() {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    const isCSV = file.name.endsWith('.csv');
+
+    if (isCSV) {
+        reader.onload = function (e) {
+            const content = e.target.result;
+            populateTableFromCSV(content);
+        };
+        reader.readAsText(file);
+    } else {
+        alert('Invalid file format. Please upload a .csv file.');
+    }
+}
+
+function populateTableFromCSV(content) {
+    const rows = content.split('\n');
+    const tableBody = document.querySelector('#data-body.edit-mode');
+    const addButtonRow = tableBody.lastElementChild;
+
+    rows.forEach((row) => {
+        const cells = row.split(',');
+        const newRow = createRow();
+
+        cells.forEach((cell, index) => {
+            const cellContent = cell.trim();
+            const cellElement = newRow.cells[index];
+
+            if (index < 2) {
+                const inputField = cellElement.querySelector('input[type="text"]');
+                inputField.value = cellContent;
+            } else {
+                const checkbox = cellElement.querySelector('input[type="checkbox"]');
+                checkbox.checked = cellContent.toLowerCase() === 'true';
+            }
+        });
+
+        const lastCell = newRow.cells[7];
+        lastCell.style.position = 'relative';
+
+        const trashIcon = createTrashIcon();
+        trashIcon.setAttribute('onclick', 'handleDelete(this)');
+
+        lastCell.appendChild(trashIcon);
+
+        tableBody.insertBefore(newRow, addButtonRow);
+    });
 }
