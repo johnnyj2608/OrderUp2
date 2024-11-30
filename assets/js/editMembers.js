@@ -127,6 +127,10 @@ function undo() {
             editTableBody.removeChild(lastAction.element);
         } else if (lastAction.action === 'delete') {
             editTableBody.insertBefore(lastAction.element, lastAction.nextSibling);
+        } else if (lastAction.action === 'upload') {
+            lastAction.elements.forEach(element => {
+                editTableBody.removeChild(element);
+            });
         }
         redoStack.push(lastAction);
         toggleUndoRedoButtons();
@@ -146,6 +150,10 @@ function redo() {
             editTableBody.insertBefore(lastAction.element, lastAction.nextSibling);
         } else if (lastAction.action === 'delete') {
             editTableBody.removeChild(lastAction.element);
+        } else if (lastAction.action === 'upload') {
+            lastAction.elements.forEach(element => {
+                editTableBody.insertBefore(element, lastAction.nextSibling);
+            });
         }
         undoStack.push(lastAction);
         toggleUndoRedoButtons();
@@ -374,6 +382,7 @@ function checkEmptyTextInputs() {
 }
 
 document.getElementById('upload-button').addEventListener('click', () => {
+    document.getElementById('fileInput').value = '';
     document.getElementById('fileInput').click();
 });
 document.getElementById('fileInput').addEventListener('change', handleUploadClick);
@@ -402,6 +411,8 @@ function populateTableFromCSV(content) {
     const tableBody = document.querySelector('#data-body.edit-mode');
     const addButtonRow = tableBody.lastElementChild;
 
+    const uploadedRows = [];
+
     rows.forEach((row) => {
         const cells = row.split(',').map(cell => {
             const trimmedCell = cell.trim().toLowerCase();
@@ -423,5 +434,12 @@ function populateTableFromCSV(content) {
         lastCell.appendChild(trashIcon);
 
         tableBody.insertBefore(newRow, addButtonRow);
+        uploadedRows.push(newRow);
     });
+    undoStack.push({
+        action: 'upload',
+        elements: uploadedRows,
+        nextSibling: addButtonRow
+    });
+    toggleUndoRedoButtons();
 }
