@@ -440,13 +440,29 @@ function applyFilter() {
     rows.forEach(row => {
         let shouldShowRow = false;
 
-        for (let i = 0; i < selectedDays.length; i++) {
-            const dayColumnIndex = selectedDays[i];
-            const cell = row.cells[dayColumnIndex - 1];
-
-            if (cell && cell.querySelector('i.fas.fa-check')) {
-                shouldShowRow = true;
-                break;
+        
+        if (selectedDays.length === 6) {
+            // If all days selected, show every row
+            shouldShowRow = true;
+        } else if (selectedDays.length === 0) {
+            // If no days selected, show only rows without days
+            shouldShowRow = true;
+            for (let i = 3; i <= 8; i++) {
+                const cell = row.cells[i - 1];
+                if (cell && cell.querySelector('i.fas.fa-check')) {
+                    shouldShowRow = false;
+                    break;
+                }
+            }
+        } else {
+            // If some days selected, show only rows with those days
+            for (let i = 0; i < selectedDays.length; i++) {
+                const dayColumnIndex = selectedDays[i];
+                const cell = row.cells[dayColumnIndex - 1];
+                if (cell && cell.querySelector('i.fas.fa-check')) {
+                    shouldShowRow = true;
+                    break;
+                }
             }
         }
         row.style.display = shouldShowRow ? '' : 'none';
