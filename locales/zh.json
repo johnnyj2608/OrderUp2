@@ -27,5 +27,7 @@
 	"save": "保存",
 	"views": "屏幕",
 	"cancel": "取消",
-	"apply_filter": "应用过滤器"
+	"apply_filter": "应用过滤器",
+	"all": "全部",
+	"clear": "清除"
 }

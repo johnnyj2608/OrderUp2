@@ -27,5 +27,7 @@
 	"save": "Save",
 	"views": "Views",
 	"cancel": "Cancel",
-	"apply_filter": "Apply Filter"
+	"apply_filter": "Apply Filter",
+	"all": "All",
+	"clear": "Clear"
 }

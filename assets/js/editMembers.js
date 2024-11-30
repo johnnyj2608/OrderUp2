@@ -407,6 +407,24 @@ function populateTableFromCSV(content) {
     toggleUndoRedoButtons();
 }
 
+function selectAllFilters() {
+    document.getElementById('filter-monday').checked = true;
+    document.getElementById('filter-tuesday').checked = true;
+    document.getElementById('filter-wednesday').checked = true;
+    document.getElementById('filter-thursday').checked = true;
+    document.getElementById('filter-friday').checked = true;
+    document.getElementById('filter-saturday').checked = true;
+}
+
+function clearAllFilters() {
+    document.getElementById('filter-monday').checked = false;
+    document.getElementById('filter-tuesday').checked = false;
+    document.getElementById('filter-wednesday').checked = false;
+    document.getElementById('filter-thursday').checked = false;
+    document.getElementById('filter-friday').checked = false;
+    document.getElementById('filter-saturday').checked = false;
+}
+
 function applyFilter() {
     const selectedDays = [];
 
