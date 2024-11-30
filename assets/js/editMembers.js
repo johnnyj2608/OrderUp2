@@ -16,7 +16,19 @@ function handleEditClick() {
 
     editTableBody.innerHTML = '';
     viewTableBody.querySelectorAll('tr').forEach(viewRow => {
-        const newRow = createRow(viewRow);
+        const rowData = Array.from(viewRow.querySelectorAll('td')).map(cell => {
+            const icon = cell.querySelector('i');
+            if (icon) {
+                if (icon.classList.contains('fa-times')) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                return cell.textContent.trim();
+            }
+        });
+        const newRow = createEditRow(rowData);
         editTableBody.appendChild(newRow);
 
         const lastCell = newRow.cells[7];
@@ -72,7 +84,7 @@ function handleDelete(deleteButton) {
 function handleAdd() {
     const editTableBody = document.querySelector('#data-body.edit-mode');
 
-    const newRow = createRow();
+    const newRow = createEditRow();
 
     const lastCell = newRow.cells[7];
     lastCell.style.position = 'relative';
@@ -161,6 +173,7 @@ function handleCancel() {
 
 async function handleSave() {
     if (!checkEmptyTextInputs()) {
+        alert("Please fill in all text fields.");
         return;
     }
     const editButton = document.getElementById('edit-button');
@@ -276,14 +289,14 @@ async function handleSave() {
     // }
 }
 
-function createRow(viewRow = false) {
+function createEditRow(content = false) {
     const newRow = document.createElement('tr');
 
     for (let i = 0; i < 8; i++) {
         const newCell = document.createElement('td');
     
         if (i < 2) {
-            const cellText = viewRow ? viewRow.cells[i].textContent.trim() : '';
+            const cellText = content ? content[i] : '';
             const inputField = document.createElement('input');
             inputField.type = 'text';
             inputField.style.width = "100%";
@@ -314,7 +327,7 @@ function createRow(viewRow = false) {
         } else {
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
-            checkbox.checked = viewRow ? viewRow.cells[i].querySelector('i').classList.contains('fa-check') : false;
+            checkbox.checked = content ? content[i] : false;
             checkbox.classList.add('checkbox-large');
 
             checkbox.addEventListener('change', function() {
@@ -390,21 +403,16 @@ function populateTableFromCSV(content) {
     const addButtonRow = tableBody.lastElementChild;
 
     rows.forEach((row) => {
-        const cells = row.split(',');
-        const newRow = createRow();
-
-        cells.forEach((cell, index) => {
-            const cellContent = cell.trim();
-            const cellElement = newRow.cells[index];
-
-            if (index < 2) {
-                const inputField = cellElement.querySelector('input[type="text"]');
-                inputField.value = cellContent;
-            } else {
-                const checkbox = cellElement.querySelector('input[type="checkbox"]');
-                checkbox.checked = cellContent.toLowerCase() === 'true';
+        const cells = row.split(',').map(cell => {
+            const trimmedCell = cell.trim().toLowerCase();
+            if (trimmedCell === 'true') {
+                return true;
+            } else if (trimmedCell === 'false') {
+                return false;
             }
+            return cell.trim();
         });
+        const newRow = createEditRow(cells);
 
         const lastCell = newRow.cells[7];
         lastCell.style.position = 'relative';
