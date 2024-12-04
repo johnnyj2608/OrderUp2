@@ -367,10 +367,10 @@ td .fa-times {
 
 .dropdown-menu .form-check-label {
       width: 100%;
+      cursor: pointer;
 }
 
 .dropdown-menu .form-check:hover {
       background: #ffddc1;
-      cursor: pointer;
 }
 
