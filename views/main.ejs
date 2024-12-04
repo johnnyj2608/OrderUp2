@@ -12,12 +12,7 @@
     <div class="container-fluid">
         <div class="row header">
             <div class="col-auto">
-                <div class="dropdown">
-                    <span data-day="0" onclick="handleDayClick(this);">
-                        <%= __("today") %>
-                        <i class="fas fa-calendar" id="today-icon"></i> 
-                    </span>
-                </div>
+                <i id="calendar-icon" class="dropdown fas fa-calendar-alt"></i>
             </div>
             <div class="col text-center" id="project-title">
                 <%= __("project_title") %>
@@ -35,15 +30,9 @@
             </div>
         </div>
         <div class="content">
+            <input type="date" id="datePicker" value="<%= selectedDate %>" style="opacity: 0;">
             <br>
-            <div class="row">
-                <% const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']; %>
-                <% days.forEach((day, index) => { %>
-                    <div class="col-4 col-md-2 mb-2">
-                        <div class="dayButton" data-day="<%= index + 1 %>" onclick="handleDayClick(this)"><%= __(day) %></div>
-                    </div>
-                <% }); %>
-            </div>
+            <h3 class="text-center">Menu for <%= formattedDate %></h3>
             <div class="row mt-4">
                 <div class="col-12 col-md-6 order-md-12">
                     <input type="text" id="searchBar" placeholder="<%= __('search_name') %>" onkeyup="searchNames()">
@@ -98,8 +87,8 @@
         </div>
     </div>
 
+    <script src="/js/datePicker.js"></script>
     <script src="/js/settings.js"></script>
-    <script src="/js/dayNav.js"></script>
     <script src="/js/main.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"

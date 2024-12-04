@@ -14,43 +14,39 @@ const dayOfWeekColumns = [
 
 router.get("/", async (req, res) => {
     try {
-        const today = new Date();
-        const currentWeekday = today.getDay();
+        const selectedDate = req.query.date || new Date().toISOString().split('T')[0];
+        const convertedDate = new Date(selectedDate + 'T00:00:00');
+        const selectedWeekday = new Date(convertedDate).getDay();
 
-        let selectedDay = req.query.day || 0;
-        let dayOfWeek = Number(selectedDay);
-
-        let nextTargetDate = new Date(today);
-        if (dayOfWeek === 0) {
-            dayOfWeek = currentWeekday;
-        } else {
-            let daysToAdd = dayOfWeek - currentWeekday;
-            if (daysToAdd <= 0) {
-                daysToAdd += 7;
-            }
-            nextTargetDate.setDate(today.getDate() + daysToAdd);
-        }
-        const formattedDate = nextTargetDate.toISOString().split('T')[0];
 
         const client = await connectToDb();
 
-        const breakfastRow = await getMenuItems(client, dayOfWeek, 'Breakfast');
-        const lunchRow = await getMenuItems(client, dayOfWeek, 'Lunch');
+        const breakfastRow = await getMenuItems(client, selectedWeekday, 'Breakfast');
+        const lunchRow = await getMenuItems(client, selectedWeekday, 'Lunch');
 
         const breakfastMenu = mapMenuItems(breakfastRow);
         const lunchMenu = mapMenuItems(lunchRow);
 
-        const members = await getMembersForDay(client, dayOfWeek, formattedDate);
+        const members = await getMembersForDay(client, selectedWeekday, convertedDate);
         const names = members.map(member => ({
             id: member.id,
             name: member.name,
             menu: member.menu,
         }));
 
+        const weekday = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(convertedDate);
+        const month = new Intl.DateTimeFormat('en-US', { month: '2-digit' }).format(convertedDate);
+        const day = new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(convertedDate);
+        const year = new Intl.DateTimeFormat('en-US', { year: 'numeric' }).format(convertedDate);
+
+        const formattedDate = `${weekday}, ${month}/${day}/${year}`;
+
         res.render("main", { 
             breakfastMenu, 
             lunchMenu,
             names,
+            formattedDate,
+            selectedDate
         });
     } catch (error) {
         console.error("Error loading data: ", error);
