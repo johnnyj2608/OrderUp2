@@ -275,12 +275,23 @@
       text-overflow: ellipsis;
 }
 
+table {
+      table-layout: fixed;
+      width: 100%;
+}
+
 th {
       width: 20%;
 }
 
 tr {
       text-align: center;
+}
+
+td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 }
 
 td .fa-check {
