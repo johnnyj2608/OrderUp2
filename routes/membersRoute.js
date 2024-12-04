@@ -12,7 +12,7 @@ router.get('/members', async (req, res) => {
 
         res.render('members', { memberList });
     } catch (error) {
-        res.status(500).send("Error loading sheet data");
+        res.status(500).send("Error loading data");
     }
 });
 

@@ -2,15 +2,15 @@ const express = require('express');
 const router = express.Router();
 const { connectToDb } = require('../database/db');
 
-router.get('/history', async (req, res) => {
+router.get('/menu', async (req, res) => {
     try {
         const client = await connectToDb();
 
-        const query = 'SELECT * FROM orders';
+        const query = 'SELECT * FROM menu';
         const result = await client.query(query);
-        const orderList = result.rows;
+        const menuList = result.rows;
 
-        res.render('orders', { orderList });
+        res.render('menu', { menuList });
     } catch (error) {
         res.status(500).send("Error loading data");
     }

@@ -8,6 +8,7 @@ require('dotenv').config();
 
 const mainRoute = require('./routes/mainRoute');
 const ordersRoute = require('./routes/ordersRoute');
+const menuRoute = require('./routes/menuRoute');
 const membersRoute = require('./routes/membersRoute');
 const historyRoute = require('./routes/historyRoute');
 const submitRoute = require('./routes/submitRoute');
@@ -45,6 +46,7 @@ app.use(favicon(path.join(__dirname,'assets','img','favicon.ico')));
 
 app.use('/', mainRoute);
 app.use('/', ordersRoute);
+app.use('/', menuRoute);
 app.use('/', membersRoute);
 app.use('/', historyRoute);
 app.use('/', submitRoute);

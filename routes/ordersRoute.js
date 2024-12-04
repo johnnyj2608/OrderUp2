@@ -2,16 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { connectToDb } = require('../database/db');
 
-const dayOfWeekColumns = [
-    'today',
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-];
-
 router.get('/orders', async (req, res) => {
     try {
         const today = new Date();
@@ -90,7 +80,6 @@ function mapMenuItems(menuRow) {
     }
     return menuItems;
 }
-
 
 // Helper function to fetch orders with member names for a given date
 async function getOrdersByDate(client, targetDate) {

@@ -23,11 +23,15 @@
 	"search_name": "Search for names...",
 	"back": "Back",
 	"orders": "Orders",
+	"history": "History",
+	"members": "Members",
+	"menu": "Menu",
 	"count": "Count",
 	"save": "Save",
 	"views": "Views",
 	"cancel": "Cancel",
 	"apply_filter": "Apply Filter",
 	"all": "All",
-	"clear": "Clear"
+	"clear": "Clear",
+	"summary": "summary"
 }
