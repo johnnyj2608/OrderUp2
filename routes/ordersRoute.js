@@ -4,33 +4,20 @@ const { connectToDb } = require('../database/db');
 
 router.get('/orders', async (req, res) => {
     try {
-        const today = new Date();
-        const currentWeekday = today.getDay();
-
-        let selectedDay = req.query.day || 0;
-        let dayOfWeek = Number(selectedDay);
-
-        let nextTargetDate = new Date(today);
-        if (dayOfWeek === 0) {
-            dayOfWeek = currentWeekday;
-        } else {
-            let daysToAdd = dayOfWeek - currentWeekday;
-            if (daysToAdd <= 0) {
-                daysToAdd += 7;
-            }
-            nextTargetDate.setDate(today.getDate() + daysToAdd);
-        }
-        const formattedDate = nextTargetDate.toISOString().split('T')[0];
+        const selectedDate = req.query.date || new Date().toISOString().split('T')[0];
+        const convertedDate = new Date(selectedDate + 'T00:00:00');
+        const selectedWeekday = new Date(convertedDate).getDay();
 
         const client = await connectToDb();
 
-        const breakfastRow = await getMenuItems(client, dayOfWeek, 'Breakfast');
-        const lunchRow = await getMenuItems(client, dayOfWeek, 'Lunch');
+        const breakfastRow = await getMenuItems(client, selectedWeekday, 'Breakfast');
+        const lunchRow = await getMenuItems(client, selectedWeekday, 'Lunch');
 
         const breakfastMenu = mapMenuItems(breakfastRow);
         const lunchMenu = mapMenuItems(lunchRow);
 
-        const orders = await getOrdersByDate(client, formattedDate);
+
+        const orders = await getOrdersByDate(client, convertedDate);
 
         orders.forEach(order => {
             const breakfastItem = breakfastMenu[order.breakfast];
@@ -45,24 +32,33 @@ router.get('/orders', async (req, res) => {
             }
         });
 
-        res.render("orders", { 
+        const weekday = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(convertedDate);
+        const month = new Intl.DateTimeFormat('en-US', { month: '2-digit' }).format(convertedDate);
+        const day = new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(convertedDate);
+        const year = new Intl.DateTimeFormat('en-US', { year: 'numeric' }).format(convertedDate);
+
+        const formattedDate = `${weekday}, ${month}/${day}/${year}`;
+
+        res.render('orders', { 
             breakfastMenu, 
             lunchMenu,
+            formattedDate,
+            selectedDate
         });
     } catch (error) {
-        res.status(500).send("Error loading sheet data");
+        res.status(500).send("Error loading data");
     }
 });
 
 // Helper function to fetch menu items for a given day and menu type
-async function getMenuItems(client, selectedDay, menuType) {
+async function getMenuItems(client, targetDate, menuType) {
     const query = `
         SELECT item_1, item_2, item_3, image_1, image_2, image_3
         FROM menu
         WHERE day_of_week = $1 AND menu_type = $2;
     `;
-    const result = await client.query(query, [selectedDay, menuType]);
-    return result.rows[0]; // Only ever one row per menu type
+    const result = await client.query(query, [targetDate, menuType]);
+    return result.rows[0];
 }
 
 // Helper function to map the rows into a structured menu format
@@ -81,7 +77,6 @@ function mapMenuItems(menuRow) {
     return menuItems;
 }
 
-// Helper function to fetch orders with member names for a given date
 async function getOrdersByDate(client, targetDate) {
     const query = `
         SELECT o.id, o.breakfast, o.lunch, m.name AS name
