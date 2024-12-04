@@ -12,34 +12,19 @@
     <div class="container-fluid">
         <div class="row header">
             <div class="col-auto">
-                <div class="dropdown">
-                    <span data-day="0" onclick="handleDayClick(this);">
-                        <%= __("today") %>
-                        <i class="fas fa-calendar" id="today-icon"></i> 
-                    </span>
-                </div>
+                <i id="calendar-icon" class="dropdown fas fa-calendar-alt"></i>
             </div>
             <div class="col text-center" id="project-title">
                 <%= __("project_title") %>
             </div>
             <div class="col-auto">
-                <div class="dropdown">
-                    <span onclick="handleEditClick();">
-                        <i id="edit-button" class="fas fa-pencil-alt"></i>
-                    </span>
-                </div>
+                <!-- Print button -->
             </div>
         </div>
         <div class="content">
+            <input type="date" id="datePicker" style="opacity: 0;">
             <br>
-            <div class="row">
-                <% const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']; %>
-                <% days.forEach((day, index) => { %>
-                    <div class="col-4 col-md-2 mb-2">
-                        <div class="dayButton" data-day="<%= index + 1 %>" onclick="handleDayClick(this)"><%= __(day) %></div>
-                    </div>
-                <% }); %>
-            </div>
+            <h3 class="text-center">Orders</h3>
             <!-- If screen too small, make two tabs -->
             <!-- Freeze title when scrolling -->
             <div class="row mt-4">
@@ -106,8 +91,8 @@
         </div>
     </div>
 
+    <script src="/js/datePicker.js"></script>
     <script src="/js/editOrders.js"></script>
-    <script src="/js/dayNav.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
