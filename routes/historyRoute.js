@@ -33,7 +33,7 @@ router.get('/history', async (req, res) => {
                 day: '2-digit', 
                 hour: '2-digit', 
                 minute: '2-digit', 
-                hour12: false 
+                hour12: true,
             }).format(new Date(order.timestamp));
 
             return {
