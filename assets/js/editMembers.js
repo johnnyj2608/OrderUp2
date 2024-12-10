@@ -333,12 +333,10 @@ function checkEmptyTextInputs() {
     const rows = editTableBody.querySelectorAll('tr');
 
     for (let tr = 0; tr < rows.length - 1; tr++) {
-        for (let td = 0; td < 2; td++) {
-            const cell = rows[tr].querySelectorAll('td')[td];
-            const inputField = cell.querySelector('input[type="text"]');
-            if (inputField.value.trim() === '') {
-                return false;
-            }
+        const cell = rows[tr].querySelectorAll('td')[0];
+        const inputField = cell.querySelector('input[type="text"]');
+        if (inputField.value.trim() === '') {
+            return false;
         }
     }
     return true
