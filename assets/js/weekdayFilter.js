@@ -18,7 +18,7 @@ function clearAllFilters() {
 
 function applyFilter() {
     const selectedDays = [];
-    const searchTerm = document.getElementById('search-member').value.toLowerCase(); // Get search term in lowercase
+    const searchTerm = document.getElementById('search-member').value.toLowerCase();
 
     // Get selected days from checkboxes
     if (document.getElementById('filter-monday').checked) selectedDays.push(3);
@@ -28,10 +28,11 @@ function applyFilter() {
     if (document.getElementById('filter-friday').checked) selectedDays.push(7);
     if (document.getElementById('filter-saturday').checked) selectedDays.push(8);
 
-    const rows = document.querySelectorAll('#data-body tr');
+    const rows = document.querySelectorAll('#data-body.view-mode tr');
 
     rows.forEach(row => {
         let shouldShowRow = false;
+
         const type = row.cells[0].innerText;
         const name = row.cells[1].innerText.toLowerCase();
 

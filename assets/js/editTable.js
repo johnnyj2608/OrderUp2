@@ -218,18 +218,11 @@ async function handleSave() {
             row = change.element.closest('tr');
         }
 
-        const hasData = Array.from(row.querySelectorAll('td')).some(cell => {
-            const inputField = cell.querySelector('input');
-            return inputField && inputField.value.trim() !== '';
-        });
-
-        if (hasData) {  // Not an empty add
-            if (action !== "delete") {
-                modifiedElements.add(row);
-            } else {
-                const deleteRow = document.createElement('tr');
-                modifiedElements.add(deleteRow)
-            }
+        if (action !== "delete") {
+            modifiedElements.add(row);
+        } else {
+            const deleteRow = document.createElement('tr');
+            modifiedElements.add(deleteRow)
         }
     }
 }
@@ -310,6 +303,9 @@ function activeEdit(status) {
     const viewTableBody = document.querySelector('#data-body.view-mode');
     const editTableBody = document.querySelector('#data-body.edit-mode');
 
+    const editHeader = document.getElementById('edit-header');
+    const viewHeader = document.getElementById('view-header');
+
     const editFooter = document.getElementById('edit-footer');
     const viewFooter = document.getElementById('view-footer');
 
@@ -319,6 +315,11 @@ function activeEdit(status) {
         viewTableBody.classList.add('hidden');
         editTableBody.classList.remove('hidden');
 
+        if (editHeader) {
+            editHeader.classList.remove('hidden');
+            viewHeader.classList.add('hidden');
+        }
+
         editFooter.classList.remove('hidden');
         viewFooter.classList.add('hidden');
     } else {
@@ -327,6 +328,11 @@ function activeEdit(status) {
         viewTableBody.classList.remove('hidden');
         editTableBody.classList.add('hidden');
 
+        if (editHeader) {
+            editHeader.classList.add('hidden');
+            viewHeader.classList.remove('hidden');
+        }
+        
         editFooter.classList.add('hidden');
         viewFooter.classList.remove('hidden');
     }
