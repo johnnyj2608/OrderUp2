@@ -267,11 +267,18 @@ function createEditRow(content = false) {
             if (i === 0 && filterType === "date") {
                 inputField.type = 'date';
 
-                const dateObj = new Date(cellText);
-                inputField.value = dateObj.toISOString().split('T')[0];
+                if (cellText) {
+                    inputField.value = new Date(cellText).toISOString().split('T')[0];
+                }
             } else {
                 inputField.type = 'text';
                 inputField.value = cellText;
+
+                if (i === 0) {
+                    inputField.addEventListener('input', function() {
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                    });
+                }
             }
             inputField.style.width = (i === cols-1) ? '85%' : '100%';
 
@@ -289,14 +296,9 @@ function createEditRow(content = false) {
                     toggleUndoRedoButtons();
                 }
             });
+
             newCell.appendChild(inputField);
         }
-
-        // if (i === 0) {
-        //     inputField.addEventListener('input', function() {
-        //         this.value = this.value.replace(/[^0-9]/g, '');
-        //     });
-        // }
 
         newRow.appendChild(newCell);
     }
