@@ -14,11 +14,13 @@ function clearAllFilters() {
     document.getElementById('filter-thursday').checked = false;
     document.getElementById('filter-friday').checked = false;
     document.getElementById('filter-saturday').checked = false;
+
+    document.getElementById('search-bar').value = '';
 }
 
 function applyFilter() {
     const selectedDays = [];
-    const searchTerm = document.getElementById('search-member').value.toLowerCase();
+    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
 
     // Get selected days from checkboxes
     if (document.getElementById('filter-monday').checked) selectedDays.push(3);
