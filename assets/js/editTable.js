@@ -1,9 +1,10 @@
 let undoStack = [];
 let redoStack = [];
 let originalText = "";
-let cols = 0
+let cols = 0;
+let filterType = "";
 
-function handleEditClick(columns) {
+function handleEditClick(columns, table) {
     const editButton = document.getElementById('edit-button');
     if (editButton.classList.contains('active-edit')) {
         return;
@@ -12,6 +13,7 @@ function handleEditClick(columns) {
     undoStack = [];
     redoStack = [];
     cols = Number(columns)
+    filterType = table;
 
     const viewTableBody = document.querySelector('#data-body.view-mode');
     const editTableBody = document.querySelector('#data-body.edit-mode');
@@ -32,8 +34,6 @@ function handleEditClick(columns) {
         });
         const newRow = createEditRow(rowData);
         editTableBody.appendChild(newRow);
-
-        console.log(cols-1)
 
         const lastCell = newRow.cells[cols-1];
         lastCell.style.position = 'relative';
@@ -181,13 +181,23 @@ async function handleSave() {
 
         const viewRow = document.createElement('tr');
         
-        editRow.querySelectorAll('td').forEach((editCell, index) => {
+        editRow.querySelectorAll('td').forEach((editCell, i) => {
             const viewCell = document.createElement('td');
-
             const inputField = editCell.querySelector('input');
-            const cellText = inputField.value.trim();
-            viewCell.innerText = cellText;
+            
+            if (i === 0 && filterType === "date") {
+                // Date picker
+            } else if (i > 1 && filterType === "days") {
+                const checkbox = editCell.querySelector('input[type="checkbox"]');
+                const icon = checkbox.checked 
+                    ? "<i class='fas fa-check'></i>"
+                    : "<i class='fas fa-times'></i>";
 
+                viewCell.innerHTML = icon;
+            } else {
+                const cellText = inputField.value.trim();
+                viewCell.innerText = cellText;
+            }
             viewRow.appendChild(viewCell);
         });
         viewTableBody.appendChild(viewRow);
@@ -224,35 +234,53 @@ function createEditRow(content = false) {
 
     for (let i = 0; i < cols; i++) {
         const newCell = document.createElement('td');
-    
         const cellText = content ? content[i] : '';
-        const inputField = document.createElement('input');
-        inputField.type = 'text';
-        inputField.value = cellText;
-        inputField.style.width = (i === cols-1) ? '85%' : '100%';
 
-        inputField.addEventListener('focus', function() {
-            originalText = inputField.value;
-        });
-        inputField.addEventListener('blur', function() {
-            if (inputField.value !== originalText) {
+        if (i === 0 && filterType === "date") {
+            // Date picker
+        } else if (i > 1 && filterType === "days") {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = content ? content[i] : false;
+            checkbox.classList.add('checkbox-large');
+
+            checkbox.addEventListener('change', function() {
                 undoStack.push({
-                    action: 'edit', 
-                    element: inputField, 
-                    originalText: originalText,
-                    newText: inputField.value
+                    action: 'toggle',
+                    element: checkbox,
                 });
                 toggleUndoRedoButtons();
-            }
-        });
-
-        if (i === 0) {
-            inputField.addEventListener('input', function() {
-                this.value = this.value.replace(/[^0-9]/g, '');
             });
+
+            newCell.appendChild(checkbox);
+        } else {
+            const inputField = document.createElement('input');
+            inputField.type = 'text';
+            inputField.value = cellText;
+            inputField.style.width = (i === cols-1) ? '85%' : '100%';
+
+            inputField.addEventListener('focus', function() {
+                originalText = inputField.value;
+            });
+            inputField.addEventListener('blur', function() {
+                if (inputField.value !== originalText) {
+                    undoStack.push({
+                        action: 'edit', 
+                        element: inputField, 
+                        originalText: originalText,
+                        newText: inputField.value
+                    });
+                    toggleUndoRedoButtons();
+                }
+            });
+            newCell.appendChild(inputField);
         }
 
-        newCell.appendChild(inputField);
+        // if (i === 0) {
+        //     inputField.addEventListener('input', function() {
+        //         this.value = this.value.replace(/[^0-9]/g, '');
+        //     });
+        // }
 
         newRow.appendChild(newCell);
     }
@@ -308,12 +336,10 @@ function checkEmptyTextInputs() {
     const rows = editTableBody.querySelectorAll('tr');
 
     for (let tr = 0; tr < rows.length - 1; tr++) {
-        for (let td = 0; td < 2; td++) {
-            const cell = rows[tr].querySelectorAll('td')[td];
-            const inputField = cell.querySelector('input[type="text"]');
-            if (inputField.value.trim() === '') {
-                return false;
-            }
+        const cell = rows[tr].querySelectorAll('td')[0];
+        const inputField = cell.querySelector('input[type="text"]');
+        if (inputField.value.trim() === '') {
+            return false;
         }
     }
     return true
