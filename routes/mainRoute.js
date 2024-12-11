@@ -18,14 +18,10 @@ router.get("/", async (req, res) => {
         const convertedDate = new Date(selectedDate + 'T00:00:00');
         const selectedWeekday = new Date(convertedDate).getDay();
 
-
         const client = await connectToDb();
 
-        const breakfastRow = await getMenuItems(client, selectedWeekday, 'Breakfast');
-        const lunchRow = await getMenuItems(client, selectedWeekday, 'Lunch');
-
-        const breakfastMenu = mapMenuItems(breakfastRow);
-        const lunchMenu = mapMenuItems(lunchRow);
+        const breakfastMenu = await getMenuItems(client, selectedWeekday, 'breakfast');
+        const lunchMenu = await getMenuItems(client, selectedWeekday, 'lunch');
 
         const members = await getMembersForDay(client, selectedWeekday, convertedDate);
         const names = members.map(member => ({
@@ -56,27 +52,14 @@ router.get("/", async (req, res) => {
 
 // Helper function to fetch menu items for a given day and menu type
 async function getMenuItems(client, selectedDay, menuType) {
+    const selectedDayColumn = dayOfWeekColumns[selectedDay];
     const query = `
-        SELECT item_1, item_2, item_3, image_1, image_2, image_3
+        SELECT name, image
         FROM menu
-        WHERE day_of_week = $1 AND menu_type = $2;
+        WHERE menu_type = $1 AND ${selectedDayColumn} = TRUE; 
     `;
-    const result = await client.query(query, [selectedDay, menuType]);
-    return result.rows[0]; // Only ever one row per menu type
-}
-
-// Helper function to map the rows into a structured menu format
-function mapMenuItems(menuRow) {
-    const menuItems = [];
-    for (let i = 1; i <= 3; i++) {
-        const itemKey = `item_${i}`;
-        const imageKey = `image_${i}`;
-        menuItems.push({
-            title: menuRow[itemKey],
-            image: menuRow[imageKey],
-        });
-    }
-    return menuItems;
+    const result = await client.query(query, [menuType]);
+    return result.rows;
 }
 
 // Helper function to get members for a specific day

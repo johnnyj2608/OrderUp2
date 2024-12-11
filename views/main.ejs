@@ -51,20 +51,22 @@
                     <% function renderMealSection(mealType, menu) { %>
                         <h2 id="<%= mealType %>Section"><%= __(mealType) %></h2>
                         
-                        <% menu.forEach(({ title, image }, index) => { %>
+                        <% menu.forEach(({ name, image }, index) => { %>
                             <% if (index % 3 === 0) { %>
                                 <div class="row">
                             <% } %>
                             
                             <div class="col-md-4 mb-4">
-                                <div id="btn-<%= mealType.charAt(0) %>-<%= title %>" 
-                                    data-text="<%= title %>" 
+                                <div id="btn-<%= mealType.charAt(0) %>-<%= name %>" 
+                                    data-text="<%= name %>" 
                                     onclick="handleMealClick(this)" 
                                     class="panel pointer w-100" 
                                     data-order="<%= index %>" 
                                     data-meal-type="<%= mealType %>">
-                                    <img src="<%= image ? image : '/img/default.png' %>" class="panel-img w-100" />
-                                    <p class="panel-title"><%= title %></p>
+                                    <img src="<%= image ? image : '/img/default.png' %>" 
+                                        class="panel-img w-100" 
+                                        onerror="this.onerror=null; this.src='/img/default.png';" />
+                                    <p class="panel-title"><%= name %></p>
                                 </div>
                             </div>
                             
