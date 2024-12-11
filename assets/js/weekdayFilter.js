@@ -18,17 +18,17 @@ function clearAllFilters() {
     document.getElementById('search-bar').value = '';
 }
 
-function applyFilter() {
+function applyFilter(startIndex) {
     const selectedDays = [];
     const searchTerm = document.getElementById('search-bar').value.toLowerCase();
 
     // Get selected days from checkboxes
-    if (document.getElementById('filter-monday').checked) selectedDays.push(3);
-    if (document.getElementById('filter-tuesday').checked) selectedDays.push(4);
-    if (document.getElementById('filter-wednesday').checked) selectedDays.push(5);
-    if (document.getElementById('filter-thursday').checked) selectedDays.push(6);
-    if (document.getElementById('filter-friday').checked) selectedDays.push(7);
-    if (document.getElementById('filter-saturday').checked) selectedDays.push(8);
+    if (document.getElementById('filter-monday').checked) selectedDays.push(startIndex+0);
+    if (document.getElementById('filter-tuesday').checked) selectedDays.push(startIndex+1);
+    if (document.getElementById('filter-wednesday').checked) selectedDays.push(startIndex+2);
+    if (document.getElementById('filter-thursday').checked) selectedDays.push(startIndex+3);
+    if (document.getElementById('filter-friday').checked) selectedDays.push(startIndex+4);
+    if (document.getElementById('filter-saturday').checked) selectedDays.push(startIndex+5);
 
     const rows = document.querySelectorAll('#data-body.view-mode tr');
 
@@ -48,8 +48,8 @@ function applyFilter() {
             } else if (selectedDays.length === 0) {
                 // If no days selected, show only rows without days
                 shouldShowRow = true;
-                for (let i = 3; i <= 8; i++) {
-                    const cell = row.cells[i - 1];
+                for (let i = startIndex; i <= startIndex+6; i++) {
+                    const cell = row.cells[i];
                     if (cell && cell.querySelector('i.fas.fa-check')) {
                         shouldShowRow = false;
                         break;
@@ -59,7 +59,7 @@ function applyFilter() {
                 // If some days selected, show only rows with those days
                 for (let i = 0; i < selectedDays.length; i++) {
                     const dayColumnIndex = selectedDays[i];
-                    const cell = row.cells[dayColumnIndex - 1];
+                    const cell = row.cells[dayColumnIndex];
                     if (cell && cell.querySelector('i.fas.fa-check')) {
                         shouldShowRow = true;
                         break;
