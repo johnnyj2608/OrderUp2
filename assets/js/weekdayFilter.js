@@ -31,43 +31,46 @@ function applyFilter(startIndex) {
     if (document.getElementById('filter-saturday').checked) selectedDays.push(startIndex+5);
 
     const rows = document.querySelectorAll('#data-body.view-mode tr');
-
     rows.forEach(row => {
         let shouldShowRow = false;
-
-        const type = row.cells[0].innerText;
+    
+        const type = row.cells[0].innerText.toLowerCase();
         const name = row.cells[1].innerText.toLowerCase();
+    
+        // Check if the searchTerm is a single character or an integer
+        const isSingleCharacter = searchTerm.length === 1;
+        const isInteger = !isNaN(searchTerm) && Number.isInteger(Number(searchTerm));
 
-        if (searchTerm && !type.includes(searchTerm) && !name.includes(searchTerm)) {
-            shouldShowRow = false;
-        } else {
-            // If search term matches, proceed with day filtering
-            if (selectedDays.length === 6) {
-                // If all days selected, show every row
-                shouldShowRow = true;
-            } else if (selectedDays.length === 0) {
-                // If no days selected, show only rows without days
-                shouldShowRow = true;
-                for (let i = startIndex; i <= startIndex+6; i++) {
-                    const cell = row.cells[i];
-                    if (cell && cell.querySelector('i.fas.fa-check')) {
-                        shouldShowRow = false;
-                        break;
-                    }
+        if (searchTerm) {
+            // Needs to take into account for days
+            if (isSingleCharacter || isInteger) {
+                // Search column 1 only
+                if (type === searchTerm.toLowerCase()) {
+                    shouldShowRow = isDaySelected(row, selectedDays);
                 }
             } else {
-                // If some days selected, show only rows with those days
-                for (let i = 0; i < selectedDays.length; i++) {
-                    const dayColumnIndex = selectedDays[i];
-                    const cell = row.cells[dayColumnIndex];
-                    if (cell && cell.querySelector('i.fas.fa-check')) {
-                        shouldShowRow = true;
-                        break;
-                    }
+                // Search column 2 only
+                if (name.includes(searchTerm.toLowerCase())) {
+                    shouldShowRow = isDaySelected(row, selectedDays);
                 }
             }
+        } else if (selectedDays.length === 6) {
+            // If all days selected, show every row
+            shouldShowRow = true;
+        } else if (selectedDays.length === 0) {
+            // If no days selected, show only rows without days
+            shouldShowRow = true;
+            for (let i = startIndex; i <= startIndex + 6; i++) {
+                const cell = row.cells[i];
+                if (cell && cell.querySelector('i.fas.fa-check')) {
+                    shouldShowRow = false;
+                    break;
+                }
+            }
+        } else {
+            // If some days selected, show only rows with those days
+            shouldShowRow = isDaySelected(row, selectedDays);
         }
-
         row.style.display = shouldShowRow ? '' : 'none';
     });
 
@@ -76,4 +79,15 @@ function applyFilter(startIndex) {
     const dropdown = document.getElementById('filter-dropdown');
     const bootstrapDropdown = bootstrap.Dropdown.getInstance(dropdown);
     bootstrapDropdown.hide();
+}
+
+function isDaySelected(row, selectedDays) {
+    for (let i = 0; i < selectedDays.length; i++) {
+        const dayColumnIndex = selectedDays[i];
+        const cell = row.cells[dayColumnIndex];
+        if (cell && cell.querySelector('i.fas.fa-check')) {
+            return true;
+        }
+    }
+    return false;
 }
