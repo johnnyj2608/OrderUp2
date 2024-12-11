@@ -16,7 +16,7 @@
             </div>
             <div class="col-auto">
                 <div class="dropdown">
-                    <span onclick="handleEditClick(8, 'days');">
+                    <span onclick="handleEditClick(9, 'days');">
                         <i id="edit-button" class="fas fa-pencil-alt"></i>
                     </span>
                 </div>
@@ -28,28 +28,29 @@
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th style="width: 7%;">Weekday</th>
-                        <th style="width: 15%;">Type</th>
-                        <th style="width: 13%;">Item 1</th>
-                        <th style="width: 13%;">Item 2</th>
-                        <th style="width: 13%;">Item 3</th>
-                        <th style="width: 13%;">Image 1</th>
-                        <th style="width: 13%;">Image 2</th>
-                        <th style="width: 13%;">Image 3</th>
+                        <th style="width: 5%;">Type</th>
+                        <th style="width: 25%;">Name</th>
+                        <th style="width: 10%;">Image</th>
+                        <th style="width: 10%;">Monday</th>
+                        <th style="width: 10%;">Tuesday</th>
+                        <th style="width: 10%;">Wednesday</th>
+                        <th style="width: 10%;">Thursday</th>
+                        <th style="width: 10%;">Friday</th>
+                        <th style="width: 10%;">Saturday</th>
                     </tr>
                 </thead>
                 <tbody id="data-body" class="view-mode">
                     <% menuList.forEach(menu => { %>
                         <tr>
-                            <td><%= menu.day_of_week %></td>
                             <td><%= menu.menu_type %></td>
-                            <td><%= menu.item_1 %></td>
-                            <td><%= menu.item_2 %></td>
-                            <td><%= menu.item_3 %></td>
-                            <td><%= menu.image_1 %></td>
-                            <td><%= menu.image_2 %></td>
-                            <td><%= menu.image_3 %></td>
-
+                            <td><%= menu.name %></td>
+                            <td><%= menu.image %></td>
+                            <td><%- menu.monday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
+                            <td><%- menu.tuesday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
+                            <td><%- menu.wednesday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
+                            <td><%- menu.thursday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
+                            <td><%- menu.friday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
+                            <td><%- menu.saturday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
                         </tr>
                     <% }); %>
                 </tbody>

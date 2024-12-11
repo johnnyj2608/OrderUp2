@@ -20,8 +20,8 @@ router.get('/orders', async (req, res) => {
 
         const client = await connectToDb();
 
-        const breakfastMenu = await getMenuItems(client, selectedWeekday, 'breakfast');
-        const lunchMenu = await getMenuItems(client, selectedWeekday, 'lunch');
+        const breakfastMenu = await getMenuItems(client, selectedWeekday, 'B');
+        const lunchMenu = await getMenuItems(client, selectedWeekday, 'L');
         
         const orders = await getOrdersByDate(client, convertedDate);
 
