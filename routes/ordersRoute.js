@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const { connectToDb } = require('../database/db');
 
+const dayOfWeekColumns = [
+    'today',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+];
+
 router.get('/orders', async (req, res) => {
     try {
         const selectedDate = req.query.date || new Date().toISOString().split('T')[0];
@@ -10,13 +20,9 @@ router.get('/orders', async (req, res) => {
 
         const client = await connectToDb();
 
-        const breakfastRow = await getMenuItems(client, selectedWeekday, 'Breakfast');
-        const lunchRow = await getMenuItems(client, selectedWeekday, 'Lunch');
-
-        const breakfastMenu = mapMenuItems(breakfastRow);
-        const lunchMenu = mapMenuItems(lunchRow);
-
-
+        const breakfastMenu = await getMenuItems(client, selectedWeekday, 'breakfast');
+        const lunchMenu = await getMenuItems(client, selectedWeekday, 'lunch');
+        
         const orders = await getOrdersByDate(client, convertedDate);
 
         orders.forEach(order => {
@@ -51,29 +57,22 @@ router.get('/orders', async (req, res) => {
 });
 
 // Helper function to fetch menu items for a given day and menu type
-async function getMenuItems(client, targetDate, menuType) {
+async function getMenuItems(client, selectedDay, menuType) {
+    const selectedDayColumn = dayOfWeekColumns[selectedDay];
     const query = `
-        SELECT item_1, item_2, item_3, image_1, image_2, image_3
+        SELECT name, image
         FROM menu
-        WHERE day_of_week = $1 AND menu_type = $2;
+        WHERE menu_type = $1 AND ${selectedDayColumn} = TRUE; 
     `;
-    const result = await client.query(query, [targetDate, menuType]);
-    return result.rows[0];
-}
-
-// Helper function to map the rows into a structured menu format
-function mapMenuItems(menuRow) {
-    const menuItems = {};
-    for (let i = 1; i <= 3; i++) {
-        const itemKey = menuRow[`item_${i}`];
-        if (itemKey) {
-            menuItems[itemKey] = {
-                image: menuRow[`image_${i}`],
-                names: [],
-                amt: 0,
-            };
-        }
-    }
+    const result = await client.query(query, [menuType]);
+    const menuItems = result.rows.reduce((acc, item) => {
+        acc[item.name] = {
+            ...item,
+            amt: 0,
+            names: []
+        };
+        return acc;
+    }, {});
     return menuItems;
 }
 
