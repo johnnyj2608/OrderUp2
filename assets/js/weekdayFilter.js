@@ -46,30 +46,17 @@ function applyFilter(startIndex) {
             if (isSingleCharacter || isInteger) {
                 // Search column 1 only
                 if (type === searchTerm.toLowerCase()) {
-                    shouldShowRow = isDaySelected(row, selectedDays);
+                    shouldShowRow = isDaySelected(row, selectedDays, startIndex);
                 }
             } else {
                 // Search column 2 only
                 if (name.includes(searchTerm.toLowerCase())) {
-                    shouldShowRow = isDaySelected(row, selectedDays);
-                }
-            }
-        } else if (selectedDays.length === 6) {
-            // If all days selected, show every row
-            shouldShowRow = true;
-        } else if (selectedDays.length === 0) {
-            // If no days selected, show only rows without days
-            shouldShowRow = true;
-            for (let i = startIndex; i <= startIndex + 6; i++) {
-                const cell = row.cells[i];
-                if (cell && cell.querySelector('i.fas.fa-check')) {
-                    shouldShowRow = false;
-                    break;
+                    shouldShowRow = isDaySelected(row, selectedDays, startIndex);
                 }
             }
         } else {
             // If some days selected, show only rows with those days
-            shouldShowRow = isDaySelected(row, selectedDays);
+            shouldShowRow = isDaySelected(row, selectedDays, startIndex);
         }
         row.style.display = shouldShowRow ? '' : 'none';
     });
@@ -81,13 +68,29 @@ function applyFilter(startIndex) {
     bootstrapDropdown.hide();
 }
 
-function isDaySelected(row, selectedDays) {
-    for (let i = 0; i < selectedDays.length; i++) {
-        const dayColumnIndex = selectedDays[i];
-        const cell = row.cells[dayColumnIndex];
-        if (cell && cell.querySelector('i.fas.fa-check')) {
-            return true;
+function isDaySelected(row, selectedDays, startIndex) {
+    let res = false;
+    if (selectedDays.length === 6) {
+        // If all days selected, show every row
+        return true;
+    } else if (selectedDays.length === 0) {
+        // If no days selected, show only rows without days
+        res = true;
+        for (let i = startIndex; i <= startIndex + 6; i++) {
+            const cell = row.cells[i];
+            if (cell && cell.querySelector('i.fas.fa-check')) {
+                return false;
+            }
+        }
+    } else {
+        // If some days selected, show only rows with those days
+        for (let i = 0; i < selectedDays.length; i++) {
+            const dayColumnIndex = selectedDays[i];
+            const cell = row.cells[dayColumnIndex];
+            if (cell && cell.querySelector('i.fas.fa-check')) {
+                return true;
+            }
         }
     }
-    return false;
+    return res;
 }
