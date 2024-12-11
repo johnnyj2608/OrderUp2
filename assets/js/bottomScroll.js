@@ -5,18 +5,23 @@ function scrollToBottom() {
     });
 }
 
-window.addEventListener('scroll', function() {
+function buttonVisibility() {
     const button = document.getElementById('bottom-scroll');
     const isScrollable = document.body.scrollHeight > window.innerHeight;
+    const atBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
 
-    if (isScrollable && window.scrollY < document.body.scrollHeight - window.innerHeight) {
+    if (isScrollable && !atBottom) {
         button.style.display = 'block';
     } else {
         button.style.display = 'none';
     }
-});
+}
 
-const button = document.getElementById('bottom-scroll');
-const isScrollable = document.body.scrollHeight > window.innerHeight;
-button.style.display = isScrollable ? 'block' : 'none';
 
+window.addEventListener('scroll', buttonVisibility);
+
+const editTableBody = document.querySelector('#data-body.edit-mode');
+const observer = new MutationObserver(buttonVisibility);
+observer.observe(editTableBody, { childList: true, subtree: true });
+
+buttonVisibility();
