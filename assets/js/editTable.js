@@ -185,9 +185,7 @@ async function handleSave() {
             const viewCell = document.createElement('td');
             const inputField = editCell.querySelector('input');
             
-            if (i === 0 && filterType === "date") {
-                // Date picker
-            } else if (i > 1 && filterType === "days") {
+            if (i > 1 && filterType === "days") {
                 const checkbox = editCell.querySelector('input[type="checkbox"]');
                 const icon = checkbox.checked 
                     ? "<i class='fas fa-check'></i>"
@@ -196,7 +194,19 @@ async function handleSave() {
                 viewCell.innerHTML = icon;
             } else {
                 const cellText = inputField.value.trim();
-                viewCell.innerText = cellText;
+                const convertedDate = new Date(cellText + 'T00:00:00');
+    
+                if (isNaN(convertedDate.getTime())) {
+                    viewCell.innerText = cellText;
+                } else {
+                    const formattedDate = new Intl.DateTimeFormat('en-US', { 
+                        year: '2-digit', 
+                        month: '2-digit', 
+                        day: '2-digit' 
+                    }).format(convertedDate);
+
+                    viewCell.innerText = formattedDate;
+                }
             }
             viewRow.appendChild(viewCell);
         });
@@ -236,9 +246,7 @@ function createEditRow(content = false) {
         const newCell = document.createElement('td');
         const cellText = content ? content[i] : '';
 
-        if (i === 0 && filterType === "date") {
-            // Date picker
-        } else if (i > 1 && filterType === "days") {
+        if (i > 1 && filterType === "days") {
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.checked = content ? content[i] : false;
@@ -255,8 +263,16 @@ function createEditRow(content = false) {
             newCell.appendChild(checkbox);
         } else {
             const inputField = document.createElement('input');
-            inputField.type = 'text';
-            inputField.value = cellText;
+
+            if (i === 0 && filterType === "date") {
+                inputField.type = 'date';
+
+                const dateObj = new Date(cellText);
+                inputField.value = dateObj.toISOString().split('T')[0];
+            } else {
+                inputField.type = 'text';
+                inputField.value = cellText;
+            }
             inputField.style.width = (i === cols-1) ? '85%' : '100%';
 
             inputField.addEventListener('focus', function() {
@@ -337,10 +353,10 @@ function checkEmptyTextInputs() {
 
     for (let tr = 0; tr < rows.length - 1; tr++) {
         const cell = rows[tr].querySelectorAll('td')[0];
-        const inputField = cell.querySelector('input[type="text"]');
-        if (inputField.value.trim() === '') {
+        const inputField = cell.querySelector('input');
+        if (inputField && inputField.value.trim() === '') {
             return false;
         }
     }
-    return true
+    return true;
 }
