@@ -173,12 +173,6 @@ async function handleSave() {
     editRows.forEach((editRow, index) => {
         if (index === editRows.length - 1) return;
 
-        const hasData = Array.from(editRow.querySelectorAll('td')).some(editCell => {
-            const inputField = editCell.querySelector('input');
-            return inputField && inputField.value.trim() !== '';
-        });
-        if (!hasData) return;
-
         const viewRow = document.createElement('tr');
         
         editRow.querySelectorAll('td').forEach((editCell, i) => {
@@ -194,11 +188,10 @@ async function handleSave() {
                 viewCell.innerHTML = icon;
             } else {
                 const cellText = inputField.value.trim();
-                const convertedDate = new Date(cellText + 'T00:00:00');
-    
-                if (isNaN(convertedDate.getTime())) {
-                    viewCell.innerText = cellText;
-                } else {
+                const isDateString = cellText.includes('-');
+
+                if (isDateString) {
+                    const convertedDate = new Date(cellText + 'T00:00:00');
                     const formattedDate = new Intl.DateTimeFormat('en-US', { 
                         year: '2-digit', 
                         month: '2-digit', 
@@ -206,6 +199,8 @@ async function handleSave() {
                     }).format(convertedDate);
 
                     viewCell.innerText = formattedDate;
+                } else {
+                    viewCell.innerText = cellText;
                 }
             }
             viewRow.appendChild(viewCell);
