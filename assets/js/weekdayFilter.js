@@ -69,6 +69,8 @@ function applyFilter() {
         row.style.display = shouldShowRow ? '' : 'none';
     });
 
+    buttonVisibility();
+
     const dropdown = document.getElementById('filter-dropdown');
     const bootstrapDropdown = bootstrap.Dropdown.getInstance(dropdown);
     bootstrapDropdown.hide();
