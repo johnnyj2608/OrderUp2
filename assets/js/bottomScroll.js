@@ -17,11 +17,9 @@ function buttonVisibility() {
     }
 }
 
-
 window.addEventListener('scroll', buttonVisibility);
 
-const editTableBody = document.querySelector('#data-body.edit-mode');
 const observer = new MutationObserver(buttonVisibility);
-observer.observe(editTableBody, { childList: true, subtree: true });
+observer.observe(document, { childList: true, subtree: true });
 
 buttonVisibility();
