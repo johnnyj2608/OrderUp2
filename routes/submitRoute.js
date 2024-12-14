@@ -5,7 +5,7 @@ const { connectToDb } = require('../database/db');
 router.post("/submit", async (req, res) => {
     const { 
         memberID,
-        formattedDate,
+        convertedDate,
         breakfastName, 
         lunchName,
     } = req.body;
@@ -20,7 +20,7 @@ router.post("/submit", async (req, res) => {
             FROM orders
             WHERE member_id = $1 AND date = $2
         `;
-        const result = await client.query(existingOrderQuery, [memberID, formattedDate]);
+        const result = await client.query(existingOrderQuery, [memberID, convertedDate]);
         const existingOrder = result.rows[0];
 
         if (existingOrder) {
@@ -45,7 +45,7 @@ router.post("/submit", async (req, res) => {
             `;
             await client.query(orderInsertQuery, [
                 memberID,
-                formattedDate,
+                convertedDate,
                 breakfastName === "none" ? null : breakfastName,
                 lunchName === "none" ? null : lunchName,
                 timestamp,

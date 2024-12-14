@@ -95,25 +95,10 @@ function handleScroll() {
     }
 }
 
-
-
-document.getElementById('submitButton').addEventListener('click', async function() {
-    if (!this.classList.contains('disabled')) {
-        const weekday = Number(document.querySelector('.selectedDay')?.getAttribute('data-day')) || 0;
-        const today = new Date();
-        const currentWeekday = today.getDay();
-
-        let nextTargetDate = new Date(today);
-        if (weekday === 0) {
-            nextTargetDate = new Date(today);
-        } else {
-            let daysToAdd = weekday - currentWeekday;
-            if (daysToAdd <= 0) {
-                daysToAdd += 7;
-            }
-            nextTargetDate.setDate(today.getDate() + daysToAdd);
-        }
-        const formattedDate = nextTargetDate.toISOString().split('T')[0];
+async function submitOrder(button) {
+    if (!button.classList.contains('disabled')) {
+        const selectedDate = document.getElementById('datePicker').value;
+        const convertedDate = new Date(selectedDate + 'T00:00:00');
 
         const breakfastName = (document.querySelector('.selectedBreakfast')?.getAttribute('data-text')) || 'none';
         const lunchName = (document.querySelector('.selectedLunch')?.getAttribute('data-text')) || 'none';
@@ -129,7 +114,7 @@ document.getElementById('submitButton').addEventListener('click', async function
                 },
                 body: JSON.stringify({ 
                     memberID,
-                    formattedDate,
+                    convertedDate,
                     breakfastName, 
                     lunchName,
                 }),
@@ -159,4 +144,4 @@ document.getElementById('submitButton').addEventListener('click', async function
             console.error('Error:', error);
         }
     }
-});
+}
