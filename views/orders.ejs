@@ -18,7 +18,10 @@
                 <%= __("project_title") %>
             </div>
             <div class="col-auto">
-                <i id="switch-button" class="dropdown fas fa-sync-alt" onclick="switchMenu()"></i>
+                <div id="switch-button" class="dropdown" onclick="switchMenu()">
+                    <span id="switch-text">B</span> 
+                    <i class="fas fa-sync-alt"></i>
+                </div>
             </div>
         </div>
         <div class="content">
@@ -55,11 +58,9 @@
                 <% } %>
             <% } %>
             <div class="row breakfast-panel mt-4">
-                <h4><%= __("breakfast") %></h4>
                 <%= renderPanel(breakfastMenu) %>
             </div>
-            <div class="row lunch-panel mt-4" style="display: none;">
-                <h4><%= __("lunch") %></h4>
+            <div class="row lunch-panel mt-4 hidden">
                 <%= renderPanel(lunchMenu) %>
             </div>
             <button id="bottom-scroll" onclick="scrollToBottom()">↓</button>

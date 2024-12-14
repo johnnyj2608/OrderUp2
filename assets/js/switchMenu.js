@@ -1,12 +1,15 @@
 function switchMenu() {
+    const switchText = document.getElementById('switch-text');
     const breakfastPanel = document.querySelector('.breakfast-panel');
     const lunchPanel = document.querySelector('.lunch-panel');
 
-    if (breakfastPanel.style.display === 'none') {
-        breakfastPanel.style.display = 'flex';
-        lunchPanel.style.display = 'none';
+    if (breakfastPanel.classList.contains('hidden')) {
+        breakfastPanel.classList.remove('hidden');
+        lunchPanel.classList.add('hidden');
+        switchText.innerHTML = 'B';
     } else {
-        breakfastPanel.style.display = 'none';
-        lunchPanel.style.display = 'flex';
+        breakfastPanel.classList.add('hidden');
+        lunchPanel.classList.remove('hidden');
+        switchText.innerHTML = 'L';
     }
 }
