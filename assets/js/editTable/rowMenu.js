@@ -5,7 +5,40 @@ function createEditRow(cols, content = false) {
         const newCell = document.createElement('td');
         const cellText = content ? content[i] : '';
 
-        if (i > 2 && i < cols-1) {
+        if (i === 0) {
+            const dropdown = document.createElement('select');
+
+            const optionBreakfast = document.createElement('option');
+            optionBreakfast.value = 'B';
+            optionBreakfast.textContent = 'B';
+            dropdown.appendChild(optionBreakfast);
+
+            const optionLunch = document.createElement('option');
+            optionLunch.value = 'L';
+            optionLunch.textContent = 'L';
+            dropdown.appendChild(optionLunch);
+
+            if (content && (content[i] === 'B' || content[i] === 'L')) {
+                dropdown.value = content[i];
+            }
+
+            dropdown.addEventListener('focus', function() {
+                originalText = dropdown.value;
+            });
+            dropdown.addEventListener('blur', function() {
+                if (dropdown.value !== originalText) {
+                    undoStack.push({
+                        action: 'edit', 
+                        element: dropdown, 
+                        originalText: originalText,
+                        newText: dropdown.value
+                    });
+                    toggleUndoRedoButtons();
+                }
+            });
+
+            newCell.appendChild(dropdown);
+        } else if (i > 2 && i < cols-1) {
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.checked = content ? content[i] : false;
@@ -82,7 +115,9 @@ async function handleSave() {
             const viewCell = document.createElement('td');
             const inputField = editCell.querySelector('input');
 
-            if (i > 2 && i < editRow.querySelectorAll('td').length - 1) {
+            if (i === 0) {
+
+            } else if (i > 2 && i < editRow.querySelectorAll('td').length - 1) {
                 const checkbox = editCell.querySelector('input[type="checkbox"]');
                 const icon = checkbox.checked 
                     ? "<i class='fas fa-check'></i>"
