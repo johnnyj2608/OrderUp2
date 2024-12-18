@@ -40,9 +40,9 @@ function populateTableFromCSV(content) {
             }
             return cell.trim();
         });
-        const newRow = createEditRow(cells);
+        const newRow = createEditRow(cells.length, cells);
 
-        const lastCell = newRow.cells[7];
+        const lastCell = newRow.cells[newRow.cells.length - 1];
         lastCell.style.position = 'relative';
 
         const trashIcon = createTrashIcon();
