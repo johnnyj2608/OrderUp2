@@ -27,6 +27,8 @@ function populateTableFromCSV(content) {
     const rows = content.split('\n');
     const tableBody = document.querySelector('#data-body.edit-mode');
     const addButtonRow = tableBody.lastElementChild;
+    const addButtonPosition = addButtonRow.getBoundingClientRect().top + window.scrollY;
+    const headerHeight = window.innerHeight * 0.14; // Header + Sticky row
 
     const uploadedRows = [];
 
@@ -59,4 +61,5 @@ function populateTableFromCSV(content) {
         nextSibling: addButtonRow
     });
     toggleUndoRedoButtons();
+    window.scrollTo({ top: addButtonPosition - headerHeight, behavior: 'smooth'});
 }
