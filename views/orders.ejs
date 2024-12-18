@@ -25,11 +25,17 @@
             </div>
         </div>
         <div class="content">
-            <input type="date" id="datePicker" value="<%= selectedDate %>" style="opacity: 0;">
-            <br>
-            <h3 class="text-center">Orders for <%= formattedDate %></h3>
-            <!-- If screen too small, make two tabs -->
-            <!-- Freeze title when scrolling -->
+            <div class="row sticky-row">
+                <div class="col-auto">
+                    <input type="date" id="datePicker" value="<%= selectedDate %>" style="opacity: 0;">
+                </div>
+                <div class="col text-center">
+                    <h3>Orders for <%= formattedDate %></h3>
+                </div>
+                <div class="col-auto">
+                    <input style="opacity: 0;">
+                </div>
+            </div>
             <% function renderPanel(menuItems) { %>
                 <% for (let title in menuItems) { %>
                     <% let item = menuItems[title]; %>
@@ -57,10 +63,10 @@
                     </div>
                 <% } %>
             <% } %>
-            <div class="row breakfast-panel mt-4">
+            <div class="row mt-4">
                 <%= renderPanel(breakfastMenu) %>
             </div>
-            <div class="row lunch-panel mt-4 hidden">
+            <div class="row mt-4 hidden">
                 <%= renderPanel(lunchMenu) %>
             </div>
             <button id="bottom-scroll" onclick="scrollToBottom()">↓</button>

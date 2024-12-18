@@ -379,5 +379,12 @@ td .fa-times {
       background-color: #ffddc1;
       color: black;
 }
-  
-  
+
+.sticky-row {
+      position: sticky;
+      top: 7svh;
+      z-index: 1000;
+      background-color: white;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+}
