@@ -99,18 +99,59 @@ async function handleSave() {
     const modifiedElements = new Set();
     while (undoStack.length > 0) {
         const change = undoStack.pop();
-        let row = change.element
         const action = change.action;
 
-        if (action === "edit") {
-            row = change.element.closest('tr');
-        }
-
-        if (action !== "delete") {
-            modifiedElements.add(row);
-        } else {
+        if (action === "upload") {
+            const uploadedRows = change.elements;
+            uploadedRows.forEach(uploadedRow => {
+                modifiedElements.add(uploadedRow);
+            });
+        } else if (action !== "add" || action !== "delete") {
+            modifiedRow = change.element.closest('tr');
+            modifiedElements.add(modifiedRow);
+        } else if (action === "add") {
+            modifiedElements.add(change.element);
+        } else if (action === "delete") {
             const deleteRow = document.createElement('tr');
             modifiedElements.add(deleteRow)
+        } else {
+            console.log("Error, action not recognized")
         }
+    }
+
+    dataUpdate = []
+    modifiedElements.forEach(row => {
+        const cells = row.querySelectorAll('td');
+
+        const rowData = {
+            id: cells[0].querySelector('input').value,
+            name: cells[1].querySelector('input').value,
+            monday: cells[2].querySelector('input').checked,
+            tuesday: cells[3].querySelector('input').checked,
+            wednesday: cells[4].querySelector('input').checked,
+            thursday: cells[5].querySelector('input').checked,
+            friday: cells[6].querySelector('input').checked,
+            saturday: cells[7].querySelector('input').checked,
+        };
+        dataUpdate.push(rowData);
+    });
+
+    try {
+        const response = await fetch('/members/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ members: dataUpdate })
+        });
+
+        if (response.ok) {
+            console.log("Data saved successfully!");
+        } else {
+            console.log("Error saving data.");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Error saving data.");
     }
 }
