@@ -76,25 +76,6 @@ function resetSelection() {
     updateButtonState();
 }
 
-function handleScroll() {
-    const selectedBreakfast = document.querySelector('.selectedBreakfast');
-    const selectedLunch = document.querySelector('.selectedLunch');
-    const selectedName = document.querySelector('#nameList li.selected');
-
-    const breakfastSection = document.getElementById('breakfastSection');
-    const lunchSection = document.getElementById('lunchSection');
-
-    if (selectedBreakfast && selectedLunch) {
-        if (!selectedName) {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    } else if (selectedBreakfast) {
-        lunchSection.scrollIntoView({ behavior: 'smooth' });
-    } else if (selectedLunch) {
-        breakfastSection.scrollIntoView({ behavior: 'smooth' });
-    }
-}
-
 async function submitOrder(button) {
     if (!button.classList.contains('disabled')) {
         const selectedDate = document.getElementById('datePicker').value;
@@ -135,7 +116,7 @@ async function submitOrder(button) {
                     menuTypeSpan.innerText = 'B';
                 }
                 
-                handleScroll()
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 resetSelection();
             } else {
                 alert("error")
