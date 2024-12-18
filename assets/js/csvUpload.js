@@ -1,4 +1,4 @@
-document.getElementById('edit-header').addEventListener('click', () => {
+document.getElementById('upload-plus').addEventListener('click', () => {
     document.getElementById('fileInput').value = '';
     document.getElementById('fileInput').click();
 });

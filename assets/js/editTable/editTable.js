@@ -162,11 +162,11 @@ function activeEdit(status) {
     const viewTableBody = document.querySelector('#data-body.view-mode');
     const editTableBody = document.querySelector('#data-body.edit-mode');
 
-    const editHeader = document.getElementById('edit-header');
-    const viewHeader = document.getElementById('view-header');
-
     const editFooter = document.getElementById('edit-footer');
     const viewFooter = document.getElementById('view-footer');
+
+    const filterElement = document.getElementById('filter-dropdown');
+    const uploadPlus = document.getElementById('upload-plus');
 
     if (status) {
         editButton.classList.add('active-edit');
@@ -174,35 +174,30 @@ function activeEdit(status) {
         viewTableBody.classList.add('hidden');
         editTableBody.classList.remove('hidden');
 
-        if (editHeader) {
-            editHeader.classList.remove('hidden');
-            viewHeader.classList.add('hidden');
-        }
-
         editFooter.classList.remove('hidden');
         viewFooter.classList.add('hidden');
 
-        const filterElement = document.getElementById('filter-dropdown');
         if (filterElement) {
             filterElement.classList.add('hidden');
+        }
+        if (uploadPlus) {
+            uploadPlus.classList.remove('hidden');
         }
     } else {
         editButton.classList.remove('active-edit');
 
         viewTableBody.classList.remove('hidden');
         editTableBody.classList.add('hidden');
-
-        if (editHeader) {
-            editHeader.classList.add('hidden');
-            viewHeader.classList.remove('hidden');
-        }
         
         editFooter.classList.add('hidden');
         viewFooter.classList.remove('hidden');
 
-        const filterElement = document.getElementById('filter-dropdown');
         if (filterElement) {
             filterElement.classList.remove('hidden');
+        }
+        
+        if (uploadPlus) {
+            uploadPlus.classList.add('hidden');
         }
     }
 }
