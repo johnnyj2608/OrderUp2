@@ -181,6 +181,11 @@ function activeEdit(status) {
 
         editFooter.classList.remove('hidden');
         viewFooter.classList.add('hidden');
+
+        const filterElement = document.getElementById('filter-dropdown');
+        if (filterElement) {
+            filterElement.classList.add('hidden');
+        }
     } else {
         editButton.classList.remove('active-edit');
 
@@ -194,6 +199,11 @@ function activeEdit(status) {
         
         editFooter.classList.add('hidden');
         viewFooter.classList.remove('hidden');
+
+        const filterElement = document.getElementById('filter-dropdown');
+        if (filterElement) {
+            filterElement.classList.remove('hidden');
+        }
     }
 }
 
