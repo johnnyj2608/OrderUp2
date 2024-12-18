@@ -24,18 +24,31 @@ router.post('/members/update', async (req, res) => {
         const members = req.body.members;
         for (let member of members) {
             const { id, name, monday, tuesday, wednesday, thursday, friday, saturday } = member;
-            const query = `
-                UPDATE members
-                SET name = $1,
-                    monday = $2,
-                    tuesday = $3,
-                    wednesday = $4,
-                    thursday = $5,
-                    friday = $6,
-                    saturday = $7
-                WHERE id = $8
-            `;
-            await client.query(query, [name, monday, tuesday, wednesday, thursday, friday, saturday, id]);
+            const selectQuery = 'SELECT id FROM members WHERE id = $1';
+            const result = await client.query(selectQuery, [id]);
+
+            if (result.rows.length > 0) {
+                // If the id exists, update the existing row
+                const updateQuery = `
+                    UPDATE members
+                    SET name = $1,
+                        monday = $2,
+                        tuesday = $3,
+                        wednesday = $4,
+                        thursday = $5,
+                        friday = $6,
+                        saturday = $7
+                    WHERE id = $8
+                `;
+                await client.query(updateQuery, [name, monday, tuesday, wednesday, thursday, friday, saturday, id]);
+            } else {
+                // If the id does not exist, insert a new row
+                const insertQuery = `
+                    INSERT INTO members (id, name, monday, tuesday, wednesday, thursday, friday, saturday)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+                `;
+                await client.query(insertQuery, [id, name, monday, tuesday, wednesday, thursday, friday, saturday]);
+            }
         }
 
         await client.query('COMMIT');
