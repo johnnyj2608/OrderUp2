@@ -116,7 +116,8 @@ async function handleSave() {
             const inputField = editCell.querySelector('input');
 
             if (i === 0) {
-
+                const dropdown = editCell.querySelector('select');
+                viewCell.innerText = dropdown.value;
             } else if (i > 2 && i < editRow.querySelectorAll('td').length - 1) {
                 const checkbox = editCell.querySelector('input[type="checkbox"]');
                 const icon = checkbox.checked 
