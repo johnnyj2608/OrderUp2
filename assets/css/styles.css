@@ -379,7 +379,7 @@ td .fa-times {
 .sticky-row {
       position: sticky;
       top: 7svh;
-      z-index: 1000;
+      z-index: 998;
       background-color: white;
       padding: 10px 0;
       border-bottom: 1px solid #ddd;
