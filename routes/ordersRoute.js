@@ -62,7 +62,7 @@ async function getMenuItems(client, selectedDay, menuType) {
     const query = `
         SELECT name, image
         FROM menu
-        WHERE menu_type = $1 AND ${selectedDayColumn} = TRUE; 
+        WHERE type = $1 AND ${selectedDayColumn} = TRUE; 
     `;
     const result = await client.query(query, [menuType]);
     const menuItems = result.rows.reduce((acc, item) => {

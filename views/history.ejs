@@ -49,7 +49,7 @@
                 </thead>
                 <tbody id="data-body" class="view-mode">
                     <% orderList.forEach(order => { %>
-                        <tr>
+                        <tr data-id="<%= order.id %>">
                             <td><%= order.date %></td>
                             <td><%= order.member_name %></td>
                             <td><%= order.breakfast %></td>

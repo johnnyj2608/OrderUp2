@@ -1,5 +1,6 @@
 function createEditRow(cols, content = false) {
     const newRow = document.createElement('tr');
+    newRow.setAttribute('data-id', content.pop());
 
     for (let i = 0; i < cols; i++) {
         const newCell = document.createElement('td');
@@ -95,18 +96,62 @@ async function handleSave() {
     const modifiedElements = new Set();
     while (undoStack.length > 0) {
         const change = undoStack.pop();
-        let row = change.element
         const action = change.action;
 
-        if (action === "edit") {
-            row = change.element.closest('tr');
-        }
-
-        if (action !== "delete") {
-            modifiedElements.add(row);
-        } else {
+        if (action === "upload") {
+            const uploadedRows = change.elements;
+            uploadedRows.forEach(uploadedRow => {
+                modifiedElements.add(uploadedRow);
+            });
+        } else if (action !== "add" || action !== "delete") {
+            modifiedRow = change.element.closest('tr');
+            modifiedElements.add(modifiedRow);
+        } else if (action === "add") {
+            modifiedElements.add(change.element);
+        } else if (action === "delete") {
             const deleteRow = document.createElement('tr');
             modifiedElements.add(deleteRow)
+        } else {
+            console.log("Error, action not recognized")
         }
     }
+
+    dataUpdate = []
+    modifiedElements.forEach(row => {
+        const id = row.getAttribute('data-id') || null;
+        const cells = row.querySelectorAll('td');
+
+        const rowData = {
+            id: id,
+            date: cells[0].querySelector('input').value,
+            // name: cells[1].querySelector('input').value,
+            breakfast: cells[2].querySelector('input').value,
+            lunch: cells[3].querySelector('input').value,
+            timestamp: cells[4].querySelector('input').value,
+        };
+        dataUpdate.push(rowData);
+    });
+
+    if (dataUpdate.length > 0) {
+        try {
+            const response = await fetch('/history/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ orders: dataUpdate })
+            });
+    
+            if (response.ok) {
+                console.log("Data saved successfully!");
+            } else {
+                console.log("Error saving data.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Error saving data.");
+        }
+    } else {
+        console.log("No data to update.");
+    }    
 }

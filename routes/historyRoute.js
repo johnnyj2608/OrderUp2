@@ -10,10 +10,11 @@ router.get('/history', async (req, res) => {
         const client = await connectToDb();
 
         const query = `
-            SELECT m.name AS member_name, o.date, o.breakfast, o.lunch, o.timestamp
+            SELECT o.id, m.name AS member_name, o.date, o.breakfast, o.lunch, o.timestamp
             FROM orders o
             INNER JOIN members m ON o.member_id = m.id
             WHERE o.date = $1
+            ORDER BY o.timestamp ASC
         `;
         const result = await client.query(query, [convertedDate]);
         const rawOrderList = result.rows;
@@ -57,6 +58,48 @@ router.get('/history', async (req, res) => {
         });
     } catch (error) {
         res.status(500).send("Error loading data");
+    }
+});
+
+
+router.post('/history/update', async (req, res) => {
+    try {
+        const client = await connectToDb();
+        await client.query('BEGIN');
+
+        const orders = req.body.orders;
+        for (let order of orders) {
+            const { id, date, breakfast, lunch, timestamp } = order;
+
+            const selectQuery = 'SELECT id FROM orders WHERE id = $1';
+            const result = await client.query(selectQuery, [id]);
+            if (result.rows.length > 0) {
+                // If the id exists, update the existing row
+                const updateQuery = `
+                    UPDATE orders
+                    SET date = $1,
+                        breakfast = $2,
+                        lunch = $3,
+                        timestamp = $4
+                    WHERE id = $5
+                `;
+                await client.query(updateQuery, [date, breakfast, lunch, timestamp, id]);
+            } else {
+                // If the id does not exist, insert a new row
+                const insertQuery = `
+                    INSERT INTO orders (date, breakfast, lunch, timestamp)
+                    VALUES ($1, $2, $3, $4, $5)
+                `;
+                await client.query(insertQuery, [date, breakfast, lunch, timestamp]);
+            }
+        }
+
+        await client.query('COMMIT');
+        res.status(200).send("History updated successfully.");
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error('Error updating history:', error);
+        res.status(500).send("Error saving data.");
     }
 });
 

@@ -30,6 +30,8 @@ function handleEditClick(columns) {
                 return cell.textContent.trim();
             }
         });
+        const dataId = viewRow.getAttribute('data-id') || null;
+        rowData.push(dataId);
         const newRow = createEditRow(cols, rowData);
         editTableBody.appendChild(newRow);
 

@@ -107,7 +107,7 @@
                 </thead>
                 <tbody id="data-body" class="view-mode">
                     <% memberList.forEach(member => { %>
-                        <tr>
+                        <tr data-id="<%= member.id %>">
                             <td><%= member.id %></td>
                             <td><%= member.name %></td>
                             <td><%- member.monday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>

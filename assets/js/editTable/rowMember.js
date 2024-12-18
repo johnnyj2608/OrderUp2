@@ -1,5 +1,6 @@
 function createEditRow(cols, content = false) {
     const newRow = document.createElement('tr');
+    newRow.setAttribute('data-id', content.pop());
 
     for (let i = 0; i < cols; i++) {
         const newCell = document.createElement('td');

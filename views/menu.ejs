@@ -104,7 +104,7 @@
                 </thead>
                 <tbody id="data-body" class="view-mode">
                     <% menuList.forEach(menu => { %>
-                        <tr>
+                        <tr data-id="<%= menu.id %>">
                             <td><%= menu.type %></td>
                             <td><%= menu.name %></td>
                             <td><%= menu.image %></td>
