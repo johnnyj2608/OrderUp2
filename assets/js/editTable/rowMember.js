@@ -136,22 +136,26 @@ async function handleSave() {
         dataUpdate.push(rowData);
     });
 
-    try {
-        const response = await fetch('/members/update', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ members: dataUpdate })
-        });
-
-        if (response.ok) {
-            console.log("Data saved successfully!");
-        } else {
-            console.log("Error saving data.");
+    if (dataUpdate.length > 0) {
+        try {
+            const response = await fetch('/members/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ members: dataUpdate })
+            });
+    
+            if (response.ok) {
+                console.log("Data saved successfully!");
+            } else {
+                console.log("Error saving data.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Error saving data.");
         }
-    } catch (error) {
-        console.error("Error:", error);
-        alert("Error saving data.");
-    }
+    } else {
+        console.log("No data to update.");
+    }    
 }
