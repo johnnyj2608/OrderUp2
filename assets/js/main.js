@@ -9,7 +9,6 @@ function handleMealClick(menuItem) {
         }
     });
     updateButtonState();
-    handleScroll();
 }
 
 function searchNames() {
