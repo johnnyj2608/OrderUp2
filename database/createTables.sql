@@ -3,7 +3,7 @@ CREATE TABLE menu (
   id SERIAL PRIMARY KEY,
   type VARCHAR(10) NOT NULL,
   name VARCHAR(100) NOT NULL,
-  image TEXT,
+  image TEXT DEFAULT '',
   monday BOOLEAN DEFAULT FALSE,
   tuesday BOOLEAN DEFAULT FALSE,
   wednesday BOOLEAN DEFAULT FALSE,
@@ -28,9 +28,9 @@ CREATE TABLE members (
 -- Create Orders Table
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY, 
-  member_id INT REFERENCES members(id),
+  member_id INT REFERENCES members(id) ON DELETE SET NULL,
   date DATE NOT NULL,
-  breakfast VARCHAR(100),
-  lunch VARCHAR(100),
+  breakfast VARCHAR(100) NULL,
+  lunch VARCHAR(100) NULL,
   timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

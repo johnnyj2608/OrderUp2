@@ -63,7 +63,7 @@ function createEditRow(cols, content = false) {
             inputField.type = 'text';
             inputField.value = cellText;
 
-            if (i === 0) {
+            if (i === cols-1) {
                 inputField.addEventListener('input', function() {
                     this.value = this.value.replace(/[^0-9]/g, '');
                 });
@@ -125,6 +125,7 @@ async function handleSave() {
         if (index === editRows.length - 1) return;
 
         const viewRow = document.createElement('tr');
+        viewRow.setAttribute('data-id', editRow.getAttribute('data-id'));
         
         editRow.querySelectorAll('td').forEach((editCell, i) => {
             const viewCell = document.createElement('td');
@@ -142,8 +143,11 @@ async function handleSave() {
                 viewCell.innerHTML = icon;
             } else {
                 const cellText = inputField.value.trim();
-    
-                viewCell.innerText = cellText;
+                if (cellText === '' && i === editRow.querySelectorAll('td').length - 1) {
+                    viewCell.innerText = 0;
+                } else {
+                    viewCell.innerText = cellText;
+                }
             }
             viewRow.appendChild(viewCell);
         });
@@ -160,13 +164,14 @@ async function handleSave() {
             uploadedRows.forEach(uploadedRow => {
                 modifiedElements.add(uploadedRow);
             });
-        } else if (action !== "add" || action !== "delete") {
+        } else if (action === "toggle" || action === "edit") {
             modifiedRow = change.element.closest('tr');
             modifiedElements.add(modifiedRow);
         } else if (action === "add") {
             modifiedElements.add(change.element);
         } else if (action === "delete") {
             const deleteRow = document.createElement('tr');
+            deleteRow.setAttribute('data-id', change.element.getAttribute('data-id'));
             modifiedElements.add(deleteRow)
         } else {
             console.log("Error, action not recognized")
@@ -178,21 +183,27 @@ async function handleSave() {
         const id = row.getAttribute('data-id') || null;
         const cells = row.querySelectorAll('td');
 
-        const rowData = {
-            id: id,
-            type: cells[0].querySelector('select').value,
-            name: cells[1].querySelector('input').value,
-            image: cells[2].querySelector('input').value,
-            monday: cells[3].querySelector('input').checked,
-            tuesday: cells[4].querySelector('input').checked,
-            wednesday: cells[5].querySelector('input').checked,
-            thursday: cells[6].querySelector('input').checked,
-            friday: cells[7].querySelector('input').checked,
-            saturday: cells[8].querySelector('input').checked,
-            count: cells[9].querySelector('input').value,
-        };
-        dataUpdate.push(rowData);
+        if (cells.length === 0) {
+            dataUpdate.push({ id, delete: true });
+        } else {
+            const rowData = {
+                id: id,
+                type: cells[0].querySelector('select').value,
+                name: cells[1].querySelector('input').value,
+                image: cells[2].querySelector('input').value,
+                monday: cells[3].querySelector('input').checked,
+                tuesday: cells[4].querySelector('input').checked,
+                wednesday: cells[5].querySelector('input').checked,
+                thursday: cells[6].querySelector('input').checked,
+                friday: cells[7].querySelector('input').checked,
+                saturday: cells[8].querySelector('input').checked,
+                count: cells[9].querySelector('input').value.trim() || 0,
+            };
+            dataUpdate.push(rowData);
+        }
     });
+
+    dataUpdate.reverse()
 
     if (dataUpdate.length > 0) {
         try {
@@ -205,7 +216,16 @@ async function handleSave() {
             });
     
             if (response.ok) {
+                const responseData = await response.json();
                 console.log("Data saved successfully!");
+                const newIds = responseData.newIds;
+
+                const rows = viewTableBody.querySelectorAll('tr');
+
+                for (let i = 0; i < newIds.length; i++) {
+                    const rowIndex = rows.length - 1 - i;
+                    rows[rowIndex].setAttribute('data-id', newIds[newIds.length - 1 - i]);
+                }
             } else {
                 console.log("Error saving data.");
             }
