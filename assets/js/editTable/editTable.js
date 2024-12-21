@@ -46,16 +46,10 @@ function handleEditClick(columns) {
     });
 
     // Add row to allow adding new rows
-    const addRow = document.createElement('tr');
-    const addCell = document.createElement('td');
-    addCell.colSpan = cols;
-
-    addCell.classList.add('addButton');
-    addCell.setAttribute('onclick', 'handleAdd()');
-    addCell.innerHTML = `<i class="fas fa-plus"></i>`;
-
-    addRow.appendChild(addCell);
-    editTableBody.appendChild(addRow);
+    const addRow = createAddRow(cols);
+    if (addRow) {
+        editTableBody.appendChild(addRow);
+    }
 
     toggleUndoRedoButtons();
 }

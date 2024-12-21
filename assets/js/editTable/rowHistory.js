@@ -19,6 +19,10 @@ function createEditRow(cols, content = false) {
     return newRow;
 }
 
+function createAddRow(cols) {
+    return false;
+}
+
 async function handleSave() {
     if (!checkEmptyTextInputs()) {
         alert("Please fill in all text fields.");
@@ -31,16 +35,13 @@ async function handleSave() {
     
     viewTableBody.innerHTML = '';
     const editRows = editTableBody.querySelectorAll('tr');
-    editRows.forEach((editRow, index) => {
-        if (index === editRows.length - 1) return;
+    editRows.forEach((editRow) => {
 
         const viewRow = document.createElement('tr');
         
-        editRow.querySelectorAll('td').forEach((editCell, i) => {
+        editRow.querySelectorAll('td').forEach((editCell) => {
             const viewCell = document.createElement('td');
-            const inputField = editCell.querySelector('input');
-            
-            const cellText = inputField.value.trim();
+            const cellText = editCell.textContent.trim();
             const isDateString = cellText.includes('-');
 
             if (isDateString) {
@@ -90,11 +91,11 @@ async function handleSave() {
 
         const rowData = {
             id: id,
-            date: cells[0].querySelector('input').value,
-            // name: cells[1].querySelector('input').value,
-            breakfast: cells[2].querySelector('input').value,
-            lunch: cells[3].querySelector('input').value,
-            timestamp: cells[4].querySelector('input').value,
+            date: cells[0].textContent.trim(),
+            name: cells[1].textContent.trim(),
+            breakfast: cells[2].textContent.trim(),
+            lunch: cells[3].textContent.trim(),
+            timestamp: cells[4].textContent.trim(),
         };
         dataUpdate.push(rowData);
     });

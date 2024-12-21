@@ -97,6 +97,17 @@ function createEditRow(cols, content = false) {
     return newRow;
 }
 
+function createAddRow(cols) {
+    const addRow = document.createElement('tr');
+    const addCell = document.createElement('td');
+    addCell.colSpan = cols;
+
+    addCell.classList.add('addButton');
+    addCell.setAttribute('onclick', 'handleAdd()');
+    addCell.innerHTML = `<i class="fas fa-plus"></i>`;
+    addRow.appendChild(addCell);
+    return addRow;
+}
 
 async function handleSave() {
     if (!checkEmptyTextInputs()) {
