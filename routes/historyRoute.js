@@ -69,29 +69,10 @@ router.post('/history/update', async (req, res) => {
 
         const orders = req.body.orders;
         for (let order of orders) {
-            const { id, date, breakfast, lunch, timestamp } = order;
+            const { id } = order;
 
-            const selectQuery = 'SELECT id FROM orders WHERE id = $1';
-            const result = await client.query(selectQuery, [id]);
-            if (result.rows.length > 0) {
-                // If the id exists, update the existing row
-                const updateQuery = `
-                    UPDATE orders
-                    SET date = $1,
-                        breakfast = $2,
-                        lunch = $3,
-                        timestamp = $4
-                    WHERE id = $5
-                `;
-                await client.query(updateQuery, [date, breakfast, lunch, timestamp, id]);
-            } else {
-                // If the id does not exist, insert a new row
-                const insertQuery = `
-                    INSERT INTO orders (date, breakfast, lunch, timestamp)
-                    VALUES ($1, $2, $3, $4, $5)
-                `;
-                await client.query(insertQuery, [date, breakfast, lunch, timestamp]);
-            }
+            const deleteQuery = 'DELETE FROM orders WHERE id = $1';
+            await client.query(deleteQuery, [id]);
         }
 
         await client.query('COMMIT');

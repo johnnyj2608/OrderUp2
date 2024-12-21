@@ -66,19 +66,8 @@ async function handleSave() {
         const change = undoStack.pop();
         const action = change.action;
 
-        if (action === "upload") {
-            const uploadedRows = change.elements;
-            uploadedRows.forEach(uploadedRow => {
-                modifiedElements.add(uploadedRow);
-            });
-        } else if (action !== "add" || action !== "delete") {
-            modifiedRow = change.element.closest('tr');
-            modifiedElements.add(modifiedRow);
-        } else if (action === "add") {
-            modifiedElements.add(change.element);
-        } else if (action === "delete") {
-            const deleteRow = document.createElement('tr');
-            modifiedElements.add(deleteRow)
+        if (action === "delete") {
+            modifiedElements.add(change.element)
         } else {
             console.log("Error, action not recognized")
         }
@@ -87,17 +76,8 @@ async function handleSave() {
     dataUpdate = []
     modifiedElements.forEach(row => {
         const id = row.getAttribute('data-id') || null;
-        const cells = row.querySelectorAll('td');
-
-        const rowData = {
-            id: id,
-            date: cells[0].textContent.trim(),
-            name: cells[1].textContent.trim(),
-            breakfast: cells[2].textContent.trim(),
-            lunch: cells[3].textContent.trim(),
-            timestamp: cells[4].textContent.trim(),
-        };
-        dataUpdate.push(rowData);
+        
+        dataUpdate.push({ id: id});
     });
 
     if (dataUpdate.length > 0) {
