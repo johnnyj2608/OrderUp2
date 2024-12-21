@@ -24,7 +24,6 @@ router.post('/menu/update', async (req, res) => {
         await client.query('BEGIN');
         
         const menu = req.body.menu;
-        console.log(menu)
         for (let food of menu) {
             const { id, type, name, monday, tuesday, wednesday, thursday, friday, saturday, count, delete: isDelete, } = food;
             if (isDelete) {

@@ -89,6 +89,7 @@ async function handleSave() {
         if (index === editRows.length - 1) return;
 
         const viewRow = document.createElement('tr');
+        viewRow.setAttribute('data-id', editRow.getAttribute('data-id'));
         
         editRow.querySelectorAll('td').forEach((editCell, i) => {
             const viewCell = document.createElement('td');
@@ -121,35 +122,43 @@ async function handleSave() {
             uploadedRows.forEach(uploadedRow => {
                 modifiedElements.add(uploadedRow);
             });
-        } else if (action !== "add" || action !== "delete") {
+        } else if (action === "toggle" || action === "edit") {
             modifiedRow = change.element.closest('tr');
             modifiedElements.add(modifiedRow);
         } else if (action === "add") {
             modifiedElements.add(change.element);
         } else if (action === "delete") {
             const deleteRow = document.createElement('tr');
+            deleteRow.setAttribute('data-id', change.element.getAttribute('data-id'));
             modifiedElements.add(deleteRow)
         } else {
             console.log("Error, action not recognized")
         }
     }
 
-    dataUpdate = []
+    let dataUpdate = []
     modifiedElements.forEach(row => {
+        const id = row.getAttribute('data-id') || null;
         const cells = row.querySelectorAll('td');
-
-        const rowData = {
-            id: cells[0].querySelector('input').value,
-            name: cells[1].querySelector('input').value,
-            monday: cells[2].querySelector('input').checked,
-            tuesday: cells[3].querySelector('input').checked,
-            wednesday: cells[4].querySelector('input').checked,
-            thursday: cells[5].querySelector('input').checked,
-            friday: cells[6].querySelector('input').checked,
-            saturday: cells[7].querySelector('input').checked,
-        };
-        dataUpdate.push(rowData);
+    
+        if (cells.length === 0) {
+            dataUpdate.push({ id, delete: true });
+        } else {
+            const rowData = {
+                id: cells[0].querySelector('input').value,
+                name: cells[1].querySelector('input').value,
+                monday: cells[2].querySelector('input').checked,
+                tuesday: cells[3].querySelector('input').checked,
+                wednesday: cells[4].querySelector('input').checked,
+                thursday: cells[5].querySelector('input').checked,
+                friday: cells[6].querySelector('input').checked,
+                saturday: cells[7].querySelector('input').checked,
+            };
+            dataUpdate.push(rowData);
+        }
     });
+
+    dataUpdate.reverse()
 
     if (dataUpdate.length > 0) {
         try {
@@ -160,9 +169,18 @@ async function handleSave() {
                 },
                 body: JSON.stringify({ members: dataUpdate })
             });
-    
+
             if (response.ok) {
+                const responseData = await response.json();
                 console.log("Data saved successfully!");
+                const newIds = responseData.newIds;
+
+                const rows = viewTableBody.querySelectorAll('tr');
+
+                for (let i = 0; i < newIds.length; i++) {
+                    const rowIndex = rows.length - 1 - i;
+                    rows[rowIndex].setAttribute('data-id', newIds[newIds.length - 1 - i]);
+                }
             } else {
                 console.log("Error saving data.");
             }
@@ -172,5 +190,5 @@ async function handleSave() {
         }
     } else {
         console.log("No data to update.");
-    }    
-}
+    }
+};
