@@ -1,48 +1,15 @@
 function createEditRow(cols, content = false) {
     const newRow = document.createElement('tr');
-    newRow.setAttribute('data-id', content.pop());
+    const rowId = content ? content.pop() : false;
+    if (rowId) {
+        newRow.setAttribute('data-id', rowId);
+    }
 
     for (let i = 0; i < cols; i++) {
         const newCell = document.createElement('td');
         const cellText = content ? content[i] : '';
 
-        const inputField = document.createElement('input');
-
-        if (i === 0) {
-            inputField.type = 'date';
-
-            if (cellText) {
-                inputField.value = new Date(cellText).toISOString().split('T')[0];
-            }
-        } else {
-            inputField.type = 'text';
-            inputField.value = cellText;
-
-            if (i === 0) {
-                inputField.addEventListener('input', function() {
-                    this.value = this.value.replace(/[^0-9]/g, '');
-                });
-            }
-        }
-        inputField.style.width = (i === cols-1) ? '85%' : '100%';
-
-        inputField.addEventListener('focus', function() {
-            originalText = inputField.value;
-        });
-        inputField.addEventListener('blur', function() {
-            if (inputField.value !== originalText) {
-                undoStack.push({
-                    action: 'edit', 
-                    element: inputField, 
-                    originalText: originalText,
-                    newText: inputField.value
-                });
-                toggleUndoRedoButtons();
-            }
-        });
-
-        newCell.appendChild(inputField);
-
+        newCell.textContent = cellText;
         newRow.appendChild(newCell);
     }
 
