@@ -51,7 +51,9 @@
                     <% orderList.forEach(order => { %>
                         <tr data-id="<%= order.id %>">
                             <td><%= order.date %></td>
-                            <td><%= order.member_name %></td>
+                            <td>
+                                <%= order.member_name !== null ? order.member_name : 'Disenrolled Member' %>
+                            </td>
                             <td><%= order.breakfast %></td>
                             <td><%= order.lunch %></td>
                             <td><%= order.timestamp %></td>

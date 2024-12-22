@@ -12,7 +12,7 @@ router.get('/history', async (req, res) => {
         const query = `
             SELECT o.id, m.name AS member_name, o.date, o.breakfast, o.lunch, o.timestamp
             FROM orders o
-            INNER JOIN members m ON o.member_id = m.id
+            LEFT JOIN members m ON o.member_id = m.id
             WHERE o.date = $1
             ORDER BY o.timestamp ASC
         `;
