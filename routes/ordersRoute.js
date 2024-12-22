@@ -58,6 +58,9 @@ router.get('/orders', async (req, res) => {
 
 // Helper function to fetch menu items for a given day and menu type
 async function getMenuItems(client, selectedDay, menuType) {
+    if (selectedDay === 0) {
+        return []
+    }
     const selectedDayColumn = dayOfWeekColumns[selectedDay];
     const query = `
         SELECT name, image

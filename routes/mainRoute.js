@@ -3,7 +3,7 @@ const router = express.Router();
 const { connectToDb } = require('../database/db');
 
 const dayOfWeekColumns = [
-    'today',
+    'sunday',
     'monday',
     'tuesday',
     'wednesday',
@@ -52,6 +52,9 @@ router.get("/", async (req, res) => {
 
 // Helper function to fetch menu items for a given day and menu type
 async function getMenuItems(client, selectedDay, menuType) {
+    if (selectedDay === 0) {
+        return []
+    }
     const selectedDayColumn = dayOfWeekColumns[selectedDay];
     const query = `
         SELECT name, image
@@ -64,6 +67,9 @@ async function getMenuItems(client, selectedDay, menuType) {
 
 // Helper function to get members for a specific day
 async function getMembersForDay(client, selectedDay, targetDate) {
+    if (selectedDay === 0) {
+        return []
+    }
     const selectedDayColumn = dayOfWeekColumns[selectedDay];
     const query = `
         SELECT m.id, m.name, 
