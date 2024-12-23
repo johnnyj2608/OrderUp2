@@ -85,6 +85,11 @@ function handleAdd() {
     const addButtonRow = editTableBody.lastElementChild;
     editTableBody.insertBefore(newRow, addButtonRow);
 
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+    });
+
     redoStack = [];
     undoStack.push({
         action: 'add', 
