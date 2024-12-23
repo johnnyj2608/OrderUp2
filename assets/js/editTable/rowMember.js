@@ -128,9 +128,8 @@ async function handleSave() {
         } else if (action === "add") {
             modifiedElements.add(change.element);
         } else if (action === "delete") {
-            const deleteRow = document.createElement('tr');
-            deleteRow.setAttribute('data-id', change.element.getAttribute('data-id'));
-            modifiedElements.add(deleteRow)
+            change.element.innerHTML = '';
+            modifiedElements.add(change.element)
         } else {
             console.log("Error, action not recognized")
         }
