@@ -39,7 +39,7 @@
             <% function renderPanel(menuItems) { %>
                 <% for (let title in menuItems) { %>
                     <% let item = menuItems[title]; %>
-                    <div class="col-md-2 panel">
+                    <div class="col-md-3 panel">
                         <div class="view-mode w-100">
                             <div class="image-container">
                                 <img src="<%= item.image ? item.image : '/img/default.png' %>" 
@@ -70,10 +70,10 @@
                     </div>
                 <% } %>
             <% } %>
-            <div class="row breakfast-panel mt-4">
+            <div class="row breakfast-panel justify-content-center mt-4">
                 <%= renderPanel(breakfastMenu) %>
             </div>
-            <div class="row lunch-panel mt-4 hidden">
+            <div class="row lunch-panel justify-content-center mt-4 hidden ">
                 <%= renderPanel(lunchMenu) %>
             </div>
             <button id="bottom-scroll" onclick="scrollToBottom()">↓</button>
