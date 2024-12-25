@@ -48,11 +48,18 @@
                                 <div class="amount-overlay"><%= item.amt %></div>
                             </div>
                             <p class="panel-title"><%= item.name %></p>
-                            <ul class="nameResponses">
-                                <% item.names.forEach(name => { %>
-                                    <li><%= name %></li>
-                                <% }) %>
+
+                            <ul class="nameResponses" onclick="toggleNames(this)">
+                                <% if (item.names.length > 0) { %>
+                                    <i class="fas fa-chevron-down"></i>
+                                <% } %>
+                                <div class="hidden">
+                                    <% item.names.forEach(name => { %>
+                                        <li><%= name %></li>
+                                    <% }) %>
+                                </div>
                             </ul>
+                            
                         </div>
                         <div class="edit-mode w-100 hidden">
                             <textarea class="panel-img w-100 d-flex"></textarea>
@@ -106,6 +113,7 @@
     <script src="/js/bottomScroll.js"></script>
     <script src="/js/datePicker.js"></script>
     <script src="/js/switchMenu.js"></script>
+    <script src="/js/toggleNames.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
