@@ -43,7 +43,7 @@ router.get('/orders', async (req, res) => {
         const day = new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(convertedDate);
         const year = new Intl.DateTimeFormat('en-US', { year: 'numeric' }).format(convertedDate);
 
-        const formattedDate = req.__('date_title', req.__(weekday.toLowerCase()))+ `, ${month}/${day}/${year}`;
+        const formattedDate = req.__('titles.date_title', req.__('titles.'+weekday.toLowerCase()))+ `, ${month}/${day}/${year}`;
 
         res.render('orders', { 
             breakfastMenu, 

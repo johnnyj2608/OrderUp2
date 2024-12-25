@@ -15,7 +15,7 @@
                 <i id="calendar-icon" class="dropdown fas fa-calendar-alt"></i>
             </div>
             <div class="col text-center" id="project-title">
-                <%= __("project_title") %>
+                <%= __("titles.project_title") %>
             </div>
             <div class="col-auto">
                 <div class="dropdown">
@@ -23,8 +23,8 @@
                         <i class="fas fa-language"></i>
                     </div>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" data-lang="en"><%= __("english") %></a></li>
-                        <li><a class="dropdown-item" href="#" data-lang="zh"><%= __("chinese") %></a></li>
+                        <li><a class="dropdown-item" href="#" data-lang="en"><%= __("languages.english") %></a></li>
+                        <li><a class="dropdown-item" href="#" data-lang="zh"><%= __("languages.chinese") %></a></li>
                     </ul>
                 </div>
             </div>
@@ -43,7 +43,7 @@
             </div>
             <div class="row mt-4">
                 <div class="col-12 col-md-6">
-                    <input type="text" id="searchBar" placeholder="<%= __('search_name') %>" onkeyup="searchNames()">
+                    <input type="text" id="searchBar" placeholder="<%= __('titles.search_name') %>" onkeyup="searchNames()">
                     <ul id="nameList">
                         <% names.forEach(({ id, name, menu }, index) => { %>
                             <li data-index="<%= id %>" 
@@ -74,13 +74,13 @@
                 <% } %>
                 <div class="col-12 col-md-6">
                     <div class="row ml-1">
-                        <h2 id="breakfastSection"><%= __("breakfast") %></h2>
+                        <h2 id="breakfastSection"><%= __("titles.breakfast") %></h2>
                     </div>
                     <div class="row">
                         <% renderMealSection('breakfast', breakfastMenu); %>
                     </div>
                     <div class="row ml-1">
-                        <h2 id="lunchSection"><%= __("lunch") %></h2>
+                        <h2 id="lunchSection"><%= __("titles.lunch") %></h2>
                     </div>
                     <div class="row">
                         <% renderMealSection('lunch', lunchMenu); %>     
@@ -90,8 +90,8 @@
         </div>
         <div class="row footer align-items-center">
             <div class="col button-container">
-                <a href="/orders" class="actionButton"><%= __("orders") %></a>
-                <button id="submitButton" class="actionButton disabled" onclick="submitOrder(this)"><%= __("submit_order") %></button>
+                <a href="/orders" class="actionButton"><%= __("buttons.orders") %></a>
+                <button id="submitButton" class="actionButton disabled" onclick="submitOrder(this)"><%= __("buttons.submit_order") %></button>
             </div>
         </div>
     </div>

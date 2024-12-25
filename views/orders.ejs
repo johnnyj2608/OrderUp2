@@ -15,7 +15,7 @@
                 <i id="calendar-icon" class="dropdown fas fa-calendar-alt"></i>
             </div>
             <div class="col text-center" id="project-title">
-                <%= __("project_title") %>
+                <%= __("titles.project_title") %>
             </div>
             <div class="col-auto">
                 <div id="switch-button" class="dropdown" onclick="switchMenu()">
@@ -80,23 +80,23 @@
         </div>
         <div id="view-footer" class="row footer align-items-center">
             <div class="col button-container">
-                <a href="/" class="actionButton"><%= __("back") %></a>
+                <a href="/" class="actionButton"><%= __("buttons.back") %></a>
                 <div class="dropdown">
                     <button class="dropdown-toggle actionButton w-100" data-bs-toggle="dropdown" aria-expanded="false">
-                        <%= __("views") %>
+                        <%= __("buttons.views") %>
                     </button>
                     <ul class="dropdown-menu w-100 text-center">
-                        <li><a class="dropdown-item" href="/orders"><%= __("orders") %></a></li>
-                        <li><a class="dropdown-item" href="/menu"><%= __("menu") %></a></li>
-                        <li><a class="dropdown-item" href="/members"><%= __("members") %></a></li>
-                        <li><a class="dropdown-item" href="/history"><%= __("history") %></a></li>
+                        <li><a class="dropdown-item" href="/orders"><%= __("buttons.orders") %></a></li>
+                        <li><a class="dropdown-item" href="/menu"><%= __("buttons.menu") %></a></li>
+                        <li><a class="dropdown-item" href="/members"><%= __("buttons.members") %></a></li>
+                        <li><a class="dropdown-item" href="/history"><%= __("buttons.history") %></a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <div id="edit-footer" class="row footer align-items-center hidden">
             <div class="col button-container">
-                <button id="cancelButton" class="actionButton" onclick="handleCancel()"><%= __("cancel") %></button>
+                <button id="cancelButton" class="actionButton" onclick="handleCancel()"><%= __("buttons.cancel") %></button>
                 <span>
                     <button id="undo-button" onclick="undo()" class="actionButton desaturate">
                         <i class="fas fa-undo"></i>
@@ -105,7 +105,7 @@
                         <i class="fas fa-redo"></i>
                     </button>
                 </span>
-                <button id="saveButton" class="actionButton" onclick="handleSave()"><%= __("save") %></button>
+                <button id="saveButton" class="actionButton" onclick="handleSave()"><%= __("buttons.save") %></button>
             </div>
         </div>
     </div>
