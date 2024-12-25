@@ -95,7 +95,7 @@
             <table class="table table-striped table-bordered">
                 <thead class="sticky-row">
                     <tr>
-                        <th style="width: 8%;"><%= __("tables.index") %></th>
+                        <th style="width: 8%;"><%= __("tables.number") %></th>
                         <th style="width: 32%;"><%= __("tables.name") %></th>
                         <th style="width: 10%;"><%= __("titles.monday") %></th>
                         <th style="width: 10%;"><%= __("titles.tuesday") %></th>
@@ -126,7 +126,7 @@
         </div>
         <div id="view-footer" class="row footer align-items-center">
             <div class="col button-container">
-                <a href="/" class="actionButton"><%= __("buttons.back") %></a>
+                <button class="actionButton" onclick="window.location.href='/'"><%= __("buttons.back") %></button>  
                 <div class="dropdown">
                     <button class="dropdown-toggle actionButton w-100" data-bs-toggle="dropdown" aria-expanded="false">
                         <%= __("buttons.views") %>

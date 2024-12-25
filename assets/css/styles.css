@@ -207,6 +207,7 @@
       text-decoration: none;
       padding: 0 10px;
       text-align: center;
+      align-items: center;
 }
 
 .addButton:hover {
@@ -300,36 +301,6 @@ td .fa-times {
 .hidden {
       display: none !important;
 }
-  
-@media (max-width: 767px) {
-      #nameList {
-            height: 35svh;
-      }
-
-      .header, .footer {
-            height: 10svh;
-      }
-
-      #breakfastSection, #lunchSection {
-            scroll-margin-top: 10svh;
-      }
-
-      .content {
-            margin-top: 10svh;
-            margin-bottom: 10svh;
-      }
-
-      #project-title {
-            display: none;
-      }
-      .actionButton {
-            width: 66.66666%;
-      }
-}
-
-@media (min-width: 1366px) {
-      
-}
 
 #filter-dropdown {
       background-color: transparent;
@@ -383,4 +354,31 @@ td .fa-times {
       background-color: white;
       padding: 10px 0;
       border-bottom: 1px solid #ddd;
+}
+
+@media (max-width: 767px) {
+      #nameList {
+            height: 35svh;
+      }
+
+      .header, .footer {
+            height: 10svh;
+      }
+
+      #breakfastSection, #lunchSection {
+            scroll-margin-top: 10svh;
+      }
+
+      .content {
+            margin-top: 10svh;
+            margin-bottom: 10svh;
+      }
+
+      .sticky-row {
+            top: 10svh;
+      }
+
+      #bottom-scroll {
+            bottom: 11svh;
+      }
 }

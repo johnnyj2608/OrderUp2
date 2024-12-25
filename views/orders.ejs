@@ -39,7 +39,7 @@
             <% function renderPanel(menuItems) { %>
                 <% for (let title in menuItems) { %>
                     <% let item = menuItems[title]; %>
-                    <div class="col-md-3 panel">
+                    <div class="col-md-3 col-sm-6 panel">
                         <div class="view-mode w-100">
                             <div class="image-container">
                                 <img src="<%= item.image ? item.image : '/img/default.png' %>" 
@@ -80,7 +80,7 @@
         </div>
         <div id="view-footer" class="row footer align-items-center">
             <div class="col button-container">
-                <a href="/" class="actionButton"><%= __("buttons.back") %></a>
+                <button class="actionButton" onclick="window.location.href='/'"><%= __("buttons.back") %></button>  
                 <div class="dropdown">
                     <button class="dropdown-toggle actionButton w-100" data-bs-toggle="dropdown" aria-expanded="false">
                         <%= __("buttons.views") %>

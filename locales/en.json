@@ -34,7 +34,7 @@
 	"tables": {
 		"search_name": "Search for names...",
 		"count": "Count",
-		"index": "Index",
+		"number": "No.",
 		"disenrollee": "Disenrolled Member",
 		"type": "Type",
 		"name": "Name",
@@ -46,30 +46,5 @@
 	"languages": {
 		"english": "English",
 		"chinese": "Chinese"
-	},
-	"wednesday": "wednesday",
-	"date_title": "date_title",
-	"search_name": "search_name",
-	"project_title": "project_title",
-	"back": "back",
-	"views": "views",
-	"orders": "orders",
-	"menu": "menu",
-	"members": "members",
-	"history": "history",
-	"cancel": "cancel",
-	"save": "save",
-	"monday": "monday",
-	"tuesday": "tuesday",
-	"thursday": "thursday",
-	"friday": "friday",
-	"saturday": "saturday",
-	"all": "all",
-	"clear": "clear",
-	"apply_filter": "apply_filter",
-	"menu_list": "menu_list",
-	"type": "type",
-	"name": "name",
-	"image": "image",
-	"count": "count"
+	}
 }

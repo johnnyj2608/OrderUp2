@@ -57,7 +57,7 @@
                 </div>
                 <% function renderMealSection(mealType, menu) { %>
                     <% menu.forEach(({ name, image }, index) => { %>
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4 col-sm-6 mb-4">
                             <div id="btn-<%= mealType.charAt(0) %>-<%= name %>" 
                                 data-text="<%= name %>" 
                                 onclick="handleMealClick(this)" 
@@ -76,13 +76,13 @@
                     <div class="row ml-1">
                         <h2 id="breakfastSection"><%= __("titles.breakfast") %></h2>
                     </div>
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <% renderMealSection('breakfast', breakfastMenu); %>
                     </div>
                     <div class="row ml-1">
                         <h2 id="lunchSection"><%= __("titles.lunch") %></h2>
                     </div>
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <% renderMealSection('lunch', lunchMenu); %>     
                     </div>         
                 </div>
@@ -90,7 +90,7 @@
         </div>
         <div class="row footer align-items-center">
             <div class="col button-container">
-                <a href="/orders" class="actionButton"><%= __("buttons.orders") %></a>
+                <button class="actionButton" onclick="window.location.href='/orders'"><%= __("buttons.orders") %></button>
                 <button id="submitButton" class="actionButton disabled" onclick="submitOrder(this)"><%= __("buttons.submit_order") %></button>
             </div>
         </div>
