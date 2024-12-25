@@ -9,6 +9,7 @@ function handleMealClick(menuItem) {
         }
     });
     updateButtonState();
+    handleScroll();
 }
 
 function searchNames() {
@@ -30,23 +31,27 @@ function handleNameClick(listItem) {
         panel.classList.remove('desaturate');
     });
 
-    if (menuType !== 'A') {
-        panels.forEach(panel => {
-            if (menuType === 'L' && panel.id.startsWith('btn-b')) {
-                panel.classList.add('desaturate');
-                panel.classList.remove('selectedBreakfast');
-            } else if (menuType === 'B' && panel.id.startsWith('btn-l')) {
-                panel.classList.add('desaturate');
-                panel.classList.remove('selectedLunch');
-            }
-        });
+    if (listItem.classList.contains('selected')){
+        if (menuType !== 'A') {
+            panels.forEach(panel => {
+                if (menuType === 'L' && panel.id.startsWith('btn-b')) {
+                    panel.classList.add('desaturate');
+                    panel.classList.remove('selectedBreakfast');
+                } else if (menuType === 'B' && panel.id.startsWith('btn-l')) {
+                    panel.classList.add('desaturate');
+                    panel.classList.remove('selectedLunch');
+                }
+            });
+        }
     }
     document.querySelectorAll('#nameList li').forEach(item => {
         if (item !== listItem) {
             item.classList.remove('selected');
         }
     });
+    
     updateButtonState();
+    handleScroll();
 }
 
 function updateButtonState() {
@@ -73,6 +78,38 @@ function resetSelection() {
     });
 
     updateButtonState();
+}
+
+function handleScroll() {
+    const selectedBreakfast = document.querySelector('.selectedBreakfast');
+    const selectedLunch = document.querySelector('.selectedLunch');
+    const selectedName = document.querySelector('#nameList li.selected');
+
+    const breakfastSection = document.getElementById('breakfastSection');
+    const lunchSection = document.getElementById('lunchSection');
+
+    const viewportOffset = window.innerHeight * 0.2;
+
+    function scrollToSection(section) {
+        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+            top: sectionTop - viewportOffset,
+            behavior: 'smooth',
+        });
+    }
+
+    const firstBreakfastPanel = document.querySelector('[id^="btn-b-"]');
+    const breakfastOff = firstBreakfastPanel && firstBreakfastPanel.classList.contains('desaturate');
+
+    if (selectedName) {
+        if (selectedBreakfast || breakfastOff) {
+            scrollToSection(lunchSection);
+        } else {
+            scrollToSection(breakfastSection);
+        }
+    } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 }
 
 async function submitOrder(button) {
@@ -115,7 +152,7 @@ async function submitOrder(button) {
                     menuTypeSpan.innerText = 'B';
                 }
                 
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                handleScroll()
                 resetSelection();
             } else {
                 alert("error")
