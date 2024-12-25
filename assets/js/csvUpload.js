@@ -42,7 +42,7 @@ function populateTableFromCSV(content) {
             }
             return cell.trim();
         });
-        const newRow = createEditRow(cells.length, cells);
+        const newRow = createEditRow(cells.length, [...cells, null]);
 
         const lastCell = newRow.cells[newRow.cells.length - 1];
         lastCell.style.position = 'relative';

@@ -6,7 +6,7 @@ router.get('/members', async (req, res) => {
     try {
         const client = await connectToDb();
 
-        const query = 'SELECT * FROM members ORDER BY id ASC';
+        const query = 'SELECT * FROM members ORDER BY index ASC, name ASC';
         const result = await client.query(query);
         const memberList = result.rows;
 
@@ -25,7 +25,7 @@ router.post('/members/update', async (req, res) => {
         
         const members = req.body.members;
         for (let member of members) {
-            const { id, name, monday, tuesday, wednesday, thursday, friday, saturday, delete: isDelete,  } = member;
+            const { id, name, index, monday, tuesday, wednesday, thursday, friday, saturday, delete: isDelete,  } = member;
             if (isDelete) {
                 const deleteMenuQuery = 'DELETE FROM members WHERE id = $1';
                 await client.query(deleteMenuQuery, [id]);
@@ -38,23 +38,25 @@ router.post('/members/update', async (req, res) => {
                     const updateQuery = `
                         UPDATE members
                         SET name = $1,
-                            monday = $2,
-                            tuesday = $3,
-                            wednesday = $4,
-                            thursday = $5,
-                            friday = $6,
-                            saturday = $7
-                        WHERE id = $8
+                            index = $2,
+                            monday = $3,
+                            tuesday = $4,
+                            wednesday = $5,
+                            thursday = $6,
+                            friday = $7,
+                            saturday = $8
+                        WHERE id = $9
                     `;
-                    await client.query(updateQuery, [name, monday, tuesday, wednesday, thursday, friday, saturday, id]);
+                    await client.query(updateQuery, [name, index, monday, tuesday, wednesday, thursday, friday, saturday, id]);
                 } else {
                     // If the id does not exist, insert a new row
                     const insertQuery = `
-                        INSERT INTO members (id, name, monday, tuesday, wednesday, thursday, friday, saturday)
+                        INSERT INTO members (index, name, monday, tuesday, wednesday, thursday, friday, saturday)
                         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+                        RETURNING id
                     `;
-                    await client.query(insertQuery, [id, name, monday, tuesday, wednesday, thursday, friday, saturday]);
-                    newIds.push(id);
+                    const result = await client.query(insertQuery, [index, name, monday, tuesday, wednesday, thursday, friday, saturday]);
+                    newIds.push(result.rows[0].id);
                 }
             }
         }

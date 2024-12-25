@@ -214,17 +214,3 @@ function createTrashIcon() {
     trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
     return trashIcon;
 }
-
-function checkEmptyTextInputs() {
-    const editTableBody = document.querySelector('#data-body.edit-mode');
-    const rows = editTableBody.querySelectorAll('tr');
-
-    for (let tr = 0; tr < rows.length - 1; tr++) {
-        const cell = rows[tr].querySelectorAll('td')[0];
-        const inputField = cell.querySelector('input');
-        if (inputField && inputField.value.trim() === '') {
-            return false;
-        }
-    }
-    return true;
-}

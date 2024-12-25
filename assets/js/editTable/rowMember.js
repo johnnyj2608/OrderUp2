@@ -74,10 +74,6 @@ function createAddRow(cols) {
 }
 
 async function handleSave() {
-    if (!checkEmptyTextInputs()) {
-        alert("Please fill in all text fields.");
-        return;
-    }
     activeEdit(false);
 
     const viewTableBody = document.querySelector('#data-body.view-mode');
@@ -144,7 +140,8 @@ async function handleSave() {
             dataUpdate.push({ id, delete: true });
         } else {
             const rowData = {
-                id: cells[0].querySelector('input').value,
+                id: id,
+                index: cells[0].querySelector('input').value,
                 name: cells[1].querySelector('input').value,
                 monday: cells[2].querySelector('input').checked,
                 tuesday: cells[3].querySelector('input').checked,

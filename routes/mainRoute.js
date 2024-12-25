@@ -72,7 +72,7 @@ async function getMembersForDay(client, selectedDay, targetDate) {
     }
     const selectedDayColumn = dayOfWeekColumns[selectedDay];
     const query = `
-        SELECT m.id, m.name, 
+        SELECT m.id, m.index, m.name, 
             CASE 
                 WHEN o.breakfast IS NOT NULL AND o.lunch IS NOT NULL THEN 'X'
                 WHEN o.breakfast IS NOT NULL THEN 'L'

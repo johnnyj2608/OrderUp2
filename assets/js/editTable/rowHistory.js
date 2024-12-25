@@ -24,10 +24,6 @@ function createAddRow(cols) {
 }
 
 async function handleSave() {
-    if (!checkEmptyTextInputs()) {
-        alert("Please fill in all text fields.");
-        return;
-    }
     activeEdit(false);
 
     const viewTableBody = document.querySelector('#data-body.view-mode');
