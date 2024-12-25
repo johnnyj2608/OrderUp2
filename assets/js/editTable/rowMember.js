@@ -87,6 +87,7 @@ async function handleSave() {
         const viewRow = document.createElement('tr');
         viewRow.setAttribute('data-id', editRow.getAttribute('data-id'));
         
+        let emptyAddRow = true
         editRow.querySelectorAll('td').forEach((editCell, i) => {
             const viewCell = document.createElement('td');
             const inputField = editCell.querySelector('input');
@@ -100,12 +101,17 @@ async function handleSave() {
                 viewCell.innerHTML = icon;
             } else {
                 const cellText = inputField.value.trim();
-                
+
+                if (cellText !== '') {
+                    emptyAddRow = false;
+                }
                 viewCell.innerText = cellText;
             }
             viewRow.appendChild(viewCell);
         });
-        viewTableBody.appendChild(viewRow);
+        if (!(emptyAddRow && editRow.getAttribute('data-id') === null)) {
+            viewTableBody.appendChild(viewRow);
+        }
     });
 
     const modifiedElements = new Set();
@@ -141,8 +147,8 @@ async function handleSave() {
         } else {
             const rowData = {
                 id: id,
-                index: cells[0].querySelector('input').value,
-                name: cells[1].querySelector('input').value,
+                index: cells[0].querySelector('input').value.trim(),
+                name: cells[1].querySelector('input').value.trim(),
                 monday: cells[2].querySelector('input').checked,
                 tuesday: cells[3].querySelector('input').checked,
                 wednesday: cells[4].querySelector('input').checked,
@@ -150,7 +156,9 @@ async function handleSave() {
                 friday: cells[6].querySelector('input').checked,
                 saturday: cells[7].querySelector('input').checked,
             };
-            dataUpdate.push(rowData);
+            if (rowData.id || rowData.index || rowData.name) {
+                dataUpdate.push(rowData);
+            }
         }
     });
 

@@ -12,6 +12,11 @@ function createEditRow(cols, content = false) {
         if (i === 0) {
             const dropdown = document.createElement('select');
 
+            const optionNone = document.createElement('option');
+            optionNone.value = ''
+            optionNone.textContent = '';
+            dropdown.appendChild(optionNone);
+
             const optionBreakfast = document.createElement('option');
             optionBreakfast.value = 'B';
             optionBreakfast.textContent = 'B';
@@ -123,6 +128,7 @@ async function handleSave() {
         const viewRow = document.createElement('tr');
         viewRow.setAttribute('data-id', editRow.getAttribute('data-id'));
         
+        let emptyAddRow = true
         editRow.querySelectorAll('td').forEach((editCell, i) => {
             const viewCell = document.createElement('td');
             const inputField = editCell.querySelector('input');
@@ -130,6 +136,9 @@ async function handleSave() {
             if (i === 0) {
                 const dropdown = editCell.querySelector('select');
                 viewCell.innerText = dropdown.value;
+                if (dropdown.value !== '') {
+                    emptyAddRow = false;
+                }
             } else if (i > 2 && i < editRow.querySelectorAll('td').length - 1) {
                 const checkbox = editCell.querySelector('input[type="checkbox"]');
                 const icon = checkbox.checked 
@@ -139,6 +148,10 @@ async function handleSave() {
                 viewCell.innerHTML = icon;
             } else {
                 const cellText = inputField.value.trim();
+                if (cellText !== '') {
+                    emptyAddRow = false;
+                }
+
                 if (cellText === '' && i === editRow.querySelectorAll('td').length - 1) {
                     viewCell.innerText = 0;
                 } else {
@@ -147,7 +160,9 @@ async function handleSave() {
             }
             viewRow.appendChild(viewCell);
         });
-        viewTableBody.appendChild(viewRow);
+        if (!(emptyAddRow && editRow.getAttribute('data-id') === null)) {
+            viewTableBody.appendChild(viewRow);
+        }
     });
 
     const modifiedElements = new Set();
@@ -183,9 +198,9 @@ async function handleSave() {
         } else {
             const rowData = {
                 id: id,
-                type: cells[0].querySelector('select').value,
-                name: cells[1].querySelector('input').value,
-                image: cells[2].querySelector('input').value,
+                type: cells[0].querySelector('select').value.trim(),
+                name: cells[1].querySelector('input').value.trim(),
+                image: cells[2].querySelector('input').value.trim(),
                 monday: cells[3].querySelector('input').checked,
                 tuesday: cells[4].querySelector('input').checked,
                 wednesday: cells[5].querySelector('input').checked,
@@ -194,7 +209,9 @@ async function handleSave() {
                 saturday: cells[8].querySelector('input').checked,
                 count: cells[9].querySelector('input').value.trim() || 0,
             };
-            dataUpdate.push(rowData);
+            if (rowData.id || rowData.type || rowData.name || rowData.image) {
+                dataUpdate.push(rowData);
+            }
         }
     });
 
