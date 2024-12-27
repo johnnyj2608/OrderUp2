@@ -1,3 +1,6 @@
+let goBreakfast = true;
+let goLunch = true;
+
 function handleMealClick(menuItem) {
     const menuType = menuItem.getAttribute('data-meal-type'); 
     const selectedMenu = `selected${menuType.charAt(0).toUpperCase() + menuType.slice(1)}`;
@@ -30,6 +33,9 @@ function handleNameClick(listItem) {
     panels.forEach(panel => {
         panel.classList.remove('desaturate');
     });
+    
+    goBreakfast = true;
+    goLunch = true;
 
     if (listItem.classList.contains('selected')){
         if (menuType !== 'A') {
@@ -37,9 +43,11 @@ function handleNameClick(listItem) {
                 if (menuType === 'L' && panel.id.startsWith('btn-b')) {
                     panel.classList.add('desaturate');
                     panel.classList.remove('selectedBreakfast');
+                    goBreakfast = false;
                 } else if (menuType === 'B' && panel.id.startsWith('btn-l')) {
                     panel.classList.add('desaturate');
                     panel.classList.remove('selectedLunch');
+                    goLunch = false;
                 }
             });
         }
@@ -97,12 +105,10 @@ function handleScroll() {
             behavior: 'smooth',
         });
     }
-
-    const firstBreakfastPanel = document.querySelector('[id^="btn-b-"]');
-    const breakfastOff = firstBreakfastPanel && firstBreakfastPanel.classList.contains('desaturate');
+    console.log(goBreakfast, goLunch)
 
     if (selectedName) {
-        if (selectedBreakfast || breakfastOff) {
+        if ((selectedBreakfast || !goBreakfast) && goLunch) {
             scrollToSection(lunchSection);
         } else {
             scrollToSection(breakfastSection);
