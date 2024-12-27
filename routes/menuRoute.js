@@ -25,7 +25,7 @@ router.post('/menu/update', async (req, res) => {
         
         const menu = req.body.menu;
         for (let food of menu) {
-            const { id, type, name, monday, tuesday, wednesday, thursday, friday, saturday, count, delete: isDelete, } = food;
+            const { id, type, name, image, monday, tuesday, wednesday, thursday, friday, saturday, count, delete: isDelete, } = food;
             if (isDelete) {
                 const deleteMenuQuery = 'DELETE FROM menu WHERE id = $1';
                 await client.query(deleteMenuQuery, [id]);
@@ -34,23 +34,24 @@ router.post('/menu/update', async (req, res) => {
                 const updateQuery = `
                     UPDATE menu
                     SET name = $1,
-                        monday = $2,
-                        tuesday = $3,
-                        wednesday = $4,
-                        thursday = $5,
-                        friday = $6,
-                        saturday = $7
-                    WHERE id = $8
+                        image = $2,
+                        monday = $3,
+                        tuesday = $4,
+                        wednesday = $5,
+                        thursday = $6,
+                        friday = $7,
+                        saturday = $8
+                    WHERE id = $9
                 `;
-                await client.query(updateQuery, [name, monday, tuesday, wednesday, thursday, friday, saturday, id]);
+                await client.query(updateQuery, [name, image, monday, tuesday, wednesday, thursday, friday, saturday, id]);
             } else {
                 // If the id does not exist, insert a new row
                 const insertQuery = `
-                    INSERT INTO menu (type, name, monday, tuesday, wednesday, thursday, friday, saturday, count)
-                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                    INSERT INTO menu (type, name, image, monday, tuesday, wednesday, thursday, friday, saturday, count)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
                     RETURNING id
                 `;
-                const result = await client.query(insertQuery, [type, name, monday, tuesday, wednesday, thursday, friday, saturday, count]);
+                const result = await client.query(insertQuery, [type, name, image, monday, tuesday, wednesday, thursday, friday, saturday, count]);
                 newIds.push(result.rows[0].id);
             }
         }
