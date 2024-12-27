@@ -12,63 +12,67 @@
     <div class="container-fluid">
         <div class="row header">
             <div class="col-auto">
-                
-                <button id="filter-dropdown" class="dropdown-toggle pointer" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                    <i class="fas fa-filter"></i>
-                </button>
-                <ul class="dropdown-menu p-2">
-                    <div class="mb-2">
-                        <input 
-                            type="text" 
-                            id="search-bar" 
-                            class="form-control" 
-                            placeholder="Search" 
-                        />
-                    </div>
-                    <li>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="monday" id="filter-monday" checked>
-                            <label class="form-check-label" for="filter-monday"><%= __("titles.monday") %></label>
+                <div class="dropdown">
+                    <button id="filter-dropdown" class="dropdown-toggle pointer" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                    <ul class="dropdown-menu p-2">
+                        <div class="mb-2">
+                            <input 
+                                type="text" 
+                                id="search-bar" 
+                                class="form-control" 
+                                placeholder="Search" 
+                            />
                         </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="tuesday" id="filter-tuesday" checked>
-                            <label class="form-check-label" for="filter-tuesday"><%= __("titles.tuesday") %></label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="wednesday" id="filter-wednesday" checked>
-                            <label class="form-check-label" for="filter-wednesday"><%= __("titles.wednesday") %></label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="thursday" id="filter-thursday" checked>
-                            <label class="form-check-label" for="filter-thursday"><%= __("titles.thursday") %></label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="friday" id="filter-friday" checked>
-                            <label class="form-check-label" for="filter-friday"><%= __("titles.friday") %></label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="saturday" id="filter-saturday" checked>
-                            <label class="form-check-label" for="filter-saturday"><%= __("titles.saturday") %></label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="d-flex justify-content-between">
-                            <button class="dropdown-item btn btn-link p-1 text-center" onclick="selectAllFilters()"><%= __("buttons.all") %></button>
-                            <button class="dropdown-item btn btn-link p-1 text-center" onclick="clearAllFilters()"><%= __("buttons.clear") %></button>
-                        </div>
-                    </li>
-                    <li><button class="dropdown-item" onclick="applyFilter(3)"><%= __("buttons.apply_filter") %></button></li>
-                </ul>
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="monday" id="filter-monday" checked>
+                                <label class="form-check-label" for="filter-monday"><%= __("titles.monday") %></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="tuesday" id="filter-tuesday" checked>
+                                <label class="form-check-label" for="filter-tuesday"><%= __("titles.tuesday") %></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="wednesday" id="filter-wednesday" checked>
+                                <label class="form-check-label" for="filter-wednesday"><%= __("titles.wednesday") %></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="thursday" id="filter-thursday" checked>
+                                <label class="form-check-label" for="filter-thursday"><%= __("titles.thursday") %></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="friday" id="filter-friday" checked>
+                                <label class="form-check-label" for="filter-friday"><%= __("titles.friday") %></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="saturday" id="filter-saturday" checked>
+                                <label class="form-check-label" for="filter-saturday"><%= __("titles.saturday") %></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex justify-content-between">
+                                <button class="dropdown-item btn btn-link p-1 text-center" onclick="selectAllFilters()"><%= __("buttons.all") %></button>
+                                <button class="dropdown-item btn btn-link p-1 text-center" onclick="clearAllFilters()"><%= __("buttons.clear") %></button>
+                            </div>
+                        </li>
+                        <li><button class="dropdown-item" onclick="applyFilter(2)"><%= __("buttons.apply_filter") %></button></li>
+                    </ul>
+                </div>
+
+                <input type="file" id="fileInput" accept=".csv" class="hidden">
+                <i id="upload-plus" class="dropdown fas fa-plus hidden"></i>
             </div>
             <div class="col text-center" id="project-title">
                 <%= __("titles.project_title") %>
@@ -157,6 +161,7 @@
 
     <script src="/js/bottomScroll.js"></script>
     <script src="/js/weekdayFilter.js"></script>
+    <script src="/js/csvUpload.js"></script>
     <script src="/js/editTable/rowMenu.js"></script>
     <script src="/js/editTable/editTable.js"></script>
     <script
