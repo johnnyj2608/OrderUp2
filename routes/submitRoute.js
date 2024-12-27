@@ -6,7 +6,9 @@ router.post("/submit", async (req, res) => {
     const { 
         memberID,
         convertedDate,
-        breakfastName, 
+        breakfastID,
+        breakfastName,
+        lunchID,
         lunchName,
     } = req.body;
 
@@ -33,8 +35,8 @@ router.post("/submit", async (req, res) => {
                 WHERE id = $4
             `;
             await client.query(updateOrderQuery, [
-                breakfastName === "none" ? null : breakfastName,
-                lunchName === "none" ? null : lunchName,
+                breakfastName,
+                lunchName,
                 timestamp,
                 existingOrder.id,
             ]);
@@ -46,10 +48,21 @@ router.post("/submit", async (req, res) => {
             await client.query(orderInsertQuery, [
                 memberID,
                 convertedDate,
-                breakfastName === "none" ? null : breakfastName,
-                lunchName === "none" ? null : lunchName,
+                breakfastName,
+                lunchName,
                 timestamp,
             ]);
+        }
+        const incrementCountQuery = `
+            UPDATE menu
+            SET count = count + 1
+            WHERE id = $1
+        `;
+        if (breakfastID) {
+            await client.query(incrementCountQuery, [breakfastID]);
+        }
+        if (lunchID) {
+            await client.query(incrementCountQuery, [lunchID]);
         }
 
         res.json({ success: true });

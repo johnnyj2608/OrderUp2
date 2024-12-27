@@ -56,14 +56,13 @@
                     </ul>
                 </div>
                 <% function renderMealSection(mealType, menu) { %>
-                    <% menu.forEach(({ name, image }, index) => { %>
+                    <% menu.forEach(({ id, name, image }, index) => { %>
                         <div class="col-md-4 col-sm-6 mb-4">
-                            <div id="btn-<%= mealType.charAt(0) %>-<%= name %>" 
-                                data-text="<%= name %>" 
+                            <div id="menu-<%= id %>"
+                                data-text="<%= name %>"
                                 onclick="handleMealClick(this)" 
                                 class="panel pointer w-100" 
-                                data-order="<%= index %>" 
-                                data-meal-type="<%= mealType %>">
+                                data-type="<%= mealType %>">
                                 <img src="<%= image ? image : '/img/default.png' %>" 
                                     class="panel-img w-100" 
                                     onerror="this.onerror=null; this.src='/img/default.png';" />

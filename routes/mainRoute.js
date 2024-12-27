@@ -58,7 +58,7 @@ async function getMenuItems(client, selectedDay, menuType) {
     }
     const selectedDayColumn = dayOfWeekColumns[selectedDay];
     const query = `
-        SELECT name, image
+        SELECT id, name, image
         FROM menu
         WHERE type = $1 AND ${selectedDayColumn} = TRUE; 
     `;

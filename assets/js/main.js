@@ -2,7 +2,7 @@ let goBreakfast = true;
 let goLunch = true;
 
 function handleMealClick(menuItem) {
-    const menuType = menuItem.getAttribute('data-meal-type'); 
+    const menuType = menuItem.getAttribute('data-type'); 
     const selectedMenu = `selected${menuType.charAt(0).toUpperCase() + menuType.slice(1)}`;
     menuItem.classList.toggle(selectedMenu);
 
@@ -40,11 +40,11 @@ function handleNameClick(listItem) {
     if (listItem.classList.contains('selected')){
         if (menuType !== 'A') {
             panels.forEach(panel => {
-                if (menuType === 'L' && panel.id.startsWith('btn-b')) {
+                if (menuType === 'L' && panel.getAttribute('data-type') === 'breakfast') {
                     panel.classList.add('desaturate');
                     panel.classList.remove('selectedBreakfast');
                     goBreakfast = false;
-                } else if (menuType === 'B' && panel.id.startsWith('btn-l')) {
+                } else if (menuType === 'B' && panel.getAttribute('data-type') === 'lunch') {
                     panel.classList.add('desaturate');
                     panel.classList.remove('selectedLunch');
                     goLunch = false;
@@ -122,11 +122,16 @@ async function submitOrder(button) {
         const selectedDate = document.getElementById('datePicker').value;
         const convertedDate = new Date(selectedDate + 'T00:00:00');
 
-        const breakfastName = (document.querySelector('.selectedBreakfast')?.getAttribute('data-text')) || 'none';
-        const lunchName = (document.querySelector('.selectedLunch')?.getAttribute('data-text')) || 'none';
-
         const selectedName = document.querySelector('#nameList li.selected');
         const memberID = selectedName ? selectedName.getAttribute('data-index') : null;
+
+        const selectedBreakfast = document.querySelector('.selectedBreakfast');
+        const breakfastID = selectedBreakfast?.id?.replace(/^menu-/, '') || null;
+        const breakfastName = selectedBreakfast.getAttribute('data-text') || null;
+
+        const selectedLunch = document.querySelector('.selectedLunch');
+        const lunchID = selectedLunch?.id?.replace(/^menu-/, '') || null;
+        const lunchName = selectedLunch?.getAttribute('data-text') || null;
 
         try {
             const response = await fetch('/submit', {
@@ -137,7 +142,9 @@ async function submitOrder(button) {
                 body: JSON.stringify({ 
                     memberID,
                     convertedDate,
-                    breakfastName, 
+                    breakfastID,
+                    breakfastName,
+                    lunchID,
                     lunchName,
                 }),
             });
