@@ -45,11 +45,11 @@
                 <div class="col-12 col-md-6">
                     <input type="text" id="searchBar" placeholder="<%= __('titles.search_name') %>" onkeyup="searchNames()">
                     <ul id="nameList">
-                        <% names.forEach(({ id, name, menu }, index) => { %>
+                        <% names.forEach(({ id, index, name, menu }) => { %>
                             <li data-index="<%= id %>" 
                                 data-menu="<%= menu %>" 
                                 onclick="handleNameClick(this)">
-                                <span class="name"><%= id %>. <%= name %></span>
+                                <span class="name"><%= index %>. <%= name %></span>
                                 <span class="menu-type"><%= menu %></span>
                             </li>
                         <% }) %>

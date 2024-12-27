@@ -26,6 +26,7 @@ router.get("/", async (req, res) => {
         const members = await getMembersForDay(client, selectedWeekday, convertedDate);
         const names = members.map(member => ({
             id: member.id,
+            index: member.index,
             name: member.name,
             menu: member.menu,
         }));
@@ -82,7 +83,8 @@ async function getMembersForDay(client, selectedDay, targetDate) {
         FROM members m
         LEFT JOIN orders o
         ON m.id = o.member_id AND o.date = $1
-        WHERE ${selectedDayColumn} = TRUE;
+        WHERE ${selectedDayColumn} = TRUE
+        ORDER BY m.index ASC;
     `;
     const result = await client.query(query, [targetDate]);
     return result.rows.filter(member => member.menu !== 'X');

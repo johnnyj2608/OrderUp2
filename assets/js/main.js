@@ -105,7 +105,6 @@ function handleScroll() {
             behavior: 'smooth',
         });
     }
-    console.log(goBreakfast, goLunch)
 
     if (selectedName) {
         if ((selectedBreakfast || !goBreakfast) && goLunch) {
