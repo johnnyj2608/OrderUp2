@@ -124,10 +124,9 @@ If you cloned the project, all configurations and paths should already be set up
       <img width="200" alt="Screenshot 2024-12-28 at 11 10 10 AM" src="https://github.com/user-attachments/assets/8aa0db38-215a-4965-802b-f7b7648e7afd" />
     </td>
     <td align="center">
-      <img width="400" alt="Screenshot 2024-12-28 at 11 11 07 AM" src="https://github.com/user-attachments/assets/622182f1-07a3-4e77-976d-e5b3b7c54b43" />
+      <img width="400" alt="Screenshot 2024-12-28 at 11 38 40 AM" src="https://github.com/user-attachments/assets/b5a8a852-0636-4ce2-b091-7308f5110fcd" />
     </td>
     <td align="center">
-      <img width="400" alt="Screenshot 2024-12-28 at 11 11 19 AM" src="https://github.com/user-attachments/assets/781f0ce6-679e-477a-a14f-82500eb4306b" />
-    </td>
+      <img width="400" alt="Screenshot 2024-12-28 at 11 38 58 AM" src="https://github.com/user-attachments/assets/bb50bf42-762f-4d9f-bf37-40a5350fe141" />
   </tr>
 </table>
