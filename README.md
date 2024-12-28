@@ -1,8 +1,8 @@
 ## About The Project
 This full-stack web application enables remote food ordering for social adult day cares, allowing kitchen staff to set daily menus and track orders effortlessly. It features self-ordering capabilities with schedule-aware menus managed by the staff.
 
-Q: How is it different from version 1?
-A: Instead of utilizing Google Sheets as the DB, it uses PostgreSQL hosted on Supabase. All API calls are now SQL queries and you can call them directly on the web app with 'edit modes' for each table.
+**Q**: How is it different from version 1?  
+**A**: Instead of utilizing Google Sheets as the DB, it uses PostgreSQL hosted on Supabase. All API calls are now SQL queries and you can call them directly on the web app with 'edit modes' for each table.
 
 ### Demo Video
 [![Watch the demo](https://img.youtube.com/vi/QUNo5Ob8d3M/0.jpg)](https://www.youtube.com/watch?v=QUNo5Ob8d3M)
@@ -118,16 +118,16 @@ If you cloned the project, all configurations and paths should already be set up
 <table>
   <tr>
     <td align="center">
-      
+      <img width="200" alt="Screenshot 2024-12-28 at 11 09 37 AM" src="https://github.com/user-attachments/assets/13bff702-40b4-49d8-afae-2692bf07583a" />
     </td>
     <td align="center">
-      
+      <img width="200" alt="Screenshot 2024-12-28 at 11 10 10 AM" src="https://github.com/user-attachments/assets/8aa0db38-215a-4965-802b-f7b7648e7afd" />
     </td>
     <td align="center">
-      
+      <img width="400" alt="Screenshot 2024-12-28 at 11 11 07 AM" src="https://github.com/user-attachments/assets/622182f1-07a3-4e77-976d-e5b3b7c54b43" />
     </td>
     <td align="center">
-      
+      <img width="400" alt="Screenshot 2024-12-28 at 11 11 19 AM" src="https://github.com/user-attachments/assets/781f0ce6-679e-477a-a14f-82500eb4306b" />
     </td>
   </tr>
 </table>
