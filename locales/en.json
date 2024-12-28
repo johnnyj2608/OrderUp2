@@ -18,7 +18,7 @@
 		"apply_filter": "titles.apply_filter"
 	},
 	"buttons": {
-		"submit_order": "Submit Order",
+		"submit_order": "Submit",
 		"back": "Back",
 		"orders": "Orders",
 		"history": "History",
