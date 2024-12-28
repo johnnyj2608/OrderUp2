@@ -126,7 +126,7 @@ async function submitOrder(button) {
 
         const selectedBreakfast = document.querySelector('.selectedBreakfast');
         const breakfastID = selectedBreakfast?.id?.replace(/^menu-/, '') || null;
-        const breakfastName = selectedBreakfast.getAttribute('data-text') || null;
+        const breakfastName = selectedBreakfast?.getAttribute('data-text') || null;
 
         const selectedLunch = document.querySelector('.selectedLunch');
         const lunchID = selectedLunch?.id?.replace(/^menu-/, '') || null;
