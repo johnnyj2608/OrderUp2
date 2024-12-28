@@ -5,14 +5,20 @@ const { connectToDb } = require('../database/db');
 router.post("/submit", async (req, res) => {
     const { 
         memberID,
-        convertedDate,
+        dateInput,
         breakfastID,
         breakfastName,
         lunchID,
         lunchName,
     } = req.body;
 
-    const timestamp = new Date();
+    const dateArray = dateInput.split("-");
+    const year = dateArray[0];
+    const month = parseInt(dateArray[1], 10) - 1;
+    const day = dateArray[2];
+    const selectedDate = new Date(year, month, day);
+
+    const timestamp = new Date().toLocaleString();
 
     try {
         const client = await connectToDb();
@@ -22,7 +28,7 @@ router.post("/submit", async (req, res) => {
             FROM orders
             WHERE member_id = $1 AND date = $2
         `;
-        const result = await client.query(existingOrderQuery, [memberID, convertedDate]);
+        const result = await client.query(existingOrderQuery, [memberID, selectedDate]);
         const existingOrder = result.rows[0];
 
         if (existingOrder) {
@@ -47,7 +53,7 @@ router.post("/submit", async (req, res) => {
             `;
             await client.query(orderInsertQuery, [
                 memberID,
-                convertedDate,
+                selectedDate,
                 breakfastName,
                 lunchName,
                 timestamp,

@@ -6,14 +6,17 @@ document.getElementById('datePicker').addEventListener('change', handleDateClick
 
 function handleDateClick() {
     const dateInput = document.getElementById('datePicker');
-    const selectedDate = dateInput.value;
-    const convertedDate = new Date(dateInput.value + 'T00:00:00');
+    
+    const dateArray = dateInput.value.split("-");
+    const year = dateArray[0];
+    const month = parseInt(dateArray[1], 10) - 1;
+    const day = dateArray[2];
+    const selectedDate = new Date(year, month, day);
 
-    const dateObj = new Date(convertedDate);
-    const weekday = dateObj.getDay();
+    const weekday = selectedDate.getDay();
     if (weekday === 0) {
         alert('No menus available on Sunday');
     } else {
-        window.location.href = `?date=${selectedDate}`;
+        window.location.href = `?date=${dateInput.value}`;
     }
 }

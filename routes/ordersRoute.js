@@ -14,16 +14,22 @@ const dayOfWeekColumns = [
 
 router.get('/orders', async (req, res) => {
     try {
-        const selectedDate = req.query.date || new Date().toISOString().split('T')[0];
-        const convertedDate = new Date(selectedDate + 'T00:00:00');
-        const selectedWeekday = new Date(convertedDate).getDay();
+        const dateInput = req.query.date || new Date().toLocaleDateString('en-CA');
+
+        const dateArray = dateInput.split("-");
+        const year = dateArray[0];
+        const month = parseInt(dateArray[1], 10) - 1;
+        const day = dateArray[2];
+        const selectedDate = new Date(year, month, day);
+
+        const selectedWeekday = new Date(selectedDate).getDay();
 
         const client = await connectToDb();
 
         const breakfastMenu = await getMenuItems(client, selectedWeekday, 'B');
         const lunchMenu = await getMenuItems(client, selectedWeekday, 'L');
         
-        const orders = await getOrdersByDate(client, convertedDate);
+        const orders = await getOrdersByDate(client, selectedDate);
 
         orders.forEach(order => {
             const breakfastItem = breakfastMenu[order.breakfast];
@@ -38,18 +44,13 @@ router.get('/orders', async (req, res) => {
             }
         });
 
-        const weekday = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(convertedDate);
-        const month = new Intl.DateTimeFormat('en-US', { month: '2-digit' }).format(convertedDate);
-        const day = new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(convertedDate);
-        const year = new Intl.DateTimeFormat('en-US', { year: 'numeric' }).format(convertedDate);
-
-        const formattedDate = req.__('titles.date_title', req.__('titles.'+weekday.toLowerCase()))+ `, ${month}/${day}/${year}`;
+        const formattedDate = req.__('titles.date_title', req.__('titles.'+dayOfWeekColumns[selectedWeekday]))+ `, ${month}/${day}/${year}`;
 
         res.render('orders', { 
             breakfastMenu, 
             lunchMenu,
             formattedDate,
-            selectedDate
+            dateInput,
         });
     } catch (error) {
         res.status(500).send("Error loading data");

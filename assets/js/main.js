@@ -119,8 +119,7 @@ function handleScroll() {
 
 async function submitOrder(button) {
     if (!button.classList.contains('disabled')) {
-        const selectedDate = document.getElementById('datePicker').value;
-        const convertedDate = new Date(selectedDate + 'T00:00:00');
+        const dateInput = document.getElementById('datePicker').value || new Date().toLocaleString();;
 
         const selectedName = document.querySelector('#nameList li.selected');
         const memberID = selectedName ? selectedName.getAttribute('data-index') : null;
@@ -141,7 +140,7 @@ async function submitOrder(button) {
                 },
                 body: JSON.stringify({ 
                     memberID,
-                    convertedDate,
+                    dateInput,
                     breakfastID,
                     breakfastName,
                     lunchID,
@@ -154,18 +153,20 @@ async function submitOrder(button) {
 
                 const menuValue = selectedName.getAttribute('data-menu');
                 const menuTypeSpan = selectedName.querySelector('.menu-type');
-                if (breakfastName !== 'none' && lunchName !== 'none' || menuValue !== 'A') {
+                if (breakfastName !== null && lunchName !== null || menuValue !== 'A') {
                     selectedName.parentNode.removeChild(selectedName);
-                } else if (breakfastName !== 'none') {
+                } else if (breakfastName !== null) {
                     selectedName.setAttribute('data-menu', 'L');
                     menuTypeSpan.innerText = 'L';
-                } else if (lunchName !== 'none') {
+                } else if (lunchName !== null) {
                     selectedName.setAttribute('data-menu', 'B');
                     menuTypeSpan.innerText = 'B';
                 }
                 
-                handleScroll()
+                handleScroll();
                 resetSelection();
+
+                console.log("Order submitted successfully!");
             } else {
                 alert("error")
             }
