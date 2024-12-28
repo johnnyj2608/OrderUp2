@@ -2,9 +2,19 @@ document.getElementById('calendar-icon').addEventListener('click', () => {
     document.getElementById('datePicker').showPicker();
 });
 
-document.getElementById('datePicker').addEventListener('change', handleDateClick);
+document.getElementById('datePicker').addEventListener('change', () => {
+    let route = '';
+    const currentPath = window.location.pathname;
 
-function handleDateClick() {
+    if (currentPath.includes('orders')) {
+        route = 'orders'; 
+    } else if (currentPath.includes('history')) {
+        route = 'history';
+    }
+    handleDateClick(route);
+});
+
+function handleDateClick(route='') {
     const dateInput = document.getElementById('datePicker');
     
     const dateArray = dateInput.value.split("-");
@@ -17,6 +27,6 @@ function handleDateClick() {
     if (weekday === 0) {
         alert('No menus available on Sunday');
     } else {
-        window.location.href = `?date=${dateInput.value}`;
+        window.location.href = `/${route}?date=${dateInput.value}`;
     }
 }

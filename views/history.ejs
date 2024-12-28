@@ -67,16 +67,16 @@
         </div>
         <div id="view-footer" class="row footer align-items-center">
             <div class="col button-container">
-                <button class="actionButton" onclick="window.location.href='/'"><%= __("buttons.back") %></button>  
+                <button class="actionButton" onclick="handleDateClick()"><%= __("buttons.back") %></button>  
                 <div class="dropdown">
                     <button class="dropdown-toggle actionButton w-100" data-bs-toggle="dropdown" aria-expanded="false">
                         <%= __("buttons.views") %>
                     </button>
                     <ul class="dropdown-menu w-100 text-center">
-                        <li><a class="dropdown-item" href="/orders"><%= __("buttons.orders") %></a></li>
+                        <li><a class="dropdown-item" href="#" onclick="handleDateClick('orders')"><%= __("buttons.orders") %></a></li>
                         <li><a class="dropdown-item" href="/menu"><%= __("buttons.menu") %></a></li>
                         <li><a class="dropdown-item" href="/members"><%= __("buttons.members") %></a></li>
-                        <li><a class="dropdown-item" href="/history"><%= __("buttons.history") %></a></li>
+                        <li><a class="dropdown-item" href="#" onclick="handleDateClick('history')"><%= __("buttons.history") %></a></li>
                     </ul>
                 </div>
             </div>
