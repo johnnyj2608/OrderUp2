@@ -15,18 +15,18 @@ document.getElementById('datePicker').addEventListener('change', () => {
 });
 
 function handleDateClick(route='') {
-    const dateInput = document.getElementById('datePicker');
+    const dateInput = document.getElementById('datePicker').value;
     
-    const dateArray = dateInput.value.split("-");
+    const dateArray = dateInput.split("-");
     const year = dateArray[0];
-    const month = parseInt(dateArray[1], 10) - 1;
+    const month = dateArray[1];
     const day = dateArray[2];
-    const selectedDate = new Date(year, month, day);
+    const selectedDate = new Date(year, parseInt(month, 10)-1, day);
 
     const weekday = selectedDate.getDay();
     if (weekday === 0) {
         alert('No menus available on Sunday');
     } else {
-        window.location.href = `/${route}?date=${dateInput.value}`;
+        window.location.href = `/${route}?date=${dateInput}`;
     }
 }
