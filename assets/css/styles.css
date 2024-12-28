@@ -238,8 +238,10 @@
       list-style-type: none;
       border: 1px solid #333;
       width: 100%;
+      height: 49svh;
       background-color: #f9f9f9;
       text-align: center;
+      overflow-y: auto;
 }
 
 .nameResponses li {

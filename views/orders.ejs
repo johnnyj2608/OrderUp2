@@ -45,16 +45,10 @@
                             <p class="panel-title"><%= item.name %></p>
 
                             <ul class="nameResponses" onclick="toggleNames(this)">
-                                <% if (item.names.length > 0) { %>
-                                    <i class="fas fa-chevron-down"></i>
-                                <% } %>
-                                <div class="hidden">
-                                    <% item.names.forEach(name => { %>
-                                        <li><%= name %></li>
-                                    <% }) %>
-                                </div>
+                                <% item.names.forEach(name => { %>
+                                    <li><%= name %></li>
+                                <% }) %>    
                             </ul>
-                            
                         </div>
                         <div class="edit-mode w-100 hidden">
                             <textarea class="panel-img w-100 d-flex"></textarea>
