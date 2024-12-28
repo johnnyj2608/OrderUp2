@@ -315,6 +315,10 @@ td .fa-times {
       color: white !important;
 }
 
+.dropdown-menu {
+      width: 33%;
+}
+
 .dropdown-menu .form-check-label {
       width: 100%;
       cursor: pointer;
@@ -391,5 +395,9 @@ td .fa-times {
 
       #bottom-scroll {
             bottom: 11svh;
+      }
+
+      button {
+            font-size: 20px !important;
       }
 }
