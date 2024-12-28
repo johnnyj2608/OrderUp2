@@ -31,7 +31,7 @@ router.get('/history', async (req, res) => {
             FROM orders o
             LEFT JOIN members m ON o.member_id = m.id
             WHERE o.date = $1
-            ORDER BY o.timestamp ASC
+            ORDER BY o.id ASC
         `;
         const result = await client.query(query, [selectedDate]);
         const rawOrderList = result.rows;

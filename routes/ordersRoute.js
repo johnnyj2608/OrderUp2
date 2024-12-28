@@ -66,7 +66,8 @@ async function getMenuItems(client, selectedDay, menuType) {
     const query = `
         SELECT name, image
         FROM menu
-        WHERE type = $1 AND ${selectedDayColumn} = TRUE; 
+        WHERE type = $1 AND ${selectedDayColumn} = TRUE
+        ORDER BY id ASC;
     `;
     const result = await client.query(query, [menuType]);
     const menuItems = result.rows.reduce((acc, item) => {
@@ -86,7 +87,8 @@ async function getOrdersByDate(client, targetDate) {
         FROM orders o
         INNER JOIN members m
         ON o.member_id = m.id
-        WHERE o.date = $1;
+        WHERE o.date = $1
+        ORDER BY o.id ASC;
     `;
     const result = await client.query(query, [targetDate]);
     return result.rows; 

@@ -6,7 +6,7 @@ router.get('/menu', async (req, res) => {
     try {
         const client = await connectToDb();
 
-        const query = 'SELECT * FROM menu ORDER BY type ASC, name ASC';
+        const query = 'SELECT * FROM menu ORDER BY type ASC, id ASC';
         const result = await client.query(query);
         const menuList = result.rows;
 
