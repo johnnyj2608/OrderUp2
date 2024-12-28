@@ -356,6 +356,17 @@ td .fa-times {
       border-bottom: 1px solid #ddd;
 }
 
+.sticky-row h3 {
+      margin: 0;
+}
+
+#datePicker {
+      position: fixed;
+      top: 4svh;
+      left: 1svh;
+      width: 100%;
+}
+
 @media (max-width: 767px) {
       #nameList {
             height: 35svh;
