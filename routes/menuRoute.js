@@ -40,10 +40,11 @@ router.post('/menu/update', async (req, res) => {
                         wednesday = $5,
                         thursday = $6,
                         friday = $7,
-                        saturday = $8
-                    WHERE id = $9
+                        saturday = $8,
+                        count = $9
+                    WHERE id = $10
                 `;
-                await client.query(updateQuery, [name, image, monday, tuesday, wednesday, thursday, friday, saturday, id]);
+                await client.query(updateQuery, [name, image, monday, tuesday, wednesday, thursday, friday, saturday, count, id]);
             } else {
                 // If the id does not exist, insert a new row
                 const insertQuery = `
