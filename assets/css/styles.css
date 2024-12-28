@@ -402,4 +402,8 @@ td .fa-times {
       button {
             font-size: 20px !important;
       }
+
+      .nameResponses {
+            height: 40svh;
+      }
 }
