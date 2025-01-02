@@ -32,8 +32,10 @@
       top: 0px;
 }
 
-#edit-button, #switch-button {
-      margin-right: 25px;
+#project-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
 }
 
 #edit-button.active-edit {
@@ -374,6 +376,11 @@ td .fa-times {
 }
 
 @media (max-width: 767px) {
+      #project-title {
+            font-size: 15px;
+            
+      }
+
       #nameList {
             height: 35svh;
       }
