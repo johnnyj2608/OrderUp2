@@ -6,7 +6,7 @@ function createPanelRows(menuItems, containerId) {
 
     function createPanelCols(cols) {
         const keys = Object.keys(menuItems);
-        let rowHtml = '<div class="row breakfast-panel justify-content-center mt-4">';
+        let rowHtml = '<div class="row w-100 breakfast-panel justify-content-center mt-4">';
 
         for (let i = index; i < index + cols && i < keys.length; i++) {
             const key = keys[i];
