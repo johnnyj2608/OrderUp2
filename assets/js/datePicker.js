@@ -1,7 +1,7 @@
 document.getElementById('calendar-icon').addEventListener('click', () => {
     const datePicker = document.getElementById('datePicker');
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
+    console.log(isSafari);
     if (isSafari) {
         datePicker.click();
     } else {
