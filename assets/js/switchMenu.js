@@ -1,7 +1,7 @@
 function switchMenu() {
     const switchText = document.getElementById('switch-text');
-    const breakfastPanel = document.querySelector('.breakfast-panel');
-    const lunchPanel = document.querySelector('.lunch-panel');
+    const breakfastPanel = document.getElementById('breakfast-panel');
+    const lunchPanel = document.getElementById('lunch-panel');
 
     if (breakfastPanel.classList.contains('hidden')) {
         breakfastPanel.classList.remove('hidden');
