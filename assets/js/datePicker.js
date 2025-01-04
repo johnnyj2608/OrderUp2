@@ -1,5 +1,12 @@
 document.getElementById('calendar-icon').addEventListener('click', () => {
-    document.getElementById('datePicker').showPicker();
+    const datePicker = document.getElementById('datePicker');
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+    if (isSafari) {
+        datePicker.click();
+    } else {
+        datePicker.showPicker();
+    }
 });
 
 document.getElementById('datePicker').addEventListener('change', () => {
