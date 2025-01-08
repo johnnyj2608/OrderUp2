@@ -27,7 +27,7 @@ router.get('/history', async (req, res) => {
         const client = await connectToDb();
 
         const query = `
-            SELECT o.id, m.name AS member_name, o.date, o.breakfast, o.lunch, o.timestamp, o.received
+            SELECT o.id, m.name AS member_name, o.date, o.breakfast, o.b_received, o.lunch, o.l_received, o.timestamp
             FROM orders o
             LEFT JOIN members m ON o.member_id = m.id
             WHERE o.date = $1

@@ -1,4 +1,4 @@
-async function toggleStrikethrough(element, orderID) {
+async function toggleStrikethrough(element, orderID, menu_received) {
     element.classList.toggle('strikethrough');
     const hasStrikethrough = element.classList.contains('strikethrough');
     try {
@@ -9,6 +9,7 @@ async function toggleStrikethrough(element, orderID) {
             },
             body: JSON.stringify({ 
                 orderID,
+                menu_received,
                 hasStrikethrough,
             }),
         });
@@ -30,9 +31,13 @@ function createPanelRows(menuItems, containerId) {
     let index = 0;
     let html = '';
 
+    const keys = Object.keys(menuItems);
+    const menu_received = containerId[0]+"_received";
+
     function createPanelCols(cols) {
-        const keys = Object.keys(menuItems);
+        
         let rowHtml = '<div class="row w-100 breakfast-panel justify-content-center mt-4">';
+        
 
         for (let i = index; i < index + cols && i < keys.length; i++) {
             const key = keys[i];
@@ -53,7 +58,7 @@ function createPanelRows(menuItems, containerId) {
                             <!-- Non-Received Orders (Top Section) -->
                             ${item.orders.filter(order => !order.received).map(order => {
                                 return `
-                                    <li class="pointer" onclick="toggleStrikethrough(this, ${order.id})">
+                                    <li class="pointer" onclick="toggleStrikethrough(this, ${order.id}, '${menu_received}')">
                                         ${order.name}
                                     </li>
                                 `;
@@ -62,7 +67,7 @@ function createPanelRows(menuItems, containerId) {
                             <!-- Received Orders (Bottom Section) -->
                             ${item.orders.filter(order => order.received).map(order => {
                                 return `
-                                    <li class="strikethrough pointer" onclick="toggleStrikethrough(this, ${order.id})">
+                                    <li class="strikethrough pointer" onclick="toggleStrikethrough(this, ${order.id}, '${menu_received}')">
                                         ${order.name}
                                     </li>
                                 `;

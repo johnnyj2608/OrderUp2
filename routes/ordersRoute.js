@@ -38,11 +38,17 @@ router.get('/orders', async (req, res) => {
 
             if (breakfastItem || lunchItem) {
                 if (breakfastItem) {
-                    breakfastItem.orders.push({ id: order.id, name: order.name, received: order.received });
+                    breakfastItem.orders.push({ 
+                        id: order.id, 
+                        name: order.name, 
+                        received: order.b_received });
                     breakfastItem.amt += 1;
                 }
                 if (lunchItem) {
-                    lunchItem.orders.push({ id: order.id, name: order.name, received: order.received });
+                    lunchItem.orders.push({ 
+                        id: order.id, 
+                        name: order.name, 
+                        received: order.l_received });
                     lunchItem.amt += 1;
                 }
             } else {
@@ -90,7 +96,7 @@ async function getMenuItems(client, selectedDay, menuType) {
 
 async function getOrdersByDate(client, targetDate) {
     const query = `
-        SELECT o.id, o.breakfast, o.lunch, o.received, m.name AS name
+        SELECT o.id, o.breakfast, o.b_received, o.lunch, o.l_received, m.name AS name
         FROM orders o
         INNER JOIN members m
         ON o.member_id = m.id
@@ -104,6 +110,7 @@ async function getOrdersByDate(client, targetDate) {
 router.post("/orders", async (req, res) => {
     const { 
         orderID,
+        menu_received,
         hasStrikethrough,
     } = req.body;
     
@@ -112,7 +119,7 @@ router.post("/orders", async (req, res) => {
         
         const updateQuery = `
             UPDATE orders
-            SET received = $1
+            SET ${menu_received} = $1
             WHERE id = $2;
         `;
         await client.query(updateQuery, [hasStrikethrough, orderID]);

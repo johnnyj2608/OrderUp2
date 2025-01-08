@@ -19,7 +19,7 @@
             </div>
             <div class="col-auto">
                 <div class="dropdown">
-                    <span onclick="handleEditClick(6);">
+                    <span onclick="handleEditClick(7);">
                         <i id="edit-button" class="fas fa-pencil-alt"></i>
                     </span>
                 </div>
@@ -37,10 +37,11 @@
                     <tr>
                         <th style="width: 15%;"><%= __("tables.date") %></th>
                         <th style="width: 20%;"><%= __("tables.member") %></th>
-                        <th style="width: 20%;"><%= __("titles.breakfast") %></th>
-                        <th style="width: 20%;"><%= __("titles.lunch") %></th>
-                        <th style="width: 15%;"><%= __("tables.timestamp") %></th>
+                        <th style="width: 15%;"><%= __("titles.breakfast") %></th>
                         <th style="width: 10%;"><%= __("tables.received") %></th>
+                        <th style="width: 15%;"><%= __("titles.lunch") %></th>
+                        <th style="width: 10%;"><%= __("tables.received") %></th>
+                        <th style="width: 15%;"><%= __("tables.timestamp") %></th>
                     </tr>
                 </thead>
                 <tbody id="data-body" class="view-mode">
@@ -51,9 +52,10 @@
                                 <%= order.member_name !== null ? order.member_name : 'Disenrolled Member' %>
                             </td>
                             <td><%= order.breakfast %></td>
+                            <td><%- order.b_received ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
                             <td><%= order.lunch %></td>
+                            <td><%- order.l_received ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
                             <td><%= order.timestamp %></td>
-                            <td><%- order.received ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
                         </tr>
                     <% }); %>
                 </tbody>
