@@ -34,16 +34,16 @@ router.get('/orders', async (req, res) => {
         let foodRemoved = false;
         orders.forEach(order => {
             const breakfastItem = breakfastMenu[order.breakfast];
-            if (breakfastItem) {
-                breakfastItem.names.push(order.name);
-                breakfastItem.amt += 1;
-            } else {
-                foodRemoved = true;
-            }
             const lunchItem = lunchMenu[order.lunch];
-            if (lunchItem) {
-                lunchItem.names.push(order.name);
-                lunchItem.amt += 1;
+
+            if (breakfastItem || lunchItem) {
+                if (breakfastItem) {
+                    breakfastItem.names.push(order.name);
+                    breakfastItem.amt += 1;
+                } else {
+                    lunchItem.names.push(order.name);
+                    lunchItem.amt += 1;
+                }
             } else {
                 foodRemoved = true;
             }
