@@ -50,11 +50,19 @@ function createPanelRows(menuItems, containerId) {
                         <p class="panel-title">${item.name}</p>
 
                         <ul class="nameResponses">
-                        
-                            ${item.orders.map(order => {
-                                const strikethroughClass = order.received ? 'strikethrough' : '';
+                            <!-- Non-Received Orders (Top Section) -->
+                            ${item.orders.filter(order => !order.received).map(order => {
                                 return `
-                                    <li class="${strikethroughClass} pointer" onclick="toggleStrikethrough(this, ${order.id})">
+                                    <li class="pointer" onclick="toggleStrikethrough(this, ${order.id})">
+                                        ${order.name}
+                                    </li>
+                                `;
+                            }).join('')}
+
+                            <!-- Received Orders (Bottom Section) -->
+                            ${item.orders.filter(order => order.received).map(order => {
+                                return `
+                                    <li class="strikethrough pointer" onclick="toggleStrikethrough(this, ${order.id})">
                                         ${order.name}
                                     </li>
                                 `;
