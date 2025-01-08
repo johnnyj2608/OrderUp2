@@ -36,10 +36,11 @@
                 <thead class="sticky-row">
                     <tr>
                         <th style="width: 15%;"><%= __("tables.date") %></th>
-                        <th style="width: 30%;"><%= __("tables.member") %></th>
+                        <th style="width: 20%;"><%= __("tables.member") %></th>
                         <th style="width: 20%;"><%= __("titles.breakfast") %></th>
                         <th style="width: 20%;"><%= __("titles.lunch") %></th>
                         <th style="width: 15%;"><%= __("tables.timestamp") %></th>
+                        <th style="width: 10%;"><%= __("tables.received") %></th>
                     </tr>
                 </thead>
                 <tbody id="data-body" class="view-mode">
@@ -52,6 +53,7 @@
                             <td><%= order.breakfast %></td>
                             <td><%= order.lunch %></td>
                             <td><%= order.timestamp %></td>
+                            <td><%- order.received ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
                         </tr>
                     <% }); %>
                 </tbody>

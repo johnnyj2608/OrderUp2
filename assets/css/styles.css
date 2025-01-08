@@ -375,6 +375,10 @@ td .fa-times {
       width: 100%;
 }
 
+.strikethrough {
+      text-decoration: line-through;
+}
+
 @media (max-width: 767px) {
       #project-title {
             font-size: 15px;

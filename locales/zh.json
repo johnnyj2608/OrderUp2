@@ -39,7 +39,8 @@
 		"image": "图片",
 		"date": "日期",
 		"member": "会员",
-		"timestamp": "时间戳"
+		"timestamp": "时间戳",
+		"received": "已收到"
 	},
 	"languages": {
 		"english": "英语",

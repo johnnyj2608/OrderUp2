@@ -1,3 +1,29 @@
+async function toggleStrikethrough(element, orderID) {
+    element.classList.toggle('strikethrough');
+    const hasStrikethrough = element.classList.contains('strikethrough');
+    try {
+        const response = await fetch('/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                orderID,
+                hasStrikethrough,
+            }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            
+        } else {
+            alert("error")
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 function createPanelRows(menuItems, containerId) {
     const panels = Object.keys(menuItems).length;
     let rows = Math.ceil(panels / 4);
@@ -24,7 +50,15 @@ function createPanelRows(menuItems, containerId) {
                         <p class="panel-title">${item.name}</p>
 
                         <ul class="nameResponses">
-                            ${item.names.map(name => `<li>${name}</li>`).join('')}
+                        
+                            ${item.orders.map(order => {
+                                const strikethroughClass = order.received ? 'strikethrough' : '';
+                                return `
+                                    <li class="${strikethroughClass} pointer" onclick="toggleStrikethrough(this, ${order.id})">
+                                        ${order.name}
+                                    </li>
+                                `;
+                            }).join('')}
                         </ul>
                     </div>
                 </div>

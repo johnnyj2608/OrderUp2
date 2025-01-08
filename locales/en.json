@@ -39,7 +39,8 @@
 		"image": "Image",
 		"date": "Date",
 		"member": "Member",
-		"timestamp": "Timestamp"
+		"timestamp": "Timestamp",
+		"received": "Received"
 	},
 	"languages": {
 		"english": "English",

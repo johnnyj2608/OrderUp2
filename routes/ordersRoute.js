@@ -38,10 +38,10 @@ router.get('/orders', async (req, res) => {
 
             if (breakfastItem || lunchItem) {
                 if (breakfastItem) {
-                    breakfastItem.names.push(order.name);
+                    breakfastItem.orders.push({ id: order.id, name: order.name, received: order.received });
                     breakfastItem.amt += 1;
                 } else {
-                    lunchItem.names.push(order.name);
+                    lunchItem.orders.push({ id: order.id, name: order.name, received: order.received });
                     lunchItem.amt += 1;
                 }
             } else {
@@ -80,7 +80,7 @@ async function getMenuItems(client, selectedDay, menuType) {
         acc[item.name] = {
             ...item,
             amt: 0,
-            names: []
+            orders: []
         };
         return acc;
     }, {});
@@ -89,7 +89,7 @@ async function getMenuItems(client, selectedDay, menuType) {
 
 async function getOrdersByDate(client, targetDate) {
     const query = `
-        SELECT o.id, o.breakfast, o.lunch, m.name AS name
+        SELECT o.id, o.breakfast, o.lunch, o.received, m.name AS name
         FROM orders o
         INNER JOIN members m
         ON o.member_id = m.id
@@ -99,5 +99,28 @@ async function getOrdersByDate(client, targetDate) {
     const result = await client.query(query, [targetDate]);
     return result.rows; 
 }
+
+router.post("/orders", async (req, res) => {
+    const { 
+        orderID,
+        hasStrikethrough,
+    } = req.body;
+    
+    try{
+        const client = await connectToDb();
+        
+        const updateQuery = `
+            UPDATE orders
+            SET received = $1
+            WHERE id = $2;
+        `;
+        await client.query(updateQuery, [hasStrikethrough, orderID]);
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error:', error);
+        res.json({ success: false });
+    }
+});
 
 module.exports = router;
