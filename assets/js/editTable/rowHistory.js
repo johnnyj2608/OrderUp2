@@ -9,12 +9,16 @@ function createEditRow(cols, content = false) {
         const newCell = document.createElement('td');
         const cellText = content ? content[i] : '';
 
-        newCell.textContent = cellText;
-        newRow.appendChild(newCell);
-    }
+        if (cellText === true || cellText === false) {
+            const icon = cellText 
+                ? "<i class='fas fa-check'></i>"
+                : "<i class='fas fa-times'></i>";
+            newCell.innerHTML = icon;
+        } else {
+            newCell.textContent = cellText;
+        }
 
-    if (newRow.cells[cols-1]) {
-        newRow.cells[cols-1].style.textAlign = 'left';
+        newRow.appendChild(newCell);
     }
     return newRow;
 }
@@ -49,6 +53,9 @@ async function handleSave() {
                 }).format(convertedDate);
 
                 viewCell.innerText = formattedDate;
+            } else if (editCell.querySelector('i') !== null) {
+                const icon = editCell.querySelector('i').outerHTML;
+                viewCell.innerHTML = icon;
             } else {
                 viewCell.innerText = cellText;
             }
