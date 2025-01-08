@@ -377,6 +377,7 @@ td .fa-times {
 
 .strikethrough {
       text-decoration: line-through;
+      text-decoration-color: red;
 }
 
 @media (max-width: 767px) {
