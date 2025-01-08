@@ -1,11 +1,6 @@
 @media print { 
-    .header, .footer, .image-container img {
+    .image-container img {
         display: none !important;
-    }
-
-    .content {
-        margin-top: 0;
-        margin-bottom: 0;
     }
 
     .nameResponses {

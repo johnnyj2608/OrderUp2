@@ -414,3 +414,14 @@ td .fa-times {
             height: 40svh;
       }
 }
+
+@media print { 
+      .header, .footer {
+          display: none !important;
+      }
+
+      .content {
+            margin-top: 0;
+            margin-bottom: 0;
+      }
+}
