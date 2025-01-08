@@ -74,7 +74,7 @@ router.get('/history', async (req, res) => {
 });
 
 
-router.post('/history/update', async (req, res) => {
+router.post('/history', async (req, res) => {
     try {
         const client = await connectToDb();
         await client.query('BEGIN');

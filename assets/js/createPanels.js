@@ -23,7 +23,7 @@ function createPanelRows(menuItems, containerId) {
                         </div>
                         <p class="panel-title">${item.name}</p>
 
-                        <ul class="nameResponses" onclick="toggleNames(this)">
+                        <ul class="nameResponses">
                             ${item.names.map(name => `<li>${name}</li>`).join('')}
                         </ul>
                     </div>

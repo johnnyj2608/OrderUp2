@@ -17,7 +17,7 @@ router.get('/members', async (req, res) => {
 });
 
 
-router.post('/members/update', async (req, res) => {
+router.post('/members', async (req, res) => {
     const newIds = [];
     try {
         const client = await connectToDb();

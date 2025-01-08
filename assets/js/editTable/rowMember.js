@@ -166,7 +166,7 @@ async function handleSave() {
 
     if (dataUpdate.length > 0) {
         try {
-            const response = await fetch('/members/update', {
+            const response = await fetch('/members', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

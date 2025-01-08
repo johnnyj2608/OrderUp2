@@ -78,7 +78,7 @@ async function handleSave() {
 
     if (dataUpdate.length > 0) {
         try {
-            const response = await fetch('/history/update', {
+            const response = await fetch('/history', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

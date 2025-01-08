@@ -17,7 +17,7 @@ router.get('/menu', async (req, res) => {
 });
 
 
-router.post('/menu/update', async (req, res) => {
+router.post('/menu', async (req, res) => {
     const newIds = [];
     try {
         const client = await connectToDb();
