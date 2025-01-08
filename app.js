@@ -17,7 +17,7 @@ const switchRoute = require('./routes/switchRoute');
 const app = express();
 
 const customAuth = (username, password) => {
-    return password === process.env.ADMIN_PASSWORD;
+    return username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD;
 };
 
 app.use(basicAuth({
