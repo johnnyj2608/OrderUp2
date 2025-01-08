@@ -1,0 +1,26 @@
+@media print { 
+    .header, .footer, .image-container img {
+        display: none !important;
+    }
+
+    .content {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .nameResponses {
+        height: auto;
+        max-height: none;
+    }
+    
+    .nameResponses {
+        display: flex;
+        flex-wrap: wrap;
+    }
+  
+    .nameResponses li {
+        flex: 1 1 auto;
+        border: 1px solid #ddd;
+        padding: 2px 5px;
+    }
+}
