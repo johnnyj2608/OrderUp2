@@ -39,9 +39,20 @@
             </div>
             <button id="bottom-scroll" onclick="scrollToBottom()">↓</button>
         </div>
-        <div id="view-footer" class="row footer align-items-center">
-            <div class="col button-container">
+        <div class="row footer align-items-center">
+            <div class="col align-items-center button-container">
                 <button class="actionButton" onclick="handleDateClick()"><%= __("buttons.back") %></button>  
+                
+                <% if (foodRemoved) { %>
+                    <div 
+                        id="info-button"
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top" 
+                        title="<%= __('buttons.removed_message') %>">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                <% } %>
+
                 <button class="dropdown-toggle actionButton" data-bs-toggle="dropdown" aria-expanded="false">
                     <%= __("buttons.views") %>
                 </button>
@@ -51,20 +62,6 @@
                     <li><a class="dropdown-item" href="/members"><%= __("buttons.members") %></a></li>
                     <li><a class="dropdown-item" href="#" onclick="handleDateClick('history')"><%= __("buttons.history") %></a></li>
                 </ul>
-            </div>
-        </div>
-        <div id="edit-footer" class="row footer align-items-center hidden">
-            <div class="col button-container">
-                <button id="cancelButton" class="actionButton" onclick="handleCancel()"><%= __("buttons.cancel") %></button>
-                <span>
-                    <button id="undo-button" onclick="undo()" class="actionButton desaturate">
-                        <i class="fas fa-undo"></i>
-                    </button>
-                    <button id="redo-button" onclick="redo()" class="actionButton desaturate">
-                        <i class="fas fa-redo"></i>
-                    </button>
-                </span>
-                <button id="saveButton" class="actionButton" onclick="handleSave()"><%= __("buttons.save") %></button>
             </div>
         </div>
     </div>

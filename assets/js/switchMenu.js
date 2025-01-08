@@ -13,3 +13,10 @@ function switchMenu() {
         switchText.innerHTML = 'L';
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const infoButton = document.getElementById('info-button');
+    if (infoButton) {
+        const tooltip = new bootstrap.Tooltip(infoButton);
+    }
+});

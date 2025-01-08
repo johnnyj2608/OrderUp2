@@ -31,16 +31,21 @@ router.get('/orders', async (req, res) => {
         
         const orders = await getOrdersByDate(client, selectedDate);
 
+        let foodRemoved = false;
         orders.forEach(order => {
             const breakfastItem = breakfastMenu[order.breakfast];
             if (breakfastItem) {
                 breakfastItem.names.push(order.name);
                 breakfastItem.amt += 1;
+            } else {
+                foodRemoved = true;
             }
             const lunchItem = lunchMenu[order.lunch];
             if (lunchItem) {
                 lunchItem.names.push(order.name);
                 lunchItem.amt += 1;
+            } else {
+                foodRemoved = true;
             }
         });
 
@@ -51,6 +56,7 @@ router.get('/orders', async (req, res) => {
             lunchMenu,
             formattedDate,
             dateInput,
+            foodRemoved,
         });
     } catch (error) {
         res.status(500).send("Error loading data");
