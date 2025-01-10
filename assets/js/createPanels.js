@@ -32,12 +32,11 @@ function createPanelRows(menuItems, containerId) {
     let html = '';
 
     const keys = Object.keys(menuItems);
-    const menu_received = containerId[0]+"_received";
+    const menu = containerId[0]
+    const menu_received = menu+"_received";
 
     function createPanelCols(cols) {
-        
         let rowHtml = '<div class="row w-100 breakfast-panel justify-content-center mt-4">';
-        
 
         for (let i = index; i < index + cols && i < keys.length; i++) {
             const key = keys[i];
@@ -56,22 +55,32 @@ function createPanelRows(menuItems, containerId) {
 
                         <ul class="nameResponses">
                             <!-- Non-Received Orders (Top Section) -->
-                            ${item.orders.filter(order => !order.received).map(order => {
-                                return `
-                                    <li class="pointer" onclick="toggleStrikethrough(this, ${order.id}, '${menu_received}')">
-                                        ${order.name}
-                                    </li>
-                                `;
-                            }).join('')}
-
+                            ${item.orders
+                                .filter(order => !order.received)
+                                .map(order => {
+                                    return `
+                                        <li class="pointer" 
+                                            data-order-id="${menu}-${order.id}"
+                                            onclick="toggleStrikethrough(this, ${order.id}, '${menu_received}')">
+                                            ${order.name}
+                                        </li>
+                                    `;
+                                })
+                                .join('')}
+                            
                             <!-- Received Orders (Bottom Section) -->
-                            ${item.orders.filter(order => order.received).map(order => {
-                                return `
-                                    <li class="strikethrough pointer" onclick="toggleStrikethrough(this, ${order.id}, '${menu_received}')">
-                                        ${order.name}
-                                    </li>
-                                `;
-                            }).join('')}
+                            ${item.orders
+                                .filter(order => order.received)
+                                .map(order => {
+                                    return `
+                                        <li class="pointer strikethrough" 
+                                            data-order-id="${menu}-${order.id}"
+                                            onclick="toggleStrikethrough(this, ${order.id}, '${menu_received}')">
+                                            ${order.name}
+                                        </li>
+                                    `;
+                                })
+                                .join('')}
                         </ul>
                     </div>
                 </div>
