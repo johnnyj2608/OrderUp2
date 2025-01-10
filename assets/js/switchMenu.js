@@ -12,6 +12,10 @@ function switchMenu() {
         lunchPanel.classList.remove('hidden');
         switchText.innerHTML = 'L';
     }
+
+    window.scrollTo({
+        top: 0,
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
