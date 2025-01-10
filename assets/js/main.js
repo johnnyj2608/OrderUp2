@@ -151,20 +151,22 @@ async function submitOrder(button) {
             const result = await response.json();
             if (result.success) {
 
-                const menuValue = selectedName.getAttribute('data-menu');
-                const menuTypeSpan = selectedName.querySelector('.menu-type');
-                if (breakfastName !== null && lunchName !== null || menuValue !== 'A') {
-                    selectedName.parentNode.removeChild(selectedName);
-                } else if (breakfastName !== null) {
-                    selectedName.setAttribute('data-menu', 'L');
-                    menuTypeSpan.innerText = 'L';
-                } else if (lunchName !== null) {
-                    selectedName.setAttribute('data-menu', 'B');
-                    menuTypeSpan.innerText = 'B';
-                }
+                // Handled by real time subscription
+
+                // const menuValue = selectedName.getAttribute('data-menu');
+                // const menuTypeSpan = selectedName.querySelector('.menu-type');
+                // if (breakfastName !== null && lunchName !== null || menuValue !== 'A') {
+                //     selectedName.parentNode.removeChild(selectedName);
+                // } else if (breakfastName !== null) {
+                //     selectedName.setAttribute('data-menu', 'L');
+                //     menuTypeSpan.innerText = 'L';
+                // } else if (lunchName !== null) {
+                //     selectedName.setAttribute('data-menu', 'B');
+                //     menuTypeSpan.innerText = 'B';
+                // }
                 
-                handleScroll();
                 resetSelection();
+                handleScroll();
 
                 console.log("Order submitted successfully!");
             } else {
