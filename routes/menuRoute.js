@@ -6,7 +6,18 @@ router.get('/menu', async (req, res) => {
     try {
         const client = await connectToDb();
 
-        const query = 'SELECT * FROM menu ORDER BY type ASC, id ASC';
+        const query = `
+            SELECT * FROM menu
+            ORDER BY 
+                type ASC,
+                CASE WHEN monday THEN 1 ELSE 2 END,
+                CASE WHEN tuesday THEN 1 ELSE 2 END,
+                CASE WHEN wednesday THEN 1 ELSE 2 END,
+                CASE WHEN thursday THEN 1 ELSE 2 END,
+                CASE WHEN friday THEN 1 ELSE 2 END,
+                CASE WHEN saturday THEN 1 ELSE 2 END,
+                name ASC;
+        `;
         const result = await client.query(query);
         const menuList = result.rows;
 
