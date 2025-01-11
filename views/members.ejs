@@ -13,16 +13,16 @@
         <div class="row header">
             <div class="col-auto">
                 <div class="dropdown">
-                    <button id="filter-dropdown" class="dropdown-toggle pointer" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                    <div id="filter-dropdown" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                         <i class="fas fa-filter"></i>
-                    </button>
+                    </div>
                     <ul class="dropdown-menu p-2">
                         <div class="mb-2">
                             <input 
                                 type="text" 
                                 id="search-bar" 
                                 class="form-control" 
-                                placeholder="Search" 
+                                placeholder=<%= __('titles.search') %>
                             />
                         </div>
                         <li>

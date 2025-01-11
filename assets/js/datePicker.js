@@ -1,9 +1,8 @@
 function toggleCalendar() {
     const searchBar = document.getElementById('searchContainer');
-    if (!searchBar.classList.contains('hidden')) {
+    if (searchBar) {
         searchBar.classList.add('hidden');
     }
-
     const datePicker = document.getElementById('datePicker');
     datePicker.click();         // Safari
     datePicker.focus();         // Mobile

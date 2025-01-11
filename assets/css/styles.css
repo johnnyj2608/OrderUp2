@@ -52,6 +52,7 @@
 .dropdown {
       overflow: visible;
       width: 33%;
+      z-index: 1000;
 }
 
 .dropdown:hover {
@@ -317,8 +318,17 @@ td .fa-times {
       color: white;
 }
 
+#filter-dropdown:hover i {
+      color: #ffddc1;
+      cursor: pointer;
+}
+
 #filter-dropdown::after {
       color: white !important;
+}
+
+#filter-dropdown:hover::after {
+      color: #ffddc1 !important;
 }
 
 .dropdown-menu {
