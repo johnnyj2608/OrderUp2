@@ -1,7 +1,7 @@
 -- Create Menu Table
 CREATE TABLE menu (
   id SERIAL PRIMARY KEY,
-  type VARCHAR(10) NOT NULL,
+  type VARCHAR(1) NOT NULL,
   name VARCHAR(100) NOT NULL,
   image TEXT DEFAULT '',
   monday BOOLEAN DEFAULT FALSE,

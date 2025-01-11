@@ -19,16 +19,20 @@ function createEditRow(cols, content = false) {
 
             const optionBreakfast = document.createElement('option');
             optionBreakfast.value = 'B';
-            optionBreakfast.textContent = 'B';
+            optionBreakfast.textContent = typeB;
             dropdown.appendChild(optionBreakfast);
 
             const optionLunch = document.createElement('option');
             optionLunch.value = 'L';
-            optionLunch.textContent = 'L';
+            optionLunch.textContent = typeL;
             dropdown.appendChild(optionLunch);
 
-            if (content && (content[i] === 'B' || content[i] === 'L')) {
-                dropdown.value = content[i];
+            if (content) {
+                if (content[0] === typeB) {
+                    dropdown.value = 'B';
+                } else if (content[0] === typeL) {
+                    dropdown.value = 'L'
+                }
             }
 
             dropdown.addEventListener('focus', function() {
@@ -135,9 +139,13 @@ async function handleSave() {
 
             if (i === 0) {
                 const dropdown = editCell.querySelector('select');
-                viewCell.innerText = dropdown.value;
-                if (dropdown.value !== '') {
+                if (dropdown.value) {
                     emptyAddRow = false;
+                    if (dropdown.value === 'B') {
+                        viewCell.innerText = typeB;
+                    } else if (dropdown.value === 'L') {
+                        viewCell.innerText = typeL;
+                    }
                 }
             } else if (i > 2 && i < editRow.querySelectorAll('td').length - 1) {
                 const checkbox = editCell.querySelector('input[type="checkbox"]');
