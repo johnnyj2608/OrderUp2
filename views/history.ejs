@@ -12,7 +12,8 @@
     <div class="container-fluid">
         <div class="row header">
             <div class="col-auto">
-                <i id="calendar-icon" class="dropdown fas fa-calendar-alt"></i>
+                <i id="calendar-icon" class="dropdown fas fa-calendar-alt mr-1" onclick="toggleCalendar()"></i>
+                <i id="search-icon" class="dropdown fas fa-search ml-1" onclick="toggleSearch()"></i>
             </div>
             <div class="col text-center" id="project-title">
                 <%= __("titles.project_title") %>
@@ -26,10 +27,14 @@
             </div>
         </div>
         <div class="content">
+            <div id="searchContainer" class="hidden">
+                <input type="text" id="memberSearch" class="form-control" placeholder="<%= __('titles.search_name') %>" />
+                <button id="searchButton" class="actionButton" onclick="handleSearch()"><%= __('titles.search') %></button>
+            </div>
             <input type="date" id="datePicker" value="<%= dateInput %>" style="opacity: 0;">
             <div class="row sticky-row">
                 <div class="col text-center">
-                    <h3><%= formattedDate %></h3>
+                    <h3><%= formattedTitle %></h3>
                 </div>
             </div>
             <table class="table table-striped table-bordered">
@@ -96,6 +101,7 @@
 
     <script src="/js/bottomScroll.js"></script>
     <script src="/js/datePicker.js"></script>
+    <script src="/js/memberSearch.js"></script>
     <script src="/js/editTable/rowHistory.js"></script>
     <script src="/js/editTable/editTable.js"></script>
     <script

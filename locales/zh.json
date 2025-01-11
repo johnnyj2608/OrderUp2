@@ -2,6 +2,7 @@
 	"titles": {
 		"project_title": "美国高级护理公司",
 		"search_name": "搜索姓名...",
+		"search": "搜索",
 		"breakfast": "早餐",
 		"lunch": "午餐",
 		"monday": "周一",
@@ -30,7 +31,6 @@
 		"removed_message": "订单中此日期包含的食物已不再提供"
 	},
 	"tables": {
-		"search_name": "搜索姓名...",
 		"count": "数量",
 		"number": "号码",
 		"index": "号",

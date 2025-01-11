@@ -14,28 +14,49 @@ const dayOfWeekColumns = [
 
 router.get('/history', async (req, res) => {
     try {
-        const dateInput = req.query.date || new Date().toLocaleDateString('en-CA');
-
-        const dateArray = dateInput.split("-");
-        const year = dateArray[0];
-        const month = dateArray[1];
-        const day = dateArray[2];
-        const selectedDate = new Date(year, parseInt(month, 10)-1, day);
-
-        const selectedWeekday = new Date(selectedDate).getDay();
-
         const client = await connectToDb();
+        let rawOrderList = [];
+        let formattedTitle = '';
+        let dateInput = new Date().toLocaleDateString('en-CA');
 
-        const query = `
-            SELECT o.id, m.name AS member_name, o.date, o.breakfast, o.b_received, o.lunch, o.l_received, o.timestamp
-            FROM orders o
-            LEFT JOIN members m ON o.member_id = m.id
-            WHERE o.date = $1
-            ORDER BY o.id ASC
-        `;
-        const result = await client.query(query, [selectedDate]);
-        const rawOrderList = result.rows;
+        if (req.query.member) {
+            const member = req.query.member.trim();
 
+            const query = `
+                SELECT o.id, m.name AS member_name, o.date, o.breakfast, o.b_received, o.lunch, o.l_received, o.timestamp
+                FROM orders o
+                LEFT JOIN members m ON o.member_id = m.id
+                WHERE LOWER(m.name) LIKE LOWER($1)
+                ORDER BY o.id ASC
+            `;
+            const result = await client.query(query, [`%${member}%`]);
+            rawOrderList = result.rows;
+
+            formattedTitle = `Search Results for Member: ${member}`
+        } else {
+            if (req.query.date) {
+                dateInput = req.query.date
+            }
+
+            const dateArray = dateInput.split("-");
+            const year = dateArray[0];
+            const month = dateArray[1];
+            const day = dateArray[2];
+            const selectedDate = new Date(year, parseInt(month, 10)-1, day);
+
+            const query = `
+                SELECT o.id, m.name AS member_name, o.date, o.breakfast, o.b_received, o.lunch, o.l_received, o.timestamp
+                FROM orders o
+                LEFT JOIN members m ON o.member_id = m.id
+                WHERE o.date = $1
+                ORDER BY o.id ASC
+            `;
+            const result = await client.query(query, [selectedDate]);
+            rawOrderList = result.rows;
+
+            const selectedWeekday = new Date(selectedDate).getDay();
+            formattedTitle = req.__('titles.date_title', req.__('titles.'+dayOfWeekColumns[selectedWeekday]))+ `, ${month}/${day}/${year}`;
+        }
         const orderList = rawOrderList.map(order => {
             // Format date as MM/DD/YY
             const formattedDates = new Intl.DateTimeFormat('en-US', { 
@@ -60,12 +81,9 @@ router.get('/history', async (req, res) => {
                 timestamp: formattedTimestamps,
             };
         });
-
-        const formattedDate = req.__('titles.date_title', req.__('titles.'+dayOfWeekColumns[selectedWeekday]))+ `, ${month}/${day}/${year}`;
-
         res.render("history", { 
             orderList, 
-            formattedDate,
+            formattedTitle,
             dateInput,
         });
     } catch (error) {

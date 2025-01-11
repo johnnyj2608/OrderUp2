@@ -1,9 +1,14 @@
-document.getElementById('calendar-icon').addEventListener('click', () => {
+function toggleCalendar() {
+    const searchBar = document.getElementById('searchContainer');
+    if (!searchBar.classList.contains('hidden')) {
+        searchBar.classList.add('hidden');
+    }
+
     const datePicker = document.getElementById('datePicker');
     datePicker.click();         // Safari
     datePicker.focus();         // Mobile
     datePicker.showPicker();    // Chrome
-});
+}
 
 document.getElementById('datePicker').addEventListener('change', () => {
     let route = '';

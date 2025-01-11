@@ -37,13 +37,13 @@ router.get("/", async (req, res) => {
             menu: member.menu,
         }));
 
-        const formattedDate = req.__('titles.date_title', req.__('titles.'+dayOfWeekColumns[selectedWeekday]))+ `, ${month}/${day}/${year}`;
+        const formattedTitle = req.__('titles.date_title', req.__('titles.'+dayOfWeekColumns[selectedWeekday]))+ `, ${month}/${day}/${year}`;
 
         res.render("main", { 
             breakfastMenu, 
             lunchMenu,
             names,
-            formattedDate,
+            formattedTitle,
             dateInput,
         });
     } catch (error) {

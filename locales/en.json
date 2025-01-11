@@ -2,6 +2,7 @@
 	"titles": {
 		"project_title": "American Senior Care Corporation",
 		"search_name": "Search for names...",
+		"search": "Search",
 		"breakfast": "Breakfast",
 		"lunch": "Lunch",
 		"monday": "Mon",
@@ -30,7 +31,6 @@
 		"removed_message": "Orders on this date includes food no longer present"
 	},
 	"tables": {
-		"search_name": "Search for names...",
 		"count": "Count",
 		"number": "No.",
 		"disenrollee": "Disenrolled Member",
