@@ -32,6 +32,7 @@
 	"tables": {
 		"search_name": "搜索姓名...",
 		"count": "数量",
+		"number": "号码",
 		"index": "号",
 		"disenrollee": "已退会会员",
 		"type": "类型",
