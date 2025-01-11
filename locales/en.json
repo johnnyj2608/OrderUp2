@@ -40,7 +40,10 @@
 		"date": "Date",
 		"member": "Member",
 		"timestamp": "Timestamp",
-		"received": "Received"
+		"received": "Received",
+		"type_A": "A",
+		"type_B": "B",
+		"type_L": "L"
 	},
 	"languages": {
 		"english": "English",
