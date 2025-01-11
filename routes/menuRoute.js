@@ -33,18 +33,19 @@ router.post('/menu', async (req, res) => {
                 // If the id exists, update the existing row
                 const updateQuery = `
                     UPDATE menu
-                    SET name = $1,
-                        image = $2,
-                        monday = $3,
-                        tuesday = $4,
-                        wednesday = $5,
-                        thursday = $6,
-                        friday = $7,
-                        saturday = $8,
-                        count = $9
-                    WHERE id = $10
+                    SET type = $1,
+                        name = $2,
+                        image = $3,
+                        monday = $4,
+                        tuesday = $5,
+                        wednesday = $6,
+                        thursday = $7,
+                        friday = $8,
+                        saturday = $9,
+                        count = $10
+                    WHERE id = $11
                 `;
-                await client.query(updateQuery, [name, image, monday, tuesday, wednesday, thursday, friday, saturday, count, id]);
+                await client.query(updateQuery, [type, name, image, monday, tuesday, wednesday, thursday, friday, saturday, count, id]);
             } else {
                 // If the id does not exist, insert a new row
                 const insertQuery = `
