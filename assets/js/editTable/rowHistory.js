@@ -39,21 +39,12 @@ async function handleSave() {
 
         const viewRow = document.createElement('tr');
         
-        editRow.querySelectorAll('td').forEach((editCell) => {
+        editRow.querySelectorAll('td').forEach((editCell, index) => {
             const viewCell = document.createElement('td');
             const cellText = editCell.textContent.trim();
-            const isDateString = cellText.includes('-');
 
-            if (isDateString) {
-                const convertedDate = new Date(cellText + 'T00:00:00');
-                const formattedDate = new Intl.DateTimeFormat('en-US', { 
-                    year: '2-digit', 
-                    month: '2-digit', 
-                    day: '2-digit' 
-                }).format(convertedDate);
-
-                viewCell.innerText = formattedDate;
-            } else if (editCell.querySelector('i') !== null) {
+            const iconElement = editCell.querySelector('i');
+            if (iconElement !== null && !iconElement.classList.contains('fa-trash')) {
                 const icon = editCell.querySelector('i').outerHTML;
                 viewCell.innerHTML = icon;
             } else {
