@@ -33,6 +33,9 @@ function populateTableFromCSV(content) {
     const uploadedRows = [];
 
     rows.forEach((row) => {
+        const trimmedRow = row.trim();
+        if (trimmedRow === '') return;
+        
         const cells = row.split(',').map(cell => {
             const trimmedCell = cell.trim().toLowerCase();
             if (trimmedCell === 'true') {
