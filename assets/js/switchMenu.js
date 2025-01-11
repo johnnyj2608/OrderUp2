@@ -18,6 +18,13 @@ function switchMenu() {
     });
 }
 
+const currentTime = new Date();
+const currentHour = currentTime.getHours();
+
+if (currentHour >= 10 && currentHour <= 23) {
+    switchMenu();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const infoButton = document.getElementById('info-button');
     if (infoButton) {
