@@ -452,21 +452,25 @@ td .fa-times {
             height: 35svh;
       }
 
-      .header, .footer {
+      .header {
+            height: 15svh;
+      }
+
+      .footer {
             height: 10svh;
       }
 
       #breakfastSection, #lunchSection {
-            scroll-margin-top: 10svh;
+            scroll-margin-top: 15svh;
       }
 
       .content {
-            margin-top: 10svh;
+            margin-top: 15svh;
             margin-bottom: 10svh;
       }
 
       .sticky-row {
-            top: 10svh;
+            top: 15svh;
       }
 
       #bottom-scroll {
