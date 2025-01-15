@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION set_b_received_to_false()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF NEW.breakfast IS NOT NULL THEN
+    IF OLD.breakfast IS NULL AND NEW.breakfast IS NOT NULL THEN
         NEW.b_received := FALSE;
     END IF;
     RETURN NEW;
@@ -16,7 +16,7 @@ EXECUTE FUNCTION set_b_received_to_false();
 CREATE OR REPLACE FUNCTION set_l_received_to_false()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF NEW.lunch IS NOT NULL THEN
+    IF OLD.lunch IS NULL AND NEW.lunch IS NOT NULL THEN
         NEW.l_received := FALSE;
     END IF;
     RETURN NEW;
