@@ -450,18 +450,18 @@ td .fa-times {
 /* -------------- *
  * Mobile View 
  * -------------- */
-@media (max-width: 767px) {
+@media (max-width: 991px) {
       #project-title {
             font-size: 15px;
             
       }
 
       #nameListContainer {
-            height: 45svh;
+            height: 55svh;
       }
 
       #nameList {
-            height: 35svh;
+            height: 45svh;
       }
 
       .header, .footer {
@@ -498,7 +498,7 @@ td .fa-times {
 /* -------------- *
  * Mobile Landscape View 
  * -------------- */
-@media (orientation: landscape) {
+@media (max-width: 991px) and (orientation: landscape) {
       .header, .footer {
             height: 15svh;
       }
@@ -510,6 +510,7 @@ td .fa-times {
       .content {
             margin-top: 15svh;
             margin-bottom: 15svh;
+            padding: 0 20px;
       }
 
       .dateTitle, .sticky-row {
