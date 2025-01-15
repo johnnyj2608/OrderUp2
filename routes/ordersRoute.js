@@ -56,7 +56,12 @@ router.get('/orders', async (req, res) => {
             }
         });
 
-        const formattedTitle = req.__('titles.date_title', req.__('titles.'+dayOfWeekColumns[selectedWeekday]))+ `, ${month}/${day}/${year}`;
+        const formattedTitle = 
+            req.__('titles.date_title', 
+            req.__('titles.' + dayOfWeekColumns[selectedWeekday])
+            ) + 
+            `, ${month}/${day}/${year}`;
+
 
         res.render('orders', { 
             breakfastMenu, 

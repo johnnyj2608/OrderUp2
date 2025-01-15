@@ -32,7 +32,9 @@ router.get('/history', async (req, res) => {
             const result = await client.query(query, [`%${member}%`]);
             rawOrderList = result.rows;
 
-            formattedTitle = `Search Results for Member: ${member}`
+            const totalOrders = rawOrderList.length;
+
+            formattedTitle = `Search Results for Member: ${member} (${totalOrders})`
         } else {
             if (req.query.date) {
                 dateInput = req.query.date
@@ -55,7 +57,13 @@ router.get('/history', async (req, res) => {
             rawOrderList = result.rows;
 
             const selectedWeekday = new Date(selectedDate).getDay();
-            formattedTitle = req.__('titles.date_title', req.__('titles.'+dayOfWeekColumns[selectedWeekday]))+ `, ${month}/${day}/${year}`;
+            const totalOrders = rawOrderList.length;
+
+            formattedTitle = 
+                req.__('titles.date_title', 
+                req.__('titles.' + dayOfWeekColumns[selectedWeekday])
+                ) + 
+                `, ${month}/${day}/${year} (${totalOrders})`;
         }
         const orderList = rawOrderList.map(order => {
             // Format date as MM/DD/YY
