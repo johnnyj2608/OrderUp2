@@ -1,7 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { connectToDb } = require('../database/db');
-const { dayOfWeekColumns, getStatusIcon } = require('../utils/utils');
+const { connectToDb } = require('../utils/db');
+const { 
+    dayOfWeekColumns, 
+    getStatusIcon,
+    formatDate,
+    formatTimestamp,
+} = require('../utils/utils');
+
 
 router.get('/history', async (req, res) => {
     try {
@@ -57,27 +63,10 @@ router.get('/history', async (req, res) => {
                 `, ${month}/${day}/${year} (${totalOrders})`;
         }
         const orderList = rawOrderList.map(order => {
-            // Format date as MM/DD/YY
-            const formattedDates = new Intl.DateTimeFormat('en-US', { 
-                year: '2-digit', 
-                month: '2-digit', 
-                day: '2-digit' 
-            }).format(new Date(order.date));
-
-            // Format timestamp as MM/DD/YY HH:MM
-            const formattedTimestamps = new Intl.DateTimeFormat('en-US', { 
-                year: '2-digit', 
-                month: '2-digit', 
-                day: '2-digit', 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                hour12: true,
-            }).format(new Date(order.timestamp));
-
             return {
                 ...order,
-                date: formattedDates,
-                timestamp: formattedTimestamps,
+                date: formatDate(order.date),
+                timestamp: formatTimestamp(order.timestamp),
             };
         });
         res.render("history", { 

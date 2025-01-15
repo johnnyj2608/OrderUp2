@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { connectToDb } = require('../database/db');
+const { connectToDb } = require('../utils/db');
 
 router.post("/submit", async (req, res) => {
     const { 

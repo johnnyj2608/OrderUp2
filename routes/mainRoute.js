@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { connectToDb } = require('../database/db');
+const { connectToDb } = require('../utils/db');
 const { dayOfWeekColumns } = require('../utils/utils');
 
 router.get("/", async (req, res) => {
