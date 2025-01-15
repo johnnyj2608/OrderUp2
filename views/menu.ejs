@@ -112,12 +112,12 @@
                             <td><%= __("tables.type_" + menu.type) %></td>
                             <td><%= menu.name %></td>
                             <td><%= menu.image %></td>
-                            <td><%- menu.monday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
-                            <td><%- menu.tuesday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
-                            <td><%- menu.wednesday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
-                            <td><%- menu.thursday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
-                            <td><%- menu.friday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
-                            <td><%- menu.saturday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
+                            <td><%- getStatusIcon(menu.monday) %></td>
+                            <td><%- getStatusIcon(menu.tuesday) %></td>
+                            <td><%- getStatusIcon(menu.wednesday) %></td>
+                            <td><%- getStatusIcon(menu.thursday) %></td>
+                            <td><%- getStatusIcon(menu.friday) %></td>
+                            <td><%- getStatusIcon(menu.saturday) %></td>
                             <td><%= menu.count %></td>
                         </tr>
                     <% }); %>

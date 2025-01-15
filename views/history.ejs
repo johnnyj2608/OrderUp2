@@ -57,9 +57,9 @@
                                 <%= order.member_name !== null ? order.member_name : 'Disenrolled Member' %>
                             </td>
                             <td><%= order.breakfast %></td>
-                            <td><%- order.b_received ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
+                            <td><%- getStatusIcon(order.b_received) %></td>
                             <td><%= order.lunch %></td>
-                            <td><%- order.l_received ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
+                            <td><%- getStatusIcon(order.l_received) %></td>
                             <td><%= order.timestamp %></td>
                         </tr>
                     <% }); %>

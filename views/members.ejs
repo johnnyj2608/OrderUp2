@@ -110,12 +110,12 @@
                         <tr data-id="<%= member.id %>">
                             <td><%= member.index %></td>
                             <td><%= member.name %></td>
-                            <td><%- member.monday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
-                            <td><%- member.tuesday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
-                            <td><%- member.wednesday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
-                            <td><%- member.thursday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
-                            <td><%- member.friday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
-                            <td><%- member.saturday ? "<i class='fas fa-check'></i>" : "<i class='fas fa-times'></i>" %></td>
+                            <td><%- getStatusIcon(member.monday) %></td>
+                            <td><%- getStatusIcon(member.tuesday) %></td>
+                            <td><%- getStatusIcon(member.wednesday) %></td>
+                            <td><%- getStatusIcon(member.thursday) %></td>
+                            <td><%- getStatusIcon(member.friday) %></td>
+                            <td><%- getStatusIcon(member.saturday) %></td>
                         </tr>
                     <% }); %>
                 </tbody>

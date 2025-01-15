@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { connectToDb } = require('../database/db');
+const { getStatusIcon } = require('../utils/utils');
 
 router.get('/members', async (req, res) => {
     try {
@@ -10,7 +11,10 @@ router.get('/members', async (req, res) => {
         const result = await client.query(query);
         const memberList = result.rows;
 
-        res.render('members', { memberList });
+        res.render('members', { 
+            memberList, 
+            getStatusIcon 
+        });
     } catch (error) {
         res.status(500).send("Error loading data");
     }

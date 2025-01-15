@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { connectToDb } = require('../database/db');
+const { getStatusIcon } = require('../utils/utils');
 
 router.get('/menu', async (req, res) => {
     try {
@@ -21,7 +22,10 @@ router.get('/menu', async (req, res) => {
         const result = await client.query(query);
         const menuList = result.rows;
 
-        res.render('menu', { menuList });
+        res.render('menu', { 
+            menuList, 
+            getStatusIcon 
+        });
     } catch (error) {
         res.status(500).send("Error loading data");
     }

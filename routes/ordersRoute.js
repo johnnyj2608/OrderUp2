@@ -1,16 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { connectToDb } = require('../database/db');
-
-const dayOfWeekColumns = [
-    'today',
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-];
+const { dayOfWeekColumns } = require('../utils/utils');
 
 router.get('/orders', async (req, res) => {
     try {

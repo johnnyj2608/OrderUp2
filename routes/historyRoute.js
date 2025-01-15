@@ -1,16 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { connectToDb } = require('../database/db');
-
-const dayOfWeekColumns = [
-    'sunday',
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-];
+const { dayOfWeekColumns, getStatusIcon } = require('../utils/utils');
 
 router.get('/history', async (req, res) => {
     try {
@@ -93,6 +84,7 @@ router.get('/history', async (req, res) => {
             orderList, 
             formattedTitle,
             dateInput,
+            getStatusIcon,
         });
     } catch (error) {
         res.status(500).send("Error loading data");
