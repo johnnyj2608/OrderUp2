@@ -70,8 +70,14 @@ async function handleSave() {
     dataUpdate = []
     modifiedElements.forEach(row => {
         const id = row.getAttribute('data-id') || null;
+        const cells = row.querySelectorAll('td');
         
-        dataUpdate.push({ id: id});
+        const rowData = {
+                id: id,
+                breakfast: cells[2].innerText.trim(),
+                lunch: cells[4].innerText.trim(),
+            };
+            dataUpdate.push(rowData);
     });
 
     if (dataUpdate.length > 0) {

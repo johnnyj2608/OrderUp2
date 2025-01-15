@@ -99,10 +99,26 @@ router.post('/history', async (req, res) => {
 
         const orders = req.body.orders;
         for (let order of orders) {
-            const { id } = order;
+            const { id, breakfast, lunch } = order;
 
             const deleteQuery = 'DELETE FROM orders WHERE id = $1';
             await client.query(deleteQuery, [id]);
+
+            if (breakfast) {
+                const updateBreakfastQuery = `
+                    UPDATE menu SET count = count - 1 
+                    WHERE name = $1 AND count > 0
+                `;
+                await client.query(updateBreakfastQuery, [breakfast]);
+            }
+
+            if (lunch) {
+                const updateLunchQuery = `
+                    UPDATE menu SET count = count - 1 
+                    WHERE name = $1 AND count > 0
+                `;
+                await client.query(updateLunchQuery, [lunch]);
+            }
         }
 
         await client.query('COMMIT');
