@@ -181,8 +181,8 @@
 /* -------------- *
  * Main View
  * -------------- */
- .selectedBreakfast, .selectedLunch {
-      border: 3px solid #007bff;
+.selectedBreakfast, .selectedLunch {
+      border: 3px solid #007bff !important;
 }
 
 #searchBar {
