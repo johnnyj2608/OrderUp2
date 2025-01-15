@@ -11,6 +11,10 @@
       -ms-user-select: none; 
 }
 
+.col-sm-4 {
+      padding: 0 5px !important;
+}
+
 .pointer {
       cursor: pointer;
 }
@@ -86,6 +90,7 @@
       padding: 0 10px;
       text-align: center;
       align-items: center;
+      font-size: 25px;
 }
 
 .addButton:hover {
@@ -165,7 +170,7 @@
 #searchContainer {
       display: flex;
       position: fixed;
-      top: 8svh;
+      top: 10svh;
       width: 300px;
       z-index: 9999;
       border: 1px solid black;
@@ -262,7 +267,7 @@
 }
   
 .panel-img {
-      height: 20svh;
+      height: 22svh;
       -webkit-user-drag: none;
       border: 1px solid #333;
       resize: none;
@@ -501,6 +506,7 @@ td .fa-times {
 @media (max-width: 991px) and (orientation: landscape) {
       .header, .footer {
             height: 15svh;
+            padding: 0 40px;
       }
 
       #breakfastSection, #lunchSection {
@@ -510,7 +516,7 @@ td .fa-times {
       .content {
             margin-top: 15svh;
             margin-bottom: 15svh;
-            padding: 0 20px;
+            padding: 0 40px;
       }
 
       .dateTitle, .sticky-row {

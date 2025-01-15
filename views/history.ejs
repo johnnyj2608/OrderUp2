@@ -32,7 +32,7 @@
                 <button id="searchButton" class="actionButton" onclick="handleSearch()"><%= __('titles.search') %></button>
             </div>
             <input type="date" id="datePicker" value="<%= dateInput %>" style="opacity: 0;">
-            <div class="row sticky-row">
+            <div class="row dateTitle">
                 <div class="col text-center">
                     <h3><%= formattedTitle %></h3>
                 </div>
@@ -41,11 +41,11 @@
                 <thead class="sticky-row">
                     <tr>
                         <th style="width: 15%;"><%= __("tables.date") %></th>
-                        <th style="width: 20%;"><%= __("tables.member") %></th>
+                        <th style="width: 19%;"><%= __("tables.member") %></th>
                         <th style="width: 15%;"><%= __("titles.breakfast") %></th>
-                        <th style="width: 5%;"><%= __("tables.type_B") %></th>
+                        <th style="width: 8%;"><%= __("tables.type_B") %></th>
                         <th style="width: 15%;"><%= __("titles.lunch") %></th>
-                        <th style="width: 5%;"><%= __("tables.type_L") %></th>
+                        <th style="width: 8%;"><%= __("tables.type_L") %></th>
                         <th style="width: 20%;"><%= __("tables.timestamp") %></th>
                     </tr>
                 </thead>
