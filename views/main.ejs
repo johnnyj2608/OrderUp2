@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 viewport-fit=cover">
     <title>ASCC</title>
     <link rel="icon" href="/img/favicon.ico">
     <link rel="stylesheet" href="/css/styles.css" />
@@ -31,24 +31,26 @@
         </div>
         <div class="content">
             <input type="date" id="datePicker" value="<%= dateInput %>" style="opacity: 0;">
-            <div class="row sticky-row">
+            <div class="row dateTitle">
                 <div class="col text-center">
                     <h3><%= formattedTitle %></h3>
                 </div>
             </div>
-            <div class="row mt-4">
+            <div class="row mt-1">
                 <div class="col-12 col-md-6">
-                    <input type="text" id="searchBar" placeholder="<%= __('titles.search_name') %>" onkeyup="searchNames()">
-                    <ul id="nameList">
-                        <% names.forEach(({ id, index, name, menu }) => { %>
-                            <li data-index="<%= id %>" 
-                                data-menu="<%= menu %>" 
-                                onclick="handleNameClick(this)">
-                                <span class="name"><%= index %>. <%= name %></span>
-                                <span class="menu-type"><%= __("tables.type_" + menu) %></span>
-                            </li>
-                        <% }) %>
-                    </ul>
+                    <div id="nameListContainer">
+                        <input type="text" id="searchBar" placeholder="<%= __('titles.search_name') %>" onkeyup="searchNames()">
+                        <ul id="nameList">
+                            <% names.forEach(({ id, index, name, menu }) => { %>
+                                <li data-index="<%= id %>" 
+                                    data-menu="<%= menu %>" 
+                                    onclick="handleNameClick(this)">
+                                    <span class="name"><%= index %>. <%= name %></span>
+                                    <span class="menu-type"><%= __("tables.type_" + menu) %></span>
+                                </li>
+                            <% }) %>
+                        </ul>
+                    </div>
                 </div>
                 <% function renderMealSection(mealType, menu) { %>
                     <% menu.forEach(({ id, name, image }, index) => { %>
