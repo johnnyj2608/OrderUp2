@@ -1,3 +1,6 @@
+/* -------------- *
+ * General
+ * -------------- */
 * {
       margin: 0;
       padding: 0;
@@ -12,6 +15,88 @@
       cursor: pointer;
 }
 
+.content {
+      margin-top: 7svh;
+      margin-bottom: 7svh;
+}
+
+.hidden {
+      display: none !important;
+}
+
+#bottom-scroll {
+      position: fixed;
+      bottom: 8svh;
+      right: 20px;
+      background-color: rgba(105, 20, 35, 0.9);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+}
+  
+#bottom-scroll:hover {
+      background-color: #ffddc1;
+      color: black;
+}
+
+.sticky-row {
+      position: sticky;
+      top: 7svh;
+      z-index: 998;
+      background-color: white;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+}
+
+.sticky-row h3 {
+      margin: 0;
+}
+
+
+/* -------------- *
+ * Buttons
+ * -------------- */
+ .button-container {
+      display: flex;
+      justify-content: space-between;
+}
+
+.actionButton:hover {
+      background-color: #ffddc1;
+      text-decoration: none;
+      color: black; 
+}
+
+.actionButton {
+      width: 33.33333%;
+      height: 100%;
+      background-color: white;
+      border: none;
+      color: black;
+      cursor: pointer;
+      text-decoration: none;
+      padding: 0 10px;
+      text-align: center;
+      align-items: center;
+}
+
+.addButton:hover {
+      background-color: #ffddc1;
+      cursor: pointer;
+}
+
+
+/* -------------- *
+ * Header & Footer
+ * -------------- */
 .header, .footer {
       height: 7svh;
       background-color: rgb(105, 20, 35, 0.9);
@@ -40,14 +125,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
 }
-
-#edit-button.active-edit {
-      color: #ffddc1;
-      user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-      cursor: default;
-}  
 
 .dropdown {
       overflow: visible;
@@ -78,62 +155,33 @@
       height: 80%;
 }
 
-/* Main */
-.content {
-      margin-top: 7svh;
-      margin-bottom: 7svh;
+#datePicker {
+      position: fixed;
+      top: 4svh;
+      left: 1svh;
+      width: 100%;
 }
 
-.panel {
+#searchContainer {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      box-sizing: border-box; 
-      border: 3px solid transparent;
-}
-  
-.panel-img {
-      height: 20svh;
-      -webkit-user-drag: none;
-      border: 1px solid #333;
-      resize: none;
+      position: fixed;
+      top: 8svh;
+      width: 300px;
+      z-index: 9999;
+      border: 1px solid black;
+      border-radius: 5px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.img-padding {
-      padding: 5px;
+#searchButton {
+      height: 40px; 
 }
 
-.image-container {
-      position: relative;
-      width: 100%;
-}
-  
-.amount-overlay {
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      background-color: rgba(255, 255, 255, 0.7);
-      padding: 1px 10px;
-      font-size: 20px;
-      color: black;
-      font-weight: bold;
-      border: 1px solid #333;
-}
 
-.panel-title {
-      margin: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-size: 20px;
-      align-items: center;
-      text-align: center;
-      font-weight: bold;
-      width: 100%;
-      border: 1px solid #333;
-}
-
-.selectedBreakfast, .selectedLunch {
+/* -------------- *
+ * Main View
+ * -------------- */
+ .selectedBreakfast, .selectedLunch {
       border: 3px solid #007bff;
 }
 
@@ -192,51 +240,64 @@
       border-color: white;
 }
 
-.button-container {
+
+/* -------------- *
+ * Menu Items
+ * -------------- */
+ .panel {
       display: flex;
-      justify-content: space-between;
-}
-
-.actionButton:hover {
-      background-color: #ffddc1;
-      text-decoration: none;
-      color: black; 
-}
-
-.actionButton {
-      width: 33.33333%;
-      height: 100%;
-      background-color: white;
-      border: none;
-      color: black;
-      cursor: pointer;
-      text-decoration: none;
-      padding: 0 10px;
-      text-align: center;
+      flex-direction: column;
       align-items: center;
+      text-align: center;
+      box-sizing: border-box; 
+      border: 3px solid transparent;
+}
+  
+.panel-img {
+      height: 20svh;
+      -webkit-user-drag: none;
+      border: 1px solid #333;
+      resize: none;
 }
 
-.addButton:hover {
-      background-color: #ffddc1;
-      cursor: pointer;
+.img-padding {
+      padding: 5px;
 }
 
-#undo-button, #redo-button {
-      width: 50%;
+.image-container {
+      position: relative;
+      width: 100%;
+}
+  
+.amount-overlay {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 1px 10px;
+      font-size: 20px;
+      color: black;
+      font-weight: bold;
+      border: 1px solid #333;
 }
 
-.disabled {
-      opacity: 0.5;
-      pointer-events: none;
+.panel-title {
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 20px;
+      align-items: center;
+      text-align: center;
+      font-weight: bold;
+      width: 100%;
+      border: 1px solid #333;
 }
 
-.desaturate {
-      filter: grayscale(100%);
-      opacity: 0.5;
-      pointer-events: none;
-}
 
-#breakfastSection, #lunchSection {
+/* -------------- *
+ * Orders View
+ * -------------- */
+ #breakfastSection, #lunchSection {
       scroll-margin-top: 7svh;
 }
 
@@ -258,6 +319,38 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+}
+
+.strikethrough {
+      text-decoration: line-through;
+      text-decoration-color: red;
+}
+
+
+/* -------------- *
+ * Table Elements
+ * -------------- */
+#edit-button.active-edit {
+      color: #ffddc1;
+      user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      cursor: default;
+}  
+
+#undo-button, #redo-button {
+      width: 50%;
+}
+
+.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+}
+
+.desaturate {
+      filter: grayscale(100%);
+      opacity: 0.5;
+      pointer-events: none;
 }
 
 table {
@@ -306,10 +399,10 @@ td .fa-times {
       color: red;
 }
 
-.hidden {
-      display: none !important;
-}
 
+/* -------------- *
+ * Filter 
+ * -------------- */
 #filter-dropdown {
       background-color: transparent;
       border: none;
@@ -345,69 +438,10 @@ td .fa-times {
       background: #ffddc1;
 }
 
-#bottom-scroll {
-      position: fixed;
-      bottom: 8svh;
-      right: 20px;
-      background-color: rgba(105, 20, 35, 0.9);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-size: 24px;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-}
-  
-#bottom-scroll:hover {
-      background-color: #ffddc1;
-      color: black;
-}
 
-.sticky-row {
-      position: sticky;
-      top: 7svh;
-      z-index: 998;
-      background-color: white;
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-}
-
-.sticky-row h3 {
-      margin: 0;
-}
-
-#datePicker {
-      position: fixed;
-      top: 4svh;
-      left: 1svh;
-      width: 100%;
-}
-
-#searchContainer {
-      display: flex;
-      position: fixed;
-      top: 8svh;
-      width: 300px;
-      z-index: 9999;
-      border: 1px solid black;
-      border-radius: 5px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-#searchButton {
-      height: 40px; 
-}
-
-.strikethrough {
-      text-decoration: line-through;
-      text-decoration-color: red;
-}
-  
+/* -------------- *
+ * Mobile View 
+ * -------------- */
 @media (max-width: 767px) {
       #project-title {
             font-size: 15px;
@@ -448,6 +482,10 @@ td .fa-times {
       }
 }
 
+
+/* -------------- *
+ * Print View 
+ * -------------- */
 @media print { 
       .header, .footer {
           display: none !important;
