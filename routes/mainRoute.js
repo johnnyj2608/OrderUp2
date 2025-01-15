@@ -62,7 +62,7 @@ async function getMenuItems(client, selectedDay, menuType) {
         SELECT id, name, image
         FROM menu
         WHERE type = $1 AND ${selectedDayColumn} = TRUE
-        ORDER BY id;
+        ORDER BY name ASC;
     `;
     const result = await client.query(query, [menuType]);
     return result.rows;
