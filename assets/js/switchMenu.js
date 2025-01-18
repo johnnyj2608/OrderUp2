@@ -6,11 +6,11 @@ function switchMenu() {
     if (breakfastPanel.classList.contains('hidden')) {
         breakfastPanel.classList.remove('hidden');
         lunchPanel.classList.add('hidden');
-        switchText.innerHTML = 'B';
+        switchText.innerHTML = typeB;
     } else {
         breakfastPanel.classList.add('hidden');
         lunchPanel.classList.remove('hidden');
-        switchText.innerHTML = 'L';
+        switchText.innerHTML = typeL;
     }
 
     window.scrollTo({
