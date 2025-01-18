@@ -57,15 +57,6 @@ function createEditRow(cols, content = false) {
             newCell.style.justifyContent = 'center';
             newCell.style.alignItems = 'center';
 
-            const weekdays = [
-                'Monday', 
-                'Tuesday', 
-                'Wednesday', 
-                'Thursday', 
-                'Friday', 
-                'Saturday'
-            ];
-
             let selectedDays = new Set();
             if (content) {
                 selectedDays = new Set(content[i].split(', '));
@@ -240,12 +231,12 @@ async function handleSave() {
                 type: cells[0].querySelector('select').value.trim(),
                 name: cells[1].querySelector('input').value.trim(),
                 image: cells[2].querySelector('input').value.trim(),
-                monday: cells[3].querySelector('input[value="Monday"]').checked,
-                tuesday: cells[3].querySelector('input[value="Tuesday"]').checked,
-                wednesday: cells[3].querySelector('input[value="Wednesday"]').checked,
-                thursday: cells[3].querySelector('input[value="Thursday"]').checked,
-                friday: cells[3].querySelector('input[value="Friday"]').checked,
-                saturday: cells[3].querySelector('input[value="Saturday"]').checked,
+                monday: cells[3].querySelector(`input[value="${weekdays[0]}"]`).checked,
+                tuesday: cells[3].querySelector(`input[value="${weekdays[1]}"]`).checked,
+                wednesday: cells[3].querySelector(`input[value="${weekdays[2]}"]`).checked,
+                thursday: cells[3].querySelector(`input[value="${weekdays[3]}"]`).checked,
+                friday: cells[3].querySelector(`input[value="${weekdays[4]}"]`).checked,
+                saturday: cells[3].querySelector(`input[value="${weekdays[5]}"]`).checked,
                 count: cells[4].querySelector('input').value.trim() || 0,
             };
             if (rowData.id || rowData.type || rowData.name || rowData.image) {
