@@ -9,52 +9,35 @@ function createEditRow(cols, content = false) {
         const newCell = document.createElement('td');
         const cellText = content ? content[i] : '';
 
-        if (i > 1) {
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.checked = content ? content[i] : false;
-            checkbox.classList.add('checkbox-large');
+        const inputField = document.createElement('input');
 
-            checkbox.addEventListener('change', function() {
+        
+        inputField.type = 'text';
+        inputField.value = cellText;
+
+        if (i === 0) {
+            inputField.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        }
+        inputField.style.width = (i === cols-1) ? '85%' : '100%';
+
+        inputField.addEventListener('focus', function() {
+            originalText = inputField.value;
+        });
+        inputField.addEventListener('blur', function() {
+            if (inputField.value !== originalText) {
                 undoStack.push({
-                    action: 'toggle',
-                    element: checkbox,
+                    action: 'edit', 
+                    element: inputField, 
+                    originalText: originalText,
+                    newText: inputField.value
                 });
                 toggleUndoRedoButtons();
-            });
-
-            newCell.appendChild(checkbox);
-        } else {
-            const inputField = document.createElement('input');
-
-            
-            inputField.type = 'text';
-            inputField.value = cellText;
-
-            if (i === 0) {
-                inputField.addEventListener('input', function() {
-                    this.value = this.value.replace(/[^0-9]/g, '');
-                });
             }
-            inputField.style.width = (i === cols-1) ? '85%' : '100%';
+        });
 
-            inputField.addEventListener('focus', function() {
-                originalText = inputField.value;
-            });
-            inputField.addEventListener('blur', function() {
-                if (inputField.value !== originalText) {
-                    undoStack.push({
-                        action: 'edit', 
-                        element: inputField, 
-                        originalText: originalText,
-                        newText: inputField.value
-                    });
-                    toggleUndoRedoButtons();
-                }
-            });
-
-            newCell.appendChild(inputField);
-        }
+        newCell.appendChild(inputField);
 
         newRow.appendChild(newCell);
     }
@@ -92,21 +75,13 @@ async function handleSave() {
             const viewCell = document.createElement('td');
             const inputField = editCell.querySelector('input');
             
-            if (i > 1) {
-                const checkbox = editCell.querySelector('input[type="checkbox"]');
-                const icon = checkbox.checked 
-                    ? "<i class='fas fa-check'></i>"
-                    : "<i class='fas fa-times'></i>";
+            
+            const cellText = inputField.value.trim();
 
-                viewCell.innerHTML = icon;
-            } else {
-                const cellText = inputField.value.trim();
-
-                if (cellText !== '') {
-                    emptyAddRow = false;
-                }
-                viewCell.innerText = cellText;
+            if (cellText !== '') {
+                emptyAddRow = false;
             }
+            viewCell.innerText = cellText;
             viewRow.appendChild(viewCell);
         });
         if (!(emptyAddRow && editRow.getAttribute('data-id') === null)) {
