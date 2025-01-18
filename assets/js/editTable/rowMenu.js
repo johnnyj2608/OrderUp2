@@ -5,6 +5,18 @@ function createEditRow(cols, content = false) {
         newRow.setAttribute('data-id', rowId);
     }
 
+    if (cols > 5 && content) {
+        let count = content[content.length - 1];
+        const activeDays = content.slice(3, 9)
+            .map((isActive, index) => isActive ? weekdays[index] : null)
+            .filter(day => day !== null);
+        const activeDaysStr = activeDays.join(', ');
+        content.splice(3);
+        content.push(activeDaysStr);
+        content.push(count);
+        cols = content.length;
+    }
+    
     for (let i = 0; i < cols; i++) {
         const newCell = document.createElement('td');
         const cellText = content ? content[i] : '';
