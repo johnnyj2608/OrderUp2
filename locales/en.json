@@ -33,6 +33,7 @@
 	"tables": {
 		"count": "Count",
 		"number": "No.",
+		"units": "Units",
 		"disenrollee": "Disenrolled Member",
 		"type": "Type",
 		"name": "Name",

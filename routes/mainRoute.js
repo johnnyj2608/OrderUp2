@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
         const breakfastMenu = await getMenuItems(client, selectedWeekday, 'B');
         const lunchMenu = await getMenuItems(client, selectedWeekday, 'L');
 
-        const members = await getMembersForDay(client, selectedWeekday, selectedDate);
+        const members = await getEligibleMembers(client, selectedDate);
         const names = members.map(member => ({
             id: member.id,
             index: member.index,
@@ -64,11 +64,30 @@ async function getMenuItems(client, selectedDay, menuType) {
 }
 
 // Helper function to get members for a specific day
-async function getMembersForDay(client, selectedDay, targetDate) {
-    if (selectedDay === 0) {
+async function getEligibleMembers(client, targetDate) {
+    if (targetDate.getDay() === 0) {
         return []
     }
-    const selectedDayColumn = dayOfWeekColumns[selectedDay];
+
+    const startOfWeek = new Date(targetDate);
+    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+    const startDate = startOfWeek.toISOString().split('T')[0];
+    const endDate = endOfWeek.toISOString().split('T')[0];
+
+    const orderCountQuery = `
+        SELECT m.id
+        FROM members m
+        LEFT JOIN orders o
+        ON m.id = o.member_id AND o.date BETWEEN $1 AND $2
+        GROUP BY m.id, m.units
+        HAVING COUNT(o.id) < m.units;
+    `;
+    const validUnitsResult = await client.query(orderCountQuery, [startDate, endDate]);
+    const validMemberIds = validUnitsResult.rows.map(row => row.id);
+
     const query = `
         SELECT m.id, m.index, m.name, 
             CASE 
@@ -80,11 +99,23 @@ async function getMembersForDay(client, selectedDay, targetDate) {
         FROM members m
         LEFT JOIN orders o
         ON m.id = o.member_id AND o.date = $1
-        WHERE ${selectedDayColumn} = TRUE
         ORDER BY m.index ASC;
     `;
-    const result = await client.query(query, [targetDate]);
-    return result.rows.filter(member => member.menu !== 'X');
+    const menuTypeResult = await client.query(query, [targetDate]);
+
+    const eligibleMembers = menuTypeResult.rows.filter(member => {
+        // Ordered both breakfast and lunch for the day
+        if (member.menu === 'X') {
+            return false;
+        }
+        // If hasn't ordered, ensure units are not exceeded
+        if (member.menu === 'A' && !validMemberIds.includes(member.id)) {
+            return false;
+        }
+        return true;
+    });
+
+    return eligibleMembers;
 }
 
 module.exports = router;

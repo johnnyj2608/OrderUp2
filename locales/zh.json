@@ -33,6 +33,7 @@
 	"tables": {
 		"count": "数量",
 		"number": "号码",
+		"units": "单位",
 		"index": "号",
 		"disenrollee": "已退会会员",
 		"type": "类型",

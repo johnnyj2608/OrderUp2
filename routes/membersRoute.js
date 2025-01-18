@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { connectToDb } = require('../utils/db');
-const { getStatusIcon } = require('../utils/utils');
 
 router.get('/members', async (req, res) => {
     try {
@@ -13,7 +12,6 @@ router.get('/members', async (req, res) => {
 
         res.render('members', { 
             memberList, 
-            getStatusIcon 
         });
     } catch (error) {
         res.status(500).send("Error loading data");
@@ -29,7 +27,7 @@ router.post('/members', async (req, res) => {
         
         const members = req.body.members;
         for (let member of members) {
-            const { id, name, index, monday, tuesday, wednesday, thursday, friday, saturday, delete: isDelete,  } = member;
+            const { id, name, index, units, delete: isDelete,  } = member;
             if (isDelete) {
                 const deleteMenuQuery = 'DELETE FROM members WHERE id = $1';
                 await client.query(deleteMenuQuery, [id]);
@@ -43,23 +41,18 @@ router.post('/members', async (req, res) => {
                         UPDATE members
                         SET name = $1,
                             index = $2,
-                            monday = $3,
-                            tuesday = $4,
-                            wednesday = $5,
-                            thursday = $6,
-                            friday = $7,
-                            saturday = $8
-                        WHERE id = $9
+                            units = $3,
+                        WHERE id = $4
                     `;
-                    await client.query(updateQuery, [name, index, monday, tuesday, wednesday, thursday, friday, saturday, id]);
+                    await client.query(updateQuery, [name, index, units, id]);
                 } else {
                     // If the id does not exist, insert a new row
                     const insertQuery = `
-                        INSERT INTO members (index, name, monday, tuesday, wednesday, thursday, friday, saturday)
-                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+                        INSERT INTO members (index, name, units)
+                        VALUES ($1, $2, $3)
                         RETURNING id
                     `;
-                    const result = await client.query(insertQuery, [index, name, monday, tuesday, wednesday, thursday, friday, saturday]);
+                    const result = await client.query(insertQuery, [index, name, units]);
                     newIds.push(result.rows[0].id);
                 }
             }
