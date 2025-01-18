@@ -5,9 +5,15 @@ function createEditRow(cols, content = false) {
         newRow.setAttribute('data-id', rowId);
     }
 
+    const weekColor = content ? content.pop() : '';
+
     for (let i = 0; i < cols; i++) {
         const newCell = document.createElement('td');
         const cellText = content ? content[i] : '';
+
+        if (i === 0 && weekColor) {
+            newCell.classList.add(weekColor);
+        }
 
         if (cellText === true || cellText === false) {
             const icon = cellText 
@@ -48,6 +54,9 @@ async function handleSave() {
                 const icon = editCell.querySelector('i').outerHTML;
                 viewCell.innerHTML = icon;
             } else {
+                if (index === 0) {
+                    viewCell.className = editCell.className;
+                }
                 viewCell.innerText = cellText;
             }
             viewRow.appendChild(viewCell);

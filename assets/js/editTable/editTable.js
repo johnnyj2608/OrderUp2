@@ -30,6 +30,10 @@ function handleEditClick(columns) {
                 return cell.textContent.trim();
             }
         });
+        const firstCell = viewRow.cells[0]
+        const weekColor = firstCell.classList.length > 0 ? firstCell.classList[0] : null;
+        rowData.push(weekColor)
+
         const dataId = viewRow.getAttribute('data-id') || null;
         rowData.push(dataId);
         const newRow = createEditRow(cols, rowData);

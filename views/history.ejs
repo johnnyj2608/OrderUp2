@@ -52,7 +52,7 @@
                 <tbody id="data-body" class="view-mode">
                     <% orderList.forEach(order => { %>
                         <tr data-id="<%= order.id %>">
-                            <td><%= order.date %></td>
+                            <td class="<%= order.weekClass %>"><%= order.date %></td>
                             <td>
                                 <%= order.member_name !== null ? order.member_name : 'Disenrolled Member' %>
                             </td>

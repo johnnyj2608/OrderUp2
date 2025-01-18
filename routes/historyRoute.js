@@ -6,6 +6,7 @@ const {
     getStatusIcon,
     formatDate,
     formatTimestamp,
+    getWeekNumber,
 } = require('../utils/utils');
 
 
@@ -62,13 +63,22 @@ router.get('/history', async (req, res) => {
                 ) + 
                 `, ${month}/${day}/${year} (${totalOrders})`;
         }
+
         const orderList = rawOrderList.map(order => {
+            let weekClass = '';
+            if (req.query.member) {
+                const weekMod = (getWeekNumber(order.date) % 4) + 1;
+                weekClass = `week-${weekMod}`;
+            }
+            
             return {
                 ...order,
                 date: formatDate(order.date),
                 timestamp: formatTimestamp(order.timestamp),
+                weekClass,
             };
         });
+
         res.render("history", { 
             orderList, 
             formattedTitle,

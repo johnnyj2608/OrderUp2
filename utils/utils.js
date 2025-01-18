@@ -37,9 +37,17 @@ function formatTimestamp(timestamp) {
     }).format(new Date(timestamp));
 }
 
+function getWeekNumber(date) {
+    const startDate = new Date(date.getFullYear(), 0, 1);
+    const days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
+    const weekNumber = Math.floor(days / 7) + 1;
+    return weekNumber;
+}
+
 module.exports = { 
     dayOfWeekColumns, 
     getStatusIcon, 
     formatDate, 
-    formatTimestamp, 
+    formatTimestamp,
+    getWeekNumber,
 };

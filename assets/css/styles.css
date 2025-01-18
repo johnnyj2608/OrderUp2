@@ -412,6 +412,22 @@ td .fa-times {
       color: red;
 }
 
+.week-1 {
+      background-color: #7da7ff !important;
+}
+  
+.week-2 {
+      background-color: #7cd7a4 !important;
+}
+  
+.week-3 {
+      background-color: #f1d07e !important;
+}
+  
+.week-4 {
+      background-color: #c8a4e3 !important;
+}
+  
 
 /* -------------- *
  * Filter 
