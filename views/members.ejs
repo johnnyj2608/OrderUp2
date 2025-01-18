@@ -45,7 +45,11 @@
                     <% memberList.forEach(member => { %>
                         <tr data-id="<%= member.id %>">
                             <td><%= member.index %></td>
-                            <td><%= member.name %></td>
+                            <td>
+                                <a href="/history/?member=<%= member.name %>" style="color: black">
+                                    <%= member.name %>
+                                </a>
+                            </td>
                             <td><%= member.units %></td>
                         </tr>
                     <% }); %>

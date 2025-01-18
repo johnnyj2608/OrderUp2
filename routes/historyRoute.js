@@ -38,10 +38,20 @@ router.get('/history', async (req, res) => {
                 dateInput = req.query.date
             }
 
-            const dateArray = dateInput.split("-");
-            const year = dateArray[0];
-            const month = dateArray[1];
-            const day = dateArray[2];
+            const separator = dateInput.includes('-') ? '-' : '/';
+            const dateArray = dateInput.split(separator);
+            
+            let year, month, day;
+            if (separator === '-') {
+                year = dateArray[0];
+                month = dateArray[1];
+                day = dateArray[2];
+            } else {
+                month = dateArray[0];
+                day = dateArray[1];
+                year = `20${dateArray[2]}`;
+            }
+
             const selectedDate = new Date(year, parseInt(month, 10)-1, day);
 
             const query = `

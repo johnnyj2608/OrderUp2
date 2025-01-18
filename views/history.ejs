@@ -52,9 +52,19 @@
                 <tbody id="data-body" class="view-mode">
                     <% orderList.forEach(order => { %>
                         <tr data-id="<%= order.id %>">
-                            <td class="<%= order.weekClass %>"><%= order.date %></td>
+                            <td class="<%= order.weekClass %>">
+                                <a href="/history/?date=<%= order.date %>" style="color: black;">
+                                    <%= order.date %>
+                                </a>
+                            </td>
                             <td>
-                                <%= order.member_name !== null ? order.member_name : 'Disenrolled Member' %>
+                                <% if (order.member_name !== null) { %>
+                                    <a href="/history/?member=<%= order.member_name %>" style="color: black;">
+                                        <%= order.member_name %>
+                                    </a>
+                                <% } else { %>
+                                    Disenrolled Member
+                                <% } %>
                             </td>
                             <td><%= order.breakfast %></td>
                             <td><%- getStatusIcon(order.b_received) %></td>
