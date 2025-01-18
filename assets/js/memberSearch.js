@@ -11,3 +11,10 @@ function handleSearch() {
     
     window.location.href = `/history/?member=${searchValue}`;
 }
+
+document.addEventListener('keydown', (event) => {
+    const searchField = document.getElementById('memberSearch');
+    if (event.key === 'Enter' && document.activeElement === searchField) {
+        handleSearch();
+    }
+});
