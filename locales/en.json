@@ -5,12 +5,12 @@
 		"search": "Search",
 		"breakfast": "Breakfast",
 		"lunch": "Lunch",
-		"monday": "Mon",
-		"tuesday": "Tues",
-		"wednesday": "Wed",
-		"thursday": "Thu",
-		"friday": "Fri",
-		"saturday": "Sat",
+		"monday": "Monday",
+		"tuesday": "Tuesday",
+		"wednesday": "Wednesday",
+		"thursday": "Thursday",
+		"friday": "Friday",
+		"saturday": "Saturday",
 		"member_list": "Member List",
 		"menu_list": "Menu List",
 		"date_title": "Orders for %s"
@@ -44,7 +44,8 @@
 		"received": "Received",
 		"type_A": "A",
 		"type_B": "B",
-		"type_L": "L"
+		"type_L": "L",
+		"schedule": "Schedule"
 	},
 	"languages": {
 		"english": "English",

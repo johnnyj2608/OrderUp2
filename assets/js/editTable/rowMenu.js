@@ -51,21 +51,52 @@ function createEditRow(cols, content = false) {
             });
 
             newCell.appendChild(dropdown);
-        } else if (i > 2 && i < cols-1) {
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.checked = content ? content[i] : false;
-            checkbox.classList.add('checkbox-large');
+        } else if (i === cols-2) {
+            newCell.style.display = 'flex';
+            newCell.style.flexWrap = 'wrap';
+            newCell.style.justifyContent = 'center';
+            newCell.style.alignItems = 'center';
 
-            checkbox.addEventListener('change', function() {
-                undoStack.push({
-                    action: 'toggle',
-                    element: checkbox,
+            const weekdays = [
+                'Monday', 
+                'Tuesday', 
+                'Wednesday', 
+                'Thursday', 
+                'Friday', 
+                'Saturday'
+            ];
+
+            let selectedDays = new Set();
+            if (content) {
+                selectedDays = new Set(content[i].split(', '));
+            }
+
+            weekdays.forEach((day) => {
+                const label = document.createElement('label');
+                label.style.display = 'flex'; 
+                label.style.alignItems = 'center';
+                label.style.marginRight = '10px';
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = day;
+                
+                if (selectedDays.has(day)) {
+                    checkbox.checked = true;
+                }
+
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(day));
+                newCell.appendChild(label);
+
+                checkbox.addEventListener('change', function() {
+                    undoStack.push({
+                        action: 'toggle',
+                        element: checkbox,
+                    });
+                    toggleUndoRedoButtons();
                 });
-                toggleUndoRedoButtons();
             });
-
-            newCell.appendChild(checkbox);
         } else {
             const inputField = document.createElement('input');
 
@@ -77,7 +108,7 @@ function createEditRow(cols, content = false) {
                     this.value = this.value.replace(/[^0-9]/g, '');
                 });
             }
-            inputField.style.width = (i === cols-1) ? '85%' : '100%';
+            inputField.style.width = (i === cols-1) ? '80%' : '100%';
 
             inputField.addEventListener('focus', function() {
                 originalText = inputField.value;
@@ -147,13 +178,13 @@ async function handleSave() {
                         viewCell.innerText = typeL;
                     }
                 }
-            } else if (i > 2 && i < editRow.querySelectorAll('td').length - 1) {
-                const checkbox = editCell.querySelector('input[type="checkbox"]');
-                const icon = checkbox.checked 
-                    ? "<i class='fas fa-check'></i>"
-                    : "<i class='fas fa-times'></i>";
-
-                viewCell.innerHTML = icon;
+            } else if (i === editRow.querySelectorAll('td').length - 2) {
+                const checkboxes = editRow.querySelectorAll('input[type="checkbox"]');
+                const selectedDays = Array.from(checkboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+                
+                    viewCell.innerText = selectedDays.join(', ');
             } else {
                 const cellText = inputField.value.trim();
                 if (cellText !== '') {
@@ -209,13 +240,13 @@ async function handleSave() {
                 type: cells[0].querySelector('select').value.trim(),
                 name: cells[1].querySelector('input').value.trim(),
                 image: cells[2].querySelector('input').value.trim(),
-                monday: cells[3].querySelector('input').checked,
-                tuesday: cells[4].querySelector('input').checked,
-                wednesday: cells[5].querySelector('input').checked,
-                thursday: cells[6].querySelector('input').checked,
-                friday: cells[7].querySelector('input').checked,
-                saturday: cells[8].querySelector('input').checked,
-                count: cells[9].querySelector('input').value.trim() || 0,
+                monday: cells[3].querySelector('input[value="Monday"]').checked,
+                tuesday: cells[3].querySelector('input[value="Tuesday"]').checked,
+                wednesday: cells[3].querySelector('input[value="Wednesday"]').checked,
+                thursday: cells[3].querySelector('input[value="Thursday"]').checked,
+                friday: cells[3].querySelector('input[value="Friday"]').checked,
+                saturday: cells[3].querySelector('input[value="Saturday"]').checked,
+                count: cells[4].querySelector('input').value.trim() || 0,
             };
             if (rowData.id || rowData.type || rowData.name || rowData.image) {
                 dataUpdate.push(rowData);

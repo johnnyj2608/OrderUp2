@@ -45,7 +45,8 @@
 		"received": "已收到",
 		"type_A": "早午",
 		"type_B": "早餐",
-		"type_L": "午餐"
+		"type_L": "午餐",
+		"schedule": "日程"
 	},
 	"languages": {
 		"english": "英语",
