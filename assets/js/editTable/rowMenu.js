@@ -66,7 +66,8 @@ function createEditRow(cols, content = false) {
                 const label = document.createElement('label');
                 label.style.display = 'flex'; 
                 label.style.alignItems = 'center';
-                label.style.marginRight = '10px';
+                label.style.padding = '0 5px';
+                label.style.flexBasis = '30%';
 
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
