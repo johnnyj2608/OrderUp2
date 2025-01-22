@@ -124,13 +124,8 @@ async function handleSave() {
                 id: id,
                 index: cells[0].querySelector('input').value.trim(),
                 name: cells[1].querySelector('input').value.trim(),
-                monday: cells[2].querySelector('input').checked,
-                tuesday: cells[3].querySelector('input').checked,
-                wednesday: cells[4].querySelector('input').checked,
-                thursday: cells[5].querySelector('input').checked,
-                friday: cells[6].querySelector('input').checked,
-                saturday: cells[7].querySelector('input').checked,
-            };
+                units: cells[2].querySelector('input').value.trim(),
+            }
             if (rowData.id || rowData.index || rowData.name) {
                 dataUpdate.push(rowData);
             }

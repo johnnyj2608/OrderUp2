@@ -41,7 +41,7 @@ router.post('/members', async (req, res) => {
                         UPDATE members
                         SET name = $1,
                             index = $2,
-                            units = $3,
+                            units = $3
                         WHERE id = $4
                     `;
                     await client.query(updateQuery, [name, index, units, id]);
