@@ -25,7 +25,9 @@ router.get("/", async (req, res) => {
             id: member.id,
             index: member.index,
             name: member.name,
-            menu: member.menu,
+            max: member.max,
+            breakfast: member.breakfast,
+            lunch: member.lunch,
         }));
 
         const formattedTitle = 
@@ -89,27 +91,24 @@ async function getEligibleMembers(client, targetDate) {
     const validMemberIds = validUnitsResult.rows.map(row => row.id);
 
     const query = `
-        SELECT m.id, m.index, m.name, 
-            CASE 
-                WHEN o.breakfast IS NOT NULL AND o.lunch IS NOT NULL THEN 'X'
-                WHEN o.breakfast IS NOT NULL THEN 'L'
-                WHEN o.lunch IS NOT NULL THEN 'B'
-                ELSE 'A'
-            END AS menu
+        SELECT m.id, m.index, m.name, m.max,
+            COUNT(o.breakfast)::INTEGER AS breakfast,
+            COUNT(o.lunch)::INTEGER AS lunch
         FROM members m
         LEFT JOIN orders o
         ON m.id = o.member_id AND o.date = $1
+        GROUP BY m.id, m.index, m.name, m.max
         ORDER BY m.index ASC;
     `;
     const menuTypeResult = await client.query(query, [targetDate]);
 
     const eligibleMembers = menuTypeResult.rows.filter(member => {
         // Ordered both breakfast and lunch for the day
-        if (member.menu === 'X') {
+        if (member.breakfast === member.max && member.lunch === member.max) {
             return false;
         }
         // If hasn't ordered, ensure units are not exceeded
-        if (member.menu === 'A' && !validMemberIds.includes(member.id)) {
+        if (member.breakfast === 0 && member.lunch === 0 && !validMemberIds.includes(member.id)) {
             return false;
         }
         return true;
