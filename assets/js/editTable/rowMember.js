@@ -125,6 +125,7 @@ async function handleSave() {
                 index: cells[0].querySelector('input').value.trim(),
                 name: cells[1].querySelector('input').value.trim(),
                 units: cells[2].querySelector('input').value.trim(),
+                max: cells[3].querySelector('input').value.trim(),
             }
             if (rowData.id || rowData.index || rowData.name) {
                 dataUpdate.push(rowData);

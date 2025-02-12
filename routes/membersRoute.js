@@ -27,7 +27,7 @@ router.post('/members', async (req, res) => {
         
         const members = req.body.members;
         for (let member of members) {
-            const { id, name, index, units, delete: isDelete,  } = member;
+            const { id, name, index, units, max, delete: isDelete,  } = member;
             if (isDelete) {
                 const deleteMenuQuery = 'DELETE FROM members WHERE id = $1';
                 await client.query(deleteMenuQuery, [id]);
@@ -41,10 +41,11 @@ router.post('/members', async (req, res) => {
                         UPDATE members
                         SET name = $1,
                             index = $2,
-                            units = $3
-                        WHERE id = $4
+                            units = $3,
+                            max = $4
+                        WHERE id = $5
                     `;
-                    await client.query(updateQuery, [name, index, units, id]);
+                    await client.query(updateQuery, [name, index, units, max, id]);
                 } else {
                     // If the id does not exist, insert a new row
                     const insertQuery = `

@@ -20,7 +20,7 @@
             </div>
             <div class="col-auto">
                 <div class="dropdown">
-                    <span onclick="handleEditClick(3);">
+                    <span onclick="handleEditClick(4);">
                         <i id="edit-button" class="fas fa-pencil-alt"></i>
                     </span>
                 </div>
@@ -36,9 +36,10 @@
             <table class="table table-striped table-bordered">
                 <thead class="sticky-row">
                     <tr>
-                        <th style="width: 25%;"><%= __("tables.number") %></th>
-                        <th style="width: 50%;"><%= __("tables.name") %></th>
-                        <th style="width: 25%;"><%= __("tables.units") %></th>
+                        <th style="width: 20%;"><%= __("tables.number") %></th>
+                        <th style="width: 40%;"><%= __("tables.name") %></th>
+                        <th style="width: 20%;"><%= __("tables.units") %></th>
+                        <th style="width: 20%;"><%= __("tables.max") %></th>
                     </tr>
                 </thead>
                 <tbody id="data-body" class="view-mode">
@@ -51,6 +52,7 @@
                                 </a>
                             </td>
                             <td><%= member.units %></td>
+                            <td><%= member.max %></td>
                         </tr>
                     <% }); %>
                 </tbody>

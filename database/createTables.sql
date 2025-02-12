@@ -18,7 +18,8 @@ CREATE TABLE members (
   id SERIAL PRIMARY KEY,
   index INT DEFAULT NULL,
   name VARCHAR(100) DEFAULT NULL,
-  units INT DEFAULT 0
+  units INT DEFAULT 0,
+  max INT DEFAULT 1
 );
 
 -- Create Orders Table
