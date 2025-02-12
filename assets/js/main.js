@@ -121,6 +121,7 @@ function handleScroll() {
 
 async function submitOrder(button) {
     if (!button.classList.contains('disabled')) {
+        button.classList.add('disabled');
         const dateInput = document.getElementById('datePicker').value || new Date().toLocaleString();;
 
         const selectedName = document.querySelector('#nameList li.selected');

@@ -11,15 +11,29 @@ const channel = supabase.channel('orders-submit')
         table: 'orders',
     }, (payload) => {
         const { member_id, breakfast, lunch } = payload.new;
+        const { breakfast: breakfast_old = null, lunch: lunch_old = null } = payload.old
         const listItem = document.querySelector(`li[data-index="${member_id}"]`);
 
-        if (breakfast && lunch) {
+        const breakfastCount = parseInt(listItem.getAttribute('data-breakfast'));
+        const lunchCount = parseInt(listItem.getAttribute('data-lunch'));
+        const maxCount = parseInt(listItem.getAttribute('data-max'));
+
+        if (breakfast !== breakfast_old) {
+            listItem.setAttribute('data-breakfast', breakfastCount+1);
+        }
+
+        if (lunch !== lunch_old) {
+            listItem.setAttribute('data-lunch', lunchCount+1);
+        }
+
+        const currentBreakfastCount = listItem.getAttribute('data-breakfast');
+        const currentLunchCount = listItem.getAttribute('data-lunch');
+
+        if (currentBreakfastCount >= maxCount && currentLunchCount >= maxCount) {
             listItem.parentNode.removeChild(listItem);
-        } else if (breakfast) {
-            listItem.setAttribute('data-menu', 'L');
+        } else if (currentBreakfastCount >= maxCount) {
             listItem.querySelector('.menu-type').innerText = typeL;
-        } else if (lunch) {
-            listItem.setAttribute('data-menu', 'B');
+        } else if (currentLunchCount >= maxCount) {
             listItem.querySelector('.menu-type').innerText = typeB;
         }
     })
