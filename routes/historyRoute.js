@@ -25,7 +25,7 @@ router.get('/history', async (req, res) => {
                 FROM orders o
                 LEFT JOIN members m ON o.member_id = m.id
                 WHERE LOWER(m.name) LIKE LOWER($1)
-                ORDER BY o.date ASC
+                ORDER BY m.index ASC, o.date ASC
             `;
             const result = await client.query(query, [`%${member}%`]);
             rawOrderList = result.rows;
@@ -59,7 +59,7 @@ router.get('/history', async (req, res) => {
                 FROM orders o
                 LEFT JOIN members m ON o.member_id = m.id
                 WHERE o.date = $1
-                ORDER BY o.id ASC
+                ORDER BY m.index ASC, o.date ASC
             `;
             const result = await client.query(query, [selectedDate]);
             rawOrderList = result.rows;

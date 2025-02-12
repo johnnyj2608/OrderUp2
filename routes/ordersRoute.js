@@ -92,12 +92,12 @@ async function getMenuItems(client, selectedDay, menuType) {
 
 async function getOrdersByDate(client, targetDate) {
     const query = `
-        SELECT o.id, o.breakfast, o.b_received, o.lunch, o.l_received, m.name AS name
+        SELECT o.id, o.breakfast, o.b_received, o.lunch, o.l_received, m.name AS name, m.index
         FROM orders o
         INNER JOIN members m
         ON o.member_id = m.id
         WHERE o.date = $1
-        ORDER BY o.id ASC;
+        ORDER BY m.index ASC, o.id ASC;
     `;
     const result = await client.query(query, [targetDate]);
     return result.rows; 
