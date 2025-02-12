@@ -10,6 +10,10 @@ const channel = supabase.channel('orders-submit')
         schema: 'public',
         table: 'orders',
     }, (payload) => {
+        if (payload.eventType === 'DELETE') {
+            return;
+        }
+
         const { member_id, breakfast, lunch } = payload.new;
         const { breakfast: breakfast_old = null, lunch: lunch_old = null } = payload.old
         const listItem = document.querySelector(`li[data-index="${member_id}"]`);
