@@ -23,29 +23,38 @@ router.post("/submit", async (req, res) => {
     try {
         const client = await connectToDb();
 
-        const existingOrderQuery = `
-            SELECT id, breakfast, lunch
-            FROM orders
-            WHERE member_id = $1 AND date = $2
+        const findBreakfastQuery = `
+            SELECT id FROM orders
+            WHERE member_id = $1 AND date = $2 AND breakfast IS NULL
+            ORDER BY id ASC
+            LIMIT 1
         `;
-        const result = await client.query(existingOrderQuery, [memberID, selectedDate]);
-        const existingOrder = result.rows[0];
+        const breakfastResult = await client.query(findBreakfastQuery, [memberID, selectedDate]);
+        const breakfastOrder = breakfastResult.rows[0];
 
-        if (existingOrder) {
-            const updateOrderQuery = `
+        const findLunchQuery = `
+            SELECT id FROM orders
+            WHERE member_id = $1 AND date = $2 AND lunch IS NULL
+            ORDER BY id ASC
+            LIMIT 1
+        `;
+        const lunchResult = await client.query(findLunchQuery, [memberID, selectedDate]);
+        const lunchOrder = lunchResult.rows[0];
+
+        if (breakfastName && !lunchName && breakfastOrder) {
+            const updateBreakfastQuery = `
                 UPDATE orders
-                SET 
-                    breakfast = COALESCE($1, breakfast),
-                    lunch = COALESCE($2, lunch),
-                    timestamp = $3
-                WHERE id = $4
+                SET breakfast = $1, timestamp = $2
+                WHERE id = $3
             `;
-            await client.query(updateOrderQuery, [
-                breakfastName,
-                lunchName,
-                timestamp,
-                existingOrder.id,
-            ]);
+            await client.query(updateBreakfastQuery, [breakfastName, timestamp, breakfastOrder.id]);
+        } else if (!breakfastName && lunchName && lunchOrder) {
+            const updateLunchQuery = `
+                UPDATE orders
+                SET lunch = $1, timestamp = $2
+                WHERE id = $3
+            `;
+            await client.query(updateLunchQuery, [lunchName, timestamp, lunchOrder.id]);
         } else {
             const orderInsertQuery = `
                 INSERT INTO orders (member_id, date, breakfast, lunch, timestamp)
