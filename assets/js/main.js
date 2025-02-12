@@ -27,7 +27,9 @@ function searchNames() {
 
 function handleNameClick(listItem) {
     listItem.classList.toggle('selected');
-    const menuType = listItem.getAttribute('data-menu');
+    const breakfastCount = listItem.getAttribute('data-breakfast');
+    const lunchCount = listItem.getAttribute('data-lunch');
+    const maxCount = listItem.getAttribute('data-max');
 
     const panels = document.querySelectorAll('.panel');
     panels.forEach(panel => {
@@ -38,13 +40,13 @@ function handleNameClick(listItem) {
     goLunch = true;
 
     if (listItem.classList.contains('selected')){
-        if (menuType !== 'A') {
+        if (breakfastCount >= maxCount || lunchCount >= maxCount) {
             panels.forEach(panel => {
-                if (menuType === 'L' && panel.getAttribute('data-type') === 'breakfast') {
+                if (breakfastCount >= maxCount && panel.getAttribute('data-type') === 'breakfast') {
                     panel.classList.add('desaturate');
                     panel.classList.remove('selectedBreakfast');
                     goBreakfast = false;
-                } else if (menuType === 'B' && panel.getAttribute('data-type') === 'lunch') {
+                } else if (lunchCount >= maxCount === 'B' && panel.getAttribute('data-type') === 'lunch') {
                     panel.classList.add('desaturate');
                     panel.classList.remove('selectedLunch');
                     goLunch = false;
