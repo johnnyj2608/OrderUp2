@@ -48,9 +48,9 @@
                         <tr data-id="<%= member.id %>">
                             <td><%= member.index %></td>
                             <td>
-                                <a href="/history/?member=<%= member.name %>" style="color: black">
+                                <span class="name-link" onclick="handleSearch('<%= member.name  %>')">
                                     <%= member.name %>
-                                </a>
+                                </span>
                             </td>
                             <td><%= member.units %></td>
                             <td><%= member.max %></td>
@@ -94,6 +94,7 @@
 
     <script src="/js/bottomScroll.js"></script>
     <script src="/js/csvUpload.js"></script>
+    <script src="/js/memberSearch.js"></script>
     <script src="/js/editTable/rowMember.js"></script>
     <script src="/js/editTable/editTable.js"></script>
     <script
