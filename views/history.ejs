@@ -54,15 +54,15 @@
                     <% orderList.forEach(order => { %>
                         <tr data-id="<%= order.id %>">
                             <td class="<%= order.weekClass %>">
-                                <a href="/history/?date=<%= order.date %>" style="color: black;">
+                                <a class="date-link" href="/history/?date=<%= order.date %>">
                                     <%= order.date %>
                                 </a>
                             </td>
                             <td>
                                 <% if (order.member_name !== null) { %>
-                                    <a href="#" onclick="handleSearch('<%= order.member_name %>')" style="color: black;">
+                                    <span class="name-link" onclick="handleSearch('<%= order.member_name %>')">
                                         <%= order.member_name %>
-                                    </a>                                    
+                                    </span>
                                 <% } else { %>
                                     Disenrolled Member
                                 <% } %>

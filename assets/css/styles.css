@@ -427,7 +427,17 @@ td .fa-times {
 .week-4 {
       background-color: #c8a4e3 !important;
 }
-  
+
+.date-link, .name-link {
+      color: black;
+      cursor: pointer;
+      text-decoration: none;
+}
+
+.date-link:hover, .name-link:hover {
+      text-decoration: underline;
+      color: black;
+}
 
 /* -------------- *
  * Filter 
