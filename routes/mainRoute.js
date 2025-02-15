@@ -80,41 +80,51 @@ async function getEligibleMembers(client, targetDate) {
     const endDate = endOfWeek.toISOString().split('T')[0];
 
     const orderCountQuery = `
-        SELECT m.id
+        SELECT m.id, LEAST(m.max, m.units - COUNT(o.id))::INTEGER AS max
         FROM members m
         LEFT JOIN orders o
         ON m.id = o.member_id AND o.date BETWEEN $1 AND $2
-        GROUP BY m.id, m.units
+        GROUP BY m.id, m.units, m.max
         HAVING COUNT(o.id) < m.units;
     `;
     const validUnitsResult = await client.query(orderCountQuery, [startDate, endDate]);
-    const validMemberIds = validUnitsResult.rows.map(row => row.id);
+    const validMembers = validUnitsResult.rows.map(row => ({ id: row.id, max: row.max }));
 
     const query = `
-        SELECT m.id, m.index, m.name, m.max,
+        SELECT m.id, m.index, m.name,
             COUNT(o.breakfast)::INTEGER AS breakfast,
             COUNT(o.lunch)::INTEGER AS lunch
         FROM members m
         LEFT JOIN orders o
         ON m.id = o.member_id AND o.date = $1
-        GROUP BY m.id, m.index, m.name, m.max
+        GROUP BY m.id, m.index, m.name
         ORDER BY m.index ASC;
     `;
     const menuTypeResult = await client.query(query, [targetDate]);
 
     const eligibleMembers = menuTypeResult.rows.filter(member => {
-        // Ordered both breakfast and lunch for the day
-        if (member.breakfast === member.max && member.lunch === member.max) {
+        const validMember = validMembers.find(v => v.id === member.id);
+    
+        // If hasn't ordered, ensure the member is in validMembers
+        if (!validMember && member.breakfast === 0 && member.lunch === 0) {
             return false;
         }
-        // If hasn't ordered, ensure units are not exceeded
-        if (member.breakfast === 0 && member.lunch === 0 && !validMemberIds.includes(member.id)) {
+    
+        // If ordered both breakfast and lunch to max, return false
+        if (validMember && member.breakfast === validMember.max && member.lunch === validMember.max) {
             return false;
         }
+    
         return true;
+    }).map(member => {
+        const validMember = validMembers.find(v => v.id === member.id);
+        const memberMax = validMember ? validMember.max : 0;
+        const halfOrder = member.breakfast !== member.lunch ? 1 : 0;
+        member.max = memberMax + halfOrder;
+        return member;
     });
-
     return eligibleMembers;
+    
 }
 
 module.exports = router;
