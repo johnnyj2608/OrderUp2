@@ -105,18 +105,23 @@ async function getEligibleMembers(client, targetDate) {
     const eligibleMembers = menuTypeResult.rows.filter(member => {
         const validMember = validMembers.find(v => v.id === member.id);
     
-        // If hasn't ordered, ensure the member is in validMembers
-        if (!validMember && member.breakfast === 0 && member.lunch === 0) {
+        // Ensure half orders remain eligible
+        if (!validMember && member.breakfast === member.lunch) {
             return false;
         }
     
-        // If ordered both breakfast and lunch to max, return false
-        if (validMember && member.breakfast === validMember.max && member.lunch === validMember.max) {
+        // Ensure order counts are not over max
+        if (validMember && member.breakfast >= validMember.max && member.lunch >= validMember.max) {
             return false;
         }
     
         return true;
     }).map(member => {
+        while (member.breakfast > 0 && member.lunch > 0) {
+            member.breakfast--;
+            member.lunch--;
+        }
+
         const validMember = validMembers.find(v => v.id === member.id);
         const memberMax = validMember ? validMember.max : 0;
         const halfOrder = member.breakfast !== member.lunch ? 1 : 0;
