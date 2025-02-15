@@ -6,10 +6,8 @@ function toggleSearch() {
     searchField.focus();
 }
 
-function handleSearch() {
-    const searchValue = document.getElementById('memberSearch').value;
-    
-    window.location.href = `/history/?member=${searchValue}`;
+function handleSearch(member = document.getElementById('memberSearch').value.trim()) {
+    window.location.href = `/history/?member=${encodeURIComponent(member)}`;
 }
 
 document.addEventListener('keydown', (event) => {

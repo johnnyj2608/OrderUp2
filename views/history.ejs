@@ -60,9 +60,9 @@
                             </td>
                             <td>
                                 <% if (order.member_name !== null) { %>
-                                    <a href="/history/?member=<%= order.member_name %>" style="color: black;">
+                                    <a href="#" onclick="handleSearch('<%= order.member_name %>')" style="color: black;">
                                         <%= order.member_name %>
-                                    </a>
+                                    </a>                                    
                                 <% } else { %>
                                     Disenrolled Member
                                 <% } %>
