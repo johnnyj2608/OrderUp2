@@ -74,14 +74,17 @@ async function handleSave() {
         editRow.querySelectorAll('td').forEach((editCell, i) => {
             const viewCell = document.createElement('td');
             const inputField = editCell.querySelector('input');
-            
-            
             const cellText = inputField.value.trim();
 
             if (cellText !== '') {
                 emptyAddRow = false;
             }
-            viewCell.innerText = cellText;
+            
+            if (i === 1) {
+                viewCell.innerHTML = `<span class="name-link" onclick="handleSearch('${cellText}')">${cellText}</span>`;
+            } else {
+                viewCell.innerText = cellText;
+            }
             viewRow.appendChild(viewCell);
         });
         if (!(emptyAddRow && editRow.getAttribute('data-id') === null)) {

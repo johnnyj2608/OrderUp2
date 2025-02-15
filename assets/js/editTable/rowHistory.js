@@ -45,7 +45,7 @@ async function handleSave() {
 
         const viewRow = document.createElement('tr');
         
-        editRow.querySelectorAll('td').forEach((editCell, index) => {
+        editRow.querySelectorAll('td').forEach((editCell, i) => {
             const viewCell = document.createElement('td');
             const cellText = editCell.textContent.trim();
 
@@ -54,10 +54,14 @@ async function handleSave() {
                 const icon = editCell.querySelector('i').outerHTML;
                 viewCell.innerHTML = icon;
             } else {
-                if (index === 0) {
+                if (i === 0) {
                     viewCell.className = editCell.className;
+                    viewCell.innerHTML = `<a class="date-link" href="/history/?date=${cellText}">${cellText}</a>`;
+                } else if (i === 1) {
+                    viewCell.innerHTML = `<span class="name-link" onclick="handleSearch('${cellText}')">${cellText}</span>`;
+                } else {
+                    viewCell.innerText = cellText;
                 }
-                viewCell.innerText = cellText;
             }
             viewRow.appendChild(viewCell);
         });
