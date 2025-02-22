@@ -7,7 +7,15 @@ function toggleSearch() {
 }
 
 function handleSearch(member = document.getElementById('memberSearch').value.trim()) {
-    window.location.href = `/history/?member=${encodeURIComponent(member)}`;
+    let route = '';
+    const currentPath = window.location.pathname;
+
+    if (currentPath.includes('members')) {
+        route = 'members'; 
+    } else if (currentPath.includes('history')) {
+        route = 'history';
+    }
+    window.location.href = `/${route}/?member=${encodeURIComponent(member)}`;
 }
 
 document.addEventListener('keydown', (event) => {

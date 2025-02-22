@@ -5,10 +5,19 @@ const { connectToDb } = require('../utils/db');
 router.get('/members', async (req, res) => {
     try {
         const client = await connectToDb();
+        let memberList = [];
 
-        const query = 'SELECT * FROM members ORDER BY index ASC, name ASC';
-        const result = await client.query(query);
-        const memberList = result.rows;
+        if (req.query.member) {
+            const member = req.query.member.trim();
+            const query = 'SELECT * FROM members WHERE name ILIKE $1 ORDER BY index ASC, name ASC';
+            const values = [`%${member}%`];
+            const result = await client.query(query, values);
+            memberList = result.rows;
+        } else {
+            const query = 'SELECT * FROM members ORDER BY index ASC, name ASC';
+            const result = await client.query(query);
+            memberList = result.rows;
+        }
 
         res.render('members', { 
             memberList, 

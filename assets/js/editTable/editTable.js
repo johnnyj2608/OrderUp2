@@ -170,7 +170,7 @@ function activeEdit(status) {
     const editFooter = document.getElementById('edit-footer');
     const viewFooter = document.getElementById('view-footer');
 
-    const filterElement = document.getElementById('filter-dropdown');
+    const searchIcon = document.getElementById('search-icon');
     const uploadPlus = document.getElementById('upload-plus');
 
     if (status) {
@@ -182,8 +182,8 @@ function activeEdit(status) {
         editFooter.classList.remove('hidden');
         viewFooter.classList.add('hidden');
 
-        if (filterElement) {
-            filterElement.classList.add('hidden');
+        if (searchIcon) {
+            searchIcon.classList.add('hidden');
         }
         if (uploadPlus) {
             uploadPlus.classList.remove('hidden');
@@ -197,10 +197,9 @@ function activeEdit(status) {
         editFooter.classList.add('hidden');
         viewFooter.classList.remove('hidden');
 
-        if (filterElement) {
-            filterElement.classList.remove('hidden');
+        if (searchIcon) {
+            searchIcon.classList.remove('hidden');
         }
-        
         if (uploadPlus) {
             uploadPlus.classList.add('hidden');
         }

@@ -13,6 +13,7 @@
     <div class="container-fluid">
         <div class="row header">
             <div class="col-auto">
+                <i id="search-icon" class="dropdown fas fa-search ml-1" onclick="toggleSearch()"></i>
                 <input type="file" id="fileInput" accept=".csv" class="hidden">
                 <i id="upload-plus" class="dropdown fas fa-plus hidden"></i>
             </div>
@@ -28,6 +29,10 @@
             </div>
         </div>
         <div class="content">
+            <div id="searchContainer" class="hidden">
+                <input type="text" id="memberSearch" class="form-control" placeholder="<%= __('titles.search') %>" />
+                <button id="searchButton" class="actionButton" onclick="handleSearch()"><%= __('titles.search') %></button>
+            </div>
             <br>
             <div class="row">
                 <div class="col text-center">

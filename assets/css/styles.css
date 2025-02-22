@@ -170,7 +170,7 @@
 #searchContainer {
       display: flex;
       position: fixed;
-      top: 10svh;
+      top: 9svh;
       width: 300px;
       z-index: 9999;
       border: 1px solid black;
