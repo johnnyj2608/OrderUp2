@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { connectToDb } = require('../utils/db');
-const { dayOfWeekColumns } = require('../utils/utils');
+const { dayOfWeekColumns, getWeekRange } = require('../utils/utils');
 
 router.get("/", async (req, res) => {
     try {
@@ -71,14 +71,7 @@ async function getEligibleMembers(client, targetDate) {
         return []
     }
 
-    const startOfWeek = new Date(targetDate);
-    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
-
-    const startDate = startOfWeek.toISOString().split('T')[0];
-    const endDate = endOfWeek.toISOString().split('T')[0];
-
+    const { startDate, endDate } = getWeekRange(targetDate);
     const orderCountQuery = `
         SELECT m.id, m.units,
             COUNT(CASE WHEN o.breakfast IS NOT NULL THEN 1 END)::INTEGER AS breakfast_count,

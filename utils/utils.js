@@ -49,10 +49,22 @@ function getWeekNumber(date) {
     return weekNumber;
 }
 
+function getWeekRange(date) {
+    const startOfWeek = new Date(date);
+    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+    const startDate = startOfWeek.toISOString().split('T')[0];
+    const endDate = endOfWeek.toISOString().split('T')[0];
+    return {startDate: startDate, endDate: endDate};
+}
+
 module.exports = { 
     dayOfWeekColumns, 
     getStatusIcon, 
     formatDate, 
     formatTimestamp,
     getWeekNumber,
+    getWeekRange,
 };

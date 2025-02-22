@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { connectToDb } = require('../utils/db');
+const { getWeekRange } = require('../utils/utils');
 
 router.post("/submit", async (req, res) => {
     const { 
@@ -56,6 +57,42 @@ router.post("/submit", async (req, res) => {
             `;
             await client.query(updateLunchQuery, [lunchName, timestamp, lunchOrder.id]);
         } else {
+            const memberQuery = 'SELECT units, max FROM members WHERE id = $1';
+            const memberResult = await client.query(memberQuery, [memberID]);
+            const units = memberResult.rows[0].units;
+            const max = memberResult.rows[0].max;
+
+            const dailyCountQuery = `
+                SELECT 
+                    COUNT(CASE WHEN breakfast IS NOT NULL THEN 1 END) AS breakfast_count,
+                    COUNT(CASE WHEN lunch IS NOT NULL THEN 1 END) AS lunch_count
+                FROM orders
+                WHERE member_id = $1 AND date = $2
+            `;
+            const dailyCountResult = await client.query(dailyCountQuery, [memberID, selectedDate]);
+            const dailyBreakfastCount = dailyCountResult.rows[0].breakfast_count || 0;
+            const dailyLunchCount = dailyCountResult.rows[0].lunch_count || 0;
+
+            if (dailyBreakfastCount >= max || dailyLunchCount >= max) {
+                throw new Error('Cannot insert: Breakfast or lunch count already at limit for the day.');
+            }
+
+            const { startDate, endDate } = getWeekRange(selectedDate);
+            const weeklyCountQuery = `
+                SELECT 
+                    COUNT(CASE WHEN breakfast IS NOT NULL THEN 1 END) AS breakfast_count,
+                    COUNT(CASE WHEN lunch IS NOT NULL THEN 1 END) AS lunch_count
+                FROM orders
+                WHERE member_id = $1 AND date BETWEEN $2 AND $3
+            `;
+            const weeklyCountResult = await client.query(weeklyCountQuery, [memberID, startDate, endDate]);
+            const weeklyBreakfastCount = weeklyCountResult.rows[0].breakfast_count || 0;
+            const weeklyLunchCount = weeklyCountResult.rows[0].lunch_count || 0;
+
+            if (weeklyBreakfastCount >= units || weeklyLunchCount >= units) {
+                throw new Error('Cannot insert: Breakfast or lunch count already at weekly limit.');
+            }
+
             const orderInsertQuery = `
                 INSERT INTO orders (member_id, date, breakfast, lunch, timestamp)
                 VALUES ($1, $2, $3, $4, $5)
