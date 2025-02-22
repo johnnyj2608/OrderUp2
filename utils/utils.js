@@ -38,9 +38,14 @@ function formatTimestamp(timestamp) {
 }
 
 function getWeekNumber(date) {
-    const startDate = new Date(date.getFullYear(), 0, 1);
-    const days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
-    const weekNumber = Math.floor(days / 7) + 1;
+    const currentDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    
+    const dayOfWeek = currentDate.getUTCDay() || 7;
+    currentDate.setUTCDate(currentDate.getUTCDate() + (4 - dayOfWeek));
+
+    const yearStart = new Date(Date.UTC(currentDate.getUTCFullYear(), 0, 1));
+    const weekNumber = Math.ceil((((currentDate - yearStart) / 86400000) + 1) / 7);
+
     return weekNumber;
 }
 
