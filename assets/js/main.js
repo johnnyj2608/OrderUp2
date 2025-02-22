@@ -46,7 +46,7 @@ function handleNameClick(listItem) {
                     panel.classList.add('desaturate');
                     panel.classList.remove('selectedBreakfast');
                     goBreakfast = false;
-                } else if (lunchCount >= maxCount === 'B' && panel.getAttribute('data-type') === 'lunch') {
+                } else if (lunchCount >= maxCount && panel.getAttribute('data-type') === 'lunch') {
                     panel.classList.add('desaturate');
                     panel.classList.remove('selectedLunch');
                     goLunch = false;
