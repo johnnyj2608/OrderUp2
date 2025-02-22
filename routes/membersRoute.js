@@ -9,10 +9,28 @@ router.get('/members', async (req, res) => {
 
         if (req.query.member) {
             const member = req.query.member.trim();
-            const query = 'SELECT * FROM members WHERE name ILIKE $1 ORDER BY index ASC, name ASC';
-            const values = [`%${member}%`];
+            let query = '';
+            let values = [];
+
+            if (!isNaN(member)) {
+                query = `
+                    SELECT * FROM members
+                    WHERE index = $1
+                    ORDER BY index ASC, name ASC
+                `;
+                values = [Number(member)];
+            } else {
+                query = `
+                    SELECT * FROM members
+                    WHERE name ILIKE $1
+                    ORDER BY index ASC, name ASC
+                `;
+                values = [`%${member}%`];
+            }
+
             const result = await client.query(query, values);
             memberList = result.rows;
+
         } else {
             const query = 'SELECT * FROM members ORDER BY index ASC, name ASC';
             const result = await client.query(query);
