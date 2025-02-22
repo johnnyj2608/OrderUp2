@@ -136,7 +136,7 @@ async function submitOrder(button) {
         const lunchName = selectedLunch?.getAttribute('data-text') || null;
 
         try {
-            const response = await fetch('/submit', {
+            const response = await fetch('/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
