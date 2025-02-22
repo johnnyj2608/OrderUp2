@@ -80,53 +80,44 @@ async function getEligibleMembers(client, targetDate) {
     const endDate = endOfWeek.toISOString().split('T')[0];
 
     const orderCountQuery = `
-        SELECT m.id, LEAST(m.max, m.units - COUNT(o.id))::INTEGER AS max
+        SELECT m.id, m.units,
+            COUNT(CASE WHEN o.breakfast IS NOT NULL THEN 1 END)::INTEGER AS breakfast_count,
+            COUNT(CASE WHEN o.lunch IS NOT NULL THEN 1 END)::INTEGER AS lunch_count
         FROM members m
         LEFT JOIN orders o
         ON m.id = o.member_id AND o.date BETWEEN $1 AND $2
-        GROUP BY m.id, m.units, m.max
-        HAVING COUNT(o.id) < m.units;
+        GROUP BY m.id, m.units
+        HAVING 
+            COUNT(CASE WHEN o.breakfast IS NOT NULL THEN 1 END) < m.units
+            OR COUNT(CASE WHEN o.lunch IS NOT NULL THEN 1 END) < m.units
     `;
-    const validUnitsResult = await client.query(orderCountQuery, [startDate, endDate]);
-    const validMembers = validUnitsResult.rows.map(row => ({ id: row.id, max: row.max }));
+    const validMembersResult = await client.query(orderCountQuery, [startDate, endDate]);
+    const validMembers = validMembersResult.rows.map(row => ({
+        id: row.id,
+        units: row.units,
+        breakfast_count: row.breakfast_count,
+        lunch_count: row.lunch_count
+    }));
 
     const query = `
-        SELECT m.id, m.index, m.name,
+        SELECT m.id, m.index, m.name, m.max, 
             COUNT(o.breakfast)::INTEGER AS breakfast,
             COUNT(o.lunch)::INTEGER AS lunch
         FROM members m
         LEFT JOIN orders o
         ON m.id = o.member_id AND o.date = $1
-        GROUP BY m.id, m.index, m.name
+        GROUP BY m.id, m.index, m.name, m.max
         ORDER BY m.index ASC;
     `;
     const menuTypeResult = await client.query(query, [targetDate]);
 
     const eligibleMembers = menuTypeResult.rows.filter(member => {
         const validMember = validMembers.find(v => v.id === member.id);
-    
-        // Ensure half orders remain eligible
-        if (!validMember && member.breakfast === member.lunch) {
-            return false;
-        }
-    
-        // Ensure order counts are not over max
-        if (validMember && member.breakfast >= validMember.max && member.lunch >= validMember.max) {
-            return false;
-        }
+
+        if (!validMember) return false;
+        if (member.breakfast >= member.max && member.lunch >= member.max) return false;
     
         return true;
-    }).map(member => {
-        while (member.breakfast > 0 && member.lunch > 0) {
-            member.breakfast--;
-            member.lunch--;
-        }
-
-        const validMember = validMembers.find(v => v.id === member.id);
-        const memberMax = validMember ? validMember.max : 0;
-        const halfOrder = member.breakfast !== member.lunch ? 1 : 0;
-        member.max = memberMax + halfOrder;
-        return member;
     });
     return eligibleMembers;
     
