@@ -39,12 +39,21 @@ function createEditRow(cols, content = false) {
         
                 if (breakfastDropdown || lunchDropdown) {
                     const menuData = await fetchMenu(newDateValue);
+                    
                     if (breakfastDropdown) {
                         breakfastDropdown.innerHTML = '';
+                        const blankOption = document.createElement('option');
+                        blankOption.value = ''; 
+                        blankOption.textContent = '';
+                        breakfastDropdown.appendChild(blankOption);
                         populateDropdown(breakfastDropdown, menuData.breakfastItems);
                     }
                     if (lunchDropdown) {
                         lunchDropdown.innerHTML = '';
+                        const blankOption = document.createElement('option');
+                        blankOption.value = ''; 
+                        blankOption.textContent = '';
+                        lunchDropdown.appendChild(blankOption);
                         populateDropdown(lunchDropdown, menuData.lunchItems);
                     }
                 }
@@ -58,11 +67,18 @@ function createEditRow(cols, content = false) {
             dropdown.dataset.type = i === 2 ? 'breakfast' : 'lunch';
             dropdown.style.width = '100%';
 
-            const option = document.createElement('option');
-            option.value = cellText;
-            option.textContent = cellText;
-            dropdown.appendChild(option);
-            dropdown.value = cellText;
+            const blankOption = document.createElement('option');
+            blankOption.value = ''; 
+            blankOption.textContent = '';
+            dropdown.appendChild(blankOption);
+
+            if (cellText) {
+                const option = document.createElement('option');
+                option.value = cellText;
+                option.textContent = cellText;
+                dropdown.appendChild(option);
+                dropdown.value = cellText;
+            }
 
             dropdown.addEventListener('focus', async () => {
                 const dateValue = newRow.cells[0].querySelector('input').value;
@@ -74,7 +90,6 @@ function createEditRow(cols, content = false) {
 
         } else if (i == 3 || i == 5) {
             // Checkbox
-
         } else {
             // Timestamp
         }
