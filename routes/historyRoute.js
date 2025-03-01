@@ -141,4 +141,33 @@ router.post('/history', async (req, res) => {
     }
 });
 
+router.get('/menuData', async (req, res) => {
+    const { weekday } = req.query;
+
+    try {
+        const client = await connectToDb();
+
+        const query = `
+            SELECT name, type
+            FROM menu
+            WHERE ${weekday} = true
+            ORDER BY type ASC, name ASC;
+        `;
+        const result = await client.query(query);
+
+        const menuItems = result.rows.reduce((acc, item) => {
+            if (item.type === 'B') {
+                acc.breakfastItems.push(item.name);
+            } else if (item.type === 'L') {
+                acc.lunchItems.push(item.name);
+            }
+            return acc;
+        }, { breakfastItems: [], lunchItems: [] });
+        res.json(menuItems);
+    } catch (error) {
+        console.error('Error fetching menu data:', error);
+        res.status(500).send("Error loading menu data");
+    }
+});
+
 module.exports = router;
