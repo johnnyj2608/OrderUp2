@@ -11,59 +11,11 @@ function createEditRow(cols, content = false) {
         const newCell = document.createElement('td');
         const cellText = content ? content[i] : '';
 
-        if (i === 0) {
-            // Date Picker
-            if (weekColor) {
-                newCell.classList.add(weekColor);
-            }
-            const dateInput = document.createElement('input');
-            dateInput.type = 'date';
-            dateInput.style.width = '100%';
+        if (i === 0 && weekColor) {
+            newCell.classList.add(weekColor);
+        }
 
-            const dateArray = cellText.split('/');
-            const month = dateArray[0];
-            const day = dateArray[1];
-            let year = dateArray[2];
-            if (year.length === 2) {
-                year = '20' + year;
-            }
-
-            const formattedDate = `${year}-${month}-${day}`;
-            dateInput.value = formattedDate;
-
-            dateInput.addEventListener('change', async () => {
-                const newDateValue = dateInput.value;
-                const row = newCell.parentElement;
-        
-                const breakfastDropdown = row.querySelector('select[data-type="breakfast"]');
-                const lunchDropdown = row.querySelector('select[data-type="lunch"]');
-        
-                if (breakfastDropdown || lunchDropdown) {
-                    const menuData = await fetchMenu(newDateValue);
-                    
-                    if (breakfastDropdown) {
-                        breakfastDropdown.innerHTML = '';
-                        const blankOption = document.createElement('option');
-                        blankOption.value = ''; 
-                        blankOption.textContent = '';
-                        breakfastDropdown.appendChild(blankOption);
-                        populateDropdown(breakfastDropdown, menuData.breakfastItems);
-                    }
-                    if (lunchDropdown) {
-                        lunchDropdown.innerHTML = '';
-                        const blankOption = document.createElement('option');
-                        blankOption.value = ''; 
-                        blankOption.textContent = '';
-                        lunchDropdown.appendChild(blankOption);
-                        populateDropdown(lunchDropdown, menuData.lunchItems);
-                    }
-                }
-            });
-
-            newCell.appendChild(dateInput);
-        } else if (i === 1) {
-            // Name Search
-        } else if (i == 2 || i == 4) {
+        if (i == 2 || i == 4) {
             // Dropdown Menu
             const dropdown = document.createElement('select');
             dropdown.dataset.type = i === 2 ? 'breakfast' : 'lunch';
@@ -83,23 +35,37 @@ function createEditRow(cols, content = false) {
             }
 
             dropdown.addEventListener('focus', async () => {
-                const dateValue = newRow.cells[0].querySelector('input').value;
+                originalText = dropdown.value;
+
+                const dateValue = newRow.cells[0].textContent;
                 const menuData = await fetchMenu(dateValue);
                 populateDropdown(dropdown, i === 2 ? menuData.breakfastItems : menuData.lunchItems);
             });
 
+            dropdown.addEventListener('blur', function() {
+                if (dropdown.value !== originalText) {
+                    undoStack.push({
+                        action: 'edit', 
+                        element: dropdown, 
+                        originalText: originalText,
+                        newText: dropdown.value
+                    });
+                    toggleUndoRedoButtons();
+                }
+            });
+
             newCell.appendChild(dropdown);
 
-        } else if (i == 3 || i == 5) {
-            // Checkbox
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.style.transform = 'scale(1.5)';
-            checkbox.checked = cellText === 'true' || cellText === true;
-            newCell.appendChild(checkbox);
         } else {
-            // Timestamp
-            newCell.textContent = cellText;
+            // Date, Name, Checkbox, Timestamp
+            if (cellText === true || cellText === false) {
+                const icon = cellText 
+                    ? "<i class='fas fa-check'></i>"
+                    : "<i class='fas fa-times'></i>";
+                newCell.innerHTML = icon;
+            } else {
+                newCell.textContent = cellText;
+            }
         }
 
         newRow.appendChild(newCell);
@@ -112,8 +78,8 @@ async function fetchMenu(date) {
         const selectedDate = new Date(date);
         const dayOfWeek = selectedDate.getDay();
 
-        const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-        const weekday = days[dayOfWeek]
+        const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+        const weekday = days[dayOfWeek];
 
         const response = await fetch(`/menuData?weekday=${weekday}`);
         const data = await response.json();
@@ -168,6 +134,8 @@ async function handleSave() {
                     viewCell.innerHTML = `<a class="date-link" href="/history/?date=${cellText}">${cellText}</a>`;
                 } else if (i === 1) {
                     viewCell.innerHTML = `<span class="name-link" onclick="handleSearch('${cellText}')">${cellText}</span>`;
+                } else if (i === 2 || i === 4) {
+                    viewCell.innerText = editCell.querySelector('select').value;
                 } else {
                     viewCell.innerText = cellText;
                 }
@@ -182,7 +150,11 @@ async function handleSave() {
         const change = undoStack.pop();
         const action = change.action;
 
-        if (action === "delete") {
+        if (action === "edit") {
+            modifiedRow = change.element.closest('tr');
+            modifiedElements.add(modifiedRow);
+        } else if (action === "delete") {
+            change.element.innerHTML = '';
             modifiedElements.add(change.element)
         } else {
             console.log("Error, action not recognized")
@@ -193,13 +165,17 @@ async function handleSave() {
     modifiedElements.forEach(row => {
         const id = row.getAttribute('data-id') || null;
         const cells = row.querySelectorAll('td');
-        
-        const rowData = {
+
+        if (cells.length === 0) {
+            dataUpdate.push({ id, delete: true });
+        } else {
+            const rowData = {
                 id: id,
-                breakfast: cells[2].innerText.trim(),
-                lunch: cells[4].innerText.trim(),
+                breakfast: cells[2].querySelector('select').value,
+                lunch: cells[4].querySelector('select').value,
             };
             dataUpdate.push(rowData);
+        }
     });
 
     if (dataUpdate.length > 0) {

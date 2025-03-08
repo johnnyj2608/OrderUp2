@@ -110,25 +110,34 @@ router.post('/history', async (req, res) => {
 
         const orders = req.body.orders;
         for (let order of orders) {
-            const { id, breakfast, lunch } = order;
+            const { id, breakfast, lunch, delete: isDelete, } = order;
 
-            const deleteQuery = 'DELETE FROM orders WHERE id = $1';
-            await client.query(deleteQuery, [id]);
+            if (isDelete) {
+                const deleteQuery = 'DELETE FROM orders WHERE id = $1';
+                await client.query(deleteQuery, [id]);
 
-            if (breakfast) {
-                const updateBreakfastQuery = `
-                    UPDATE menu SET count = count - 1 
-                    WHERE name = $1 AND count > 0
+                if (breakfast) {
+                    const updateBreakfastQuery = `
+                        UPDATE menu SET count = count - 1 
+                        WHERE name = $1 AND count > 0
+                    `;
+                    await client.query(updateBreakfastQuery, [breakfast]);
+                }
+
+                if (lunch) {
+                    const updateLunchQuery = `
+                        UPDATE menu SET count = count - 1 
+                        WHERE name = $1 AND count > 0
+                    `;
+                    await client.query(updateLunchQuery, [lunch]);
+                }
+            } else {
+                const updateQuery = `
+                    UPDATE orders 
+                    SET breakfast = $1, lunch = $2 
+                    WHERE id = $3
                 `;
-                await client.query(updateBreakfastQuery, [breakfast]);
-            }
-
-            if (lunch) {
-                const updateLunchQuery = `
-                    UPDATE menu SET count = count - 1 
-                    WHERE name = $1 AND count > 0
-                `;
-                await client.query(updateLunchQuery, [lunch]);
+                await client.query(updateQuery, [breakfast, lunch, id]);
             }
         }
 
