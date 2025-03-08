@@ -42,6 +42,8 @@ router.get('/orders', async (req, res) => {
                         received: order.l_received });
                     lunchItem.amt += 1;
                 }
+            } else if (order.breakfast === null && order.lunch === null) {
+                // If both foods are null, food was not removed
             } else {
                 foodRemoved = true;
             }
