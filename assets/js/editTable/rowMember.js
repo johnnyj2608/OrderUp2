@@ -15,7 +15,7 @@ function createEditRow(cols, content = false) {
         inputField.type = 'text';
         inputField.value = cellText;
 
-        if (i === 0) {
+        if (i !== 1) {
             inputField.addEventListener('input', function() {
                 this.value = this.value.replace(/[^0-9]/g, '');
             });
@@ -79,7 +79,7 @@ async function handleSave() {
             if (cellText !== '') {
                 emptyAddRow = false;
             }
-            
+
             if (i === 1) {
                 viewCell.innerHTML = `<span class="name-link" onclick="handleSearch('${cellText}')">${cellText}</span>`;
             } else {
