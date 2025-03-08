@@ -76,11 +76,11 @@ router.post('/members', async (req, res) => {
                 } else {
                     // If the id does not exist, insert a new row
                     const insertQuery = `
-                        INSERT INTO members (index, name, units)
-                        VALUES ($1, $2, $3)
+                        INSERT INTO members (index, name, units, max)
+                        VALUES ($1, $2, $3, $4)
                         RETURNING id
                     `;
-                    const result = await client.query(insertQuery, [index, name, units]);
+                    const result = await client.query(insertQuery, [index, name, units, max]);
                     newIds.push(result.rows[0].id);
                 }
             }

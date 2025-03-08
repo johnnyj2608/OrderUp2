@@ -130,7 +130,7 @@ async function handleSave() {
                 units: cells[2].querySelector('input').value.trim(),
                 max: cells[3].querySelector('input').value.trim(),
             }
-            if (rowData.id || rowData.index || rowData.name) {
+            if (rowData.id || rowData.index || rowData.name || rowData.max) {
                 dataUpdate.push(rowData);
             }
         }
