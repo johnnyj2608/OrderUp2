@@ -12,6 +12,7 @@ function createEditRow(cols, content = false) {
         const cellText = content ? content[i] : '';
 
         if (i === 0) {
+            // Date Picker
             if (weekColor) {
                 newCell.classList.add(weekColor);
             }
@@ -63,6 +64,7 @@ function createEditRow(cols, content = false) {
         } else if (i === 1) {
             // Name Search
         } else if (i == 2 || i == 4) {
+            // Dropdown Menu
             const dropdown = document.createElement('select');
             dropdown.dataset.type = i === 2 ? 'breakfast' : 'lunch';
             dropdown.style.width = '100%';
@@ -90,8 +92,14 @@ function createEditRow(cols, content = false) {
 
         } else if (i == 3 || i == 5) {
             // Checkbox
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.style.transform = 'scale(1.5)';
+            checkbox.checked = cellText === 'true' || cellText === true;
+            newCell.appendChild(checkbox);
         } else {
             // Timestamp
+            newCell.textContent = cellText;
         }
 
         newRow.appendChild(newCell);
