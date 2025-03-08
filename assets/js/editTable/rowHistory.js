@@ -169,10 +169,13 @@ async function handleSave() {
         if (cells.length === 0) {
             dataUpdate.push({ id, delete: true });
         } else {
+            const breakfastValue = cells[2].querySelector('select').value.trim();
+            const lunchValue = cells[4].querySelector('select').value.trim();
+
             const rowData = {
                 id: id,
-                breakfast: cells[2].querySelector('select').value,
-                lunch: cells[4].querySelector('select').value,
+                breakfast: breakfastValue.length === 0 ? null : breakfastValue,
+                lunch: lunchValue.length === 0 ? null : lunchValue,
             };
             dataUpdate.push(rowData);
         }
