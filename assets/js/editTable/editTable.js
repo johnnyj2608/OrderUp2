@@ -217,3 +217,7 @@ function createTrashIcon() {
     trashIcon.innerHTML = '<i class="fas fa-trash"></i>';
     return trashIcon;
 }
+
+document.ondblclick = function (e) {
+    e.preventDefault();
+}

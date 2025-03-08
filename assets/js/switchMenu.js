@@ -31,3 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tooltip = new bootstrap.Tooltip(infoButton);
     }
 });
+
+document.ondblclick = function (e) {
+    e.preventDefault();
+}

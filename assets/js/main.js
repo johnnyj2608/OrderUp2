@@ -180,3 +180,7 @@ async function submitOrder(button) {
         }
     }
 }
+
+document.ondblclick = function (e) {
+    e.preventDefault();
+}
