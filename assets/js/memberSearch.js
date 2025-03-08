@@ -6,15 +6,7 @@ function toggleSearch() {
     searchField.focus();
 }
 
-function handleSearch(member = document.getElementById('memberSearch').value.trim()) {
-    let route = '';
-    const currentPath = window.location.pathname;
-
-    if (currentPath.includes('members')) {
-        route = 'members'; 
-    } else if (currentPath.includes('history')) {
-        route = 'history';
-    }
+function handleSearch(route, member = document.getElementById('memberSearch').value.trim()) {
     window.location.href = `/${route}/?member=${encodeURIComponent(member)}`;
 }
 

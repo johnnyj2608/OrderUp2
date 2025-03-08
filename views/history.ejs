@@ -30,7 +30,7 @@
         <div class="content">
             <div id="searchContainer" class="hidden">
                 <input type="text" id="memberSearch" class="form-control" placeholder="<%= __('titles.search') %>" />
-                <button id="searchButton" class="actionButton" onclick="handleSearch()"><%= __('titles.search') %></button>
+                <button id="searchButton" class="actionButton" onclick="handleSearch('history')"><%= __('titles.search') %></button>
             </div>
             <input type="date" id="datePicker" value="<%= dateInput %>" style="opacity: 0;">
             <div class="row dateTitle">
@@ -60,7 +60,7 @@
                             </td>
                             <td>
                                 <% if (order.member_name !== null) { %>
-                                    <span class="name-link" onclick="handleSearch('<%= order.member_name %>')">
+                                    <span class="name-link" onclick="handleSearch('history', '<%= order.member_name %>')">
                                         <%= order.member_name %>
                                     </span>
                                 <% } else { %>
