@@ -24,11 +24,6 @@ function createEditRow(cols, content = false) {
         if (i === 0) {
             const dropdown = document.createElement('select');
 
-            const optionNone = document.createElement('option');
-            optionNone.value = ''
-            optionNone.textContent = '';
-            dropdown.appendChild(optionNone);
-
             const optionBreakfast = document.createElement('option');
             optionBreakfast.value = 'B';
             optionBreakfast.textContent = typeB;
@@ -174,13 +169,12 @@ async function handleSave() {
 
             if (i === 0) {
                 const dropdown = editCell.querySelector('select');
-                if (dropdown.value) {
-                    emptyAddRow = false;
-                    if (dropdown.value === 'B') {
-                        viewCell.innerText = typeB;
-                    } else if (dropdown.value === 'L') {
-                        viewCell.innerText = typeL;
-                    }
+                if (dropdown.value === 'B') {
+                    viewCell.innerText = typeB;
+                } else if (dropdown.value === 'L') {
+                    viewCell.innerText = typeL;
+                } else {
+                    console.log("Error, type not recognized")
                 }
             } else if (i === editRow.querySelectorAll('td').length - 2) {
                 const checkboxes = editRow.querySelectorAll('input[type="checkbox"]');
