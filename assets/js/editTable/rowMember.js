@@ -82,6 +82,8 @@ async function handleSave() {
 
             if (i === 1) {
                 viewCell.innerHTML = `<span class="name-link" onclick="handleSearch('history', '${cellText}')">${cellText}</span>`;
+            } else if (i >= 2 && !cellText) {
+                viewCell.innerText = 0;
             } else {
                 viewCell.innerText = cellText;
             }
@@ -127,10 +129,10 @@ async function handleSave() {
                 id: id,
                 index: cells[0].querySelector('input').value.trim(),
                 name: cells[1].querySelector('input').value.trim(),
-                units: cells[2].querySelector('input').value.trim(),
-                max: cells[3].querySelector('input').value.trim(),
+                units: cells[2].querySelector('input').value.trim() || 0,
+                max: cells[3].querySelector('input').value.trim() || 0,
             }
-            if (rowData.id || rowData.index || rowData.name || rowData.max) {
+            if (rowData.id || rowData.index || rowData.name) {
                 dataUpdate.push(rowData);
             }
         }
