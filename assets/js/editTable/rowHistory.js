@@ -171,11 +171,15 @@ async function handleSave() {
         } else {
             const breakfastValue = cells[2].querySelector('select').value.trim();
             const lunchValue = cells[4].querySelector('select').value.trim();
+            const b_received = cells[3].querySelector('i') && cells[3].querySelector('i').classList.contains('fa-check');
+            const l_received = cells[5].querySelector('i') && cells[5].querySelector('i').classList.contains('fa-check');
 
             const rowData = {
                 id: id,
                 breakfast: breakfastValue.length === 0 ? null : breakfastValue,
                 lunch: lunchValue.length === 0 ? null : lunchValue,
+                b_received: breakfastValue.length === 0 ? false : b_received,
+                l_received: lunchValue.length === 0 ? false : l_received,
             };
             dataUpdate.push(rowData);
         }

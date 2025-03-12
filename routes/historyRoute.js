@@ -110,7 +110,7 @@ router.post('/history', async (req, res) => {
 
         const orders = req.body.orders;
         for (let order of orders) {
-            const { id, breakfast, lunch, delete: isDelete, } = order;
+            const { id, breakfast, lunch, b_received, l_received, delete: isDelete, } = order;
 
             if (isDelete) {
                 const deleteQuery = 'DELETE FROM orders WHERE id = $1';
@@ -133,11 +133,15 @@ router.post('/history', async (req, res) => {
                 }
             } else {
                 const updateQuery = `
-                    UPDATE orders 
-                    SET breakfast = $1, lunch = $2 
-                    WHERE id = $3
+                    UPDATE orders
+                    SET 
+                        breakfast = $2,
+                        lunch = $3,
+                        b_received = $4,
+                        l_received = $5
+                    WHERE id = $1
                 `;
-                await client.query(updateQuery, [breakfast, lunch, id]);
+                await client.query(updateQuery, [id, breakfast, lunch, b_received, l_received]);
             }
         }
 
