@@ -22,42 +22,62 @@ function createEditRow(cols, content = false) {
         const cellText = content ? content[i] : '';
 
         if (i === 0) {
-            const dropdown = document.createElement('select');
+            const radioBreakfast = document.createElement('input');
+            radioBreakfast.type = 'radio';
+            radioBreakfast.name = `radio-${rowId}`;
+            radioBreakfast.value = 'B';
+            radioBreakfast.id = `radioB-${rowId}`;
 
-            const optionBreakfast = document.createElement('option');
-            optionBreakfast.value = 'B';
-            optionBreakfast.textContent = typeB;
-            dropdown.appendChild(optionBreakfast);
+            const radioLunch = document.createElement('input');
+            radioLunch.type = 'radio';
+            radioLunch.name = `radio-${rowId}`;
+            radioLunch.value = 'L';
+            radioLunch.id = `radioL-${rowId}`;
 
-            const optionLunch = document.createElement('option');
-            optionLunch.value = 'L';
-            optionLunch.textContent = typeL;
-            dropdown.appendChild(optionLunch);
+            const labelB = document.createElement('label');
+            labelB.textContent = 'B';
+            labelB.style.padding = '0 5px';
+            labelB.setAttribute('for', `radioB-${rowId}`);
+
+            const labelL = document.createElement('label');
+            labelL.textContent = 'L';
+            labelL.style.padding = '0 5px';
+            labelL.setAttribute('for', `radioL-${rowId}`);
 
             if (content) {
                 if (content[0] === typeB) {
-                    dropdown.value = 'B';
+                    radioBreakfast.checked = true;
                 } else if (content[0] === typeL) {
-                    dropdown.value = 'L'
+                    radioLunch.checked = true;
                 }
             }
 
-            dropdown.addEventListener('focus', function() {
-                originalText = dropdown.value;
-            });
-            dropdown.addEventListener('blur', function() {
-                if (dropdown.value !== originalText) {
+            radioBreakfast.addEventListener('change', function() {
+                if (radioBreakfast.checked) {
                     undoStack.push({
-                        action: 'edit', 
-                        element: dropdown, 
-                        originalText: originalText,
-                        newText: dropdown.value
+                        action: 'click',
+                        element: radioBreakfast,
+                        oldElement: radioLunch,
                     });
                     toggleUndoRedoButtons();
                 }
             });
 
-            newCell.appendChild(dropdown);
+            radioLunch.addEventListener('change', function() {
+                if (radioLunch.checked) {
+                    undoStack.push({
+                        action: 'click',
+                        element: radioLunch,
+                        oldElement: radioBreakfast,
+                    });
+                    toggleUndoRedoButtons();
+                }
+            });
+
+            newCell.appendChild(radioBreakfast);
+            newCell.appendChild(labelB);
+            newCell.appendChild(radioLunch);
+            newCell.appendChild(labelL);
         } else if (i === cols-2) {
             newCell.style.display = 'flex';
             newCell.style.flexWrap = 'wrap';
@@ -168,13 +188,12 @@ async function handleSave() {
             const inputField = editCell.querySelector('input');
 
             if (i === 0) {
-                const dropdown = editCell.querySelector('select');
-                if (dropdown.value === 'B') {
+                const radioButtons = editCell.querySelectorAll('input[type="radio"]');
+
+                if (radioButtons[0].checked) {
                     viewCell.innerText = typeB;
-                } else if (dropdown.value === 'L') {
+                } else if (radioButtons[1].checked) {
                     viewCell.innerText = typeL;
-                } else {
-                    console.log("Error, type not recognized")
                 }
             } else if (i === editRow.querySelectorAll('td').length - 2) {
                 const checkboxes = editRow.querySelectorAll('input[type="checkbox"]');
@@ -212,7 +231,7 @@ async function handleSave() {
             uploadedRows.forEach(uploadedRow => {
                 modifiedElements.add(uploadedRow);
             });
-        } else if (action === "toggle" || action === "edit") {
+        } else if (action === "toggle" || action === "edit" || action === "click") {
             modifiedRow = change.element.closest('tr');
             modifiedElements.add(modifiedRow);
         } else if (action === "add") {
@@ -235,7 +254,10 @@ async function handleSave() {
         } else {
             const rowData = {
                 id: id,
-                type: cells[0].querySelector('select').value.trim(),
+                type: (() => {
+                    const radioButtons = cells[0].querySelectorAll('input[type="radio"]');
+                    return radioButtons[0].checked ? typeB : typeL;
+                })(),
                 name: cells[1].querySelector('input').value.trim(),
                 image: cells[2].querySelector('input').value.trim(),
                 monday: cells[3].querySelector(`input[value="${weekdays[0]}"]`).checked,

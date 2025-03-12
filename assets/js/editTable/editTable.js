@@ -118,6 +118,8 @@ function undo() {
         const editTableBody = document.querySelector('#data-body.edit-mode');
         if (lastAction.action === 'toggle') {
             lastAction.element.checked = !lastAction.element.checked;
+        } else if (lastAction.action === 'click') {
+            lastAction.oldElement.checked = true;
         } else if (lastAction.action === 'edit') {
             lastAction.element.value = lastAction.originalText;
         } else if (lastAction.action === 'add') {
@@ -141,6 +143,8 @@ function redo() {
         const editTableBody = document.querySelector('#data-body.edit-mode');
         if (lastAction.action === 'toggle') {
             lastAction.element.checked = !lastAction.element.checked;
+        } else if (lastAction.action === 'click') {
+            lastAction.element.checked = true;
         } else if (lastAction.action === 'edit') {
             lastAction.element.value = lastAction.newText;
         } else if (lastAction.action === 'add') {
