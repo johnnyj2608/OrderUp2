@@ -63,7 +63,7 @@
                             <div id="menu-<%= id %>"
                                 data-text="<%= name %>"
                                 onclick="handleMealClick(this)" 
-                                class="panel pointer w-100" 
+                                class="panel pointer w-100"
                                 data-type="<%= mealType %>">
                                 <img src="<%= image ? image : '/img/default.png' %>" 
                                     class="panel-img w-100" 
@@ -77,13 +77,13 @@
                     <div class="row ml-1">
                         <h2 id="breakfastSection"><%= __("titles.breakfast") %></h2>
                     </div>
-                    <div class="row justify-content-center">
+                    <div class="row">
                         <% renderMealSection('breakfast', breakfastMenu); %>
                     </div>
                     <div class="row ml-1">
                         <h2 id="lunchSection"><%= __("titles.lunch") %></h2>
                     </div>
-                    <div class="row justify-content-center">
+                    <div class="row">
                         <% renderMealSection('lunch', lunchMenu); %>     
                     </div>         
                 </div>
