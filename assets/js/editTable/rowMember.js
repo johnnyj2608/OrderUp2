@@ -81,7 +81,7 @@ async function handleSave() {
             }
 
             if (i === 1) {
-                viewCell.innerHTML = `<span class="name-link" onclick="handleSearch('${cellText}')">${cellText}</span>`;
+                viewCell.innerHTML = `<span class="name-link" onclick="handleSearch('history', '${cellText}')">${cellText}</span>`;
             } else {
                 viewCell.innerText = cellText;
             }
