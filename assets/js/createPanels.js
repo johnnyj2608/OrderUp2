@@ -44,7 +44,7 @@ function createPanelRows(menuItems, containerId) {
 
             rowHtml += `
                 <div class="col-md-3 col-sm-4 panel">
-                    <div class="view-mode w-100">
+                    <div class="w-100">
                         <div class="image-container">
                             <img src="${item.image ? item.image : '/img/default.png'}" 
                                  class="panel-img w-100" 

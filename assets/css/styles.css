@@ -266,7 +266,15 @@
       box-sizing: border-box; 
       border: 3px solid transparent;
 }
+
+.panel:hover img {
+      filter: brightness(0.9);
+}
   
+.panel:hover p {
+      background-color: #e0e0e0;
+}
+
 .panel-img {
       height: 22svh;
       -webkit-user-drag: none;
