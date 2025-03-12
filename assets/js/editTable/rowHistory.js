@@ -197,6 +197,13 @@ async function handleSave() {
     
             if (response.ok) {
                 console.log("Data saved successfully!");
+
+                const rowCount = document.querySelector('#data-body.view-mode').querySelectorAll('tr').length;
+                
+                const dateTitleTextElement = document.getElementById('dateTitleText');
+                const dateTitleText = dateTitleTextElement.textContent;
+                const updatedDateTitleText = dateTitleText.replace(/\(\d+\)/, `(${rowCount})`);
+                dateTitleTextElement.textContent = updatedDateTitleText;
             } else {
                 console.log("Error saving data.");
             }
