@@ -133,7 +133,7 @@ async function handleSave() {
                     viewCell.className = editCell.className;
                     viewCell.innerHTML = `<a class="date-link" href="/history/?date=${cellText}">${cellText}</a>`;
                 } else if (i === 1) {
-                    viewCell.innerHTML = `<span class="name-link" onclick="handleSearch('${cellText}')">${cellText}</span>`;
+                    viewCell.innerHTML = `<span class="name-link" onclick="handleSearch('history', '${cellText}')">${cellText}</span>`;
                 } else if (i === 2 || i === 4) {
                     viewCell.innerText = editCell.querySelector('select').value;
                 } else {
