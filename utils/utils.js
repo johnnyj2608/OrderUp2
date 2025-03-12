@@ -26,15 +26,13 @@ function formatDate(date) {
     }).format(new Date(date));
 }
 
+const moment = require('moment-timezone');
+
 function formatTimestamp(timestamp) {
-    return new Intl.DateTimeFormat('en-US', { 
-        year: '2-digit', 
-        month: '2-digit', 
-        day: '2-digit', 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        hour12: true,
-    }).format(new Date(timestamp));
+    const formattedTimestamp = moment.utc(timestamp)
+        .tz('America/New_York', true)
+        .format('MM/DD/YY, hh:mm A');
+    return formattedTimestamp;
 }
 
 function getWeekNumber(date) {

@@ -18,6 +18,7 @@
     "googleapis": "^140.0.1",
     "i18n": "^0.15.1",
     "i18next": "^23.14.0",
+    "moment-timezone": "^0.5.47",
     "node-cache": "^5.1.2",
     "pg": "^8.13.1",
     "serve-favicon": "^2.5.0",
