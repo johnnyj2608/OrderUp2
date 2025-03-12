@@ -1,3 +1,5 @@
+const moment = require('moment-timezone');
+
 const dayOfWeekColumns = [
     'sunday',
     'monday',
@@ -26,13 +28,8 @@ function formatDate(date) {
     }).format(new Date(date));
 }
 
-const moment = require('moment-timezone');
-
 function formatTimestamp(timestamp) {
-    const formattedTimestamp = moment.utc(timestamp)
-        .tz('America/New_York', true)
-        .format('MM/DD/YY, hh:mm A');
-    return formattedTimestamp;
+    return moment.utc(timestamp).tz("America/New_York").format('MM/DD/YY, hh:mm A');
 }
 
 function getWeekNumber(date) {

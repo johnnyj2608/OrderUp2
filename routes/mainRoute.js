@@ -133,7 +133,7 @@ router.post('/', async (req, res) => {
     const day = dateArray[2];
     const selectedDate = new Date(year, parseInt(month, 10)-1, day);
     
-    const timestamp = new Date().toLocaleString();
+    const timestamp = new Date().toISOString();
 
     try {
         const client = await connectToDb();
