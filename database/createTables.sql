@@ -16,7 +16,7 @@ CREATE TABLE menu (
 -- Create Members Table
 CREATE TABLE members (
   id SERIAL PRIMARY KEY,
-  index VARCHAR(10) NOT NULL,
+  index INT DEFAULT NULL,
   name VARCHAR(100) DEFAULT NULL,
   units INT DEFAULT 0,
   max INT DEFAULT 1

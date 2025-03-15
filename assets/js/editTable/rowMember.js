@@ -15,10 +15,7 @@ function createEditRow(cols, content = false) {
         inputField.type = 'text';
         inputField.value = cellText;
 
-        if (i === 0) {
-            inputField.maxLength = 10;
-        }
-        if (i > 1) {
+        if (i !== 1) {
             inputField.addEventListener('input', function() {
                 this.value = this.value.replace(/[^0-9]/g, '');
             });
