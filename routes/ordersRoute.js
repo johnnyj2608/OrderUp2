@@ -31,6 +31,7 @@ router.get('/orders', async (req, res) => {
                 if (breakfastItem) {
                     breakfastItem.orders.push({ 
                         id: order.id, 
+                        table: order.index,
                         name: order.name, 
                         received: order.b_received });
                     breakfastItem.amt += 1;
@@ -38,6 +39,7 @@ router.get('/orders', async (req, res) => {
                 if (lunchItem) {
                     lunchItem.orders.push({ 
                         id: order.id, 
+                        table: order.index,
                         name: order.name, 
                         received: order.l_received });
                     lunchItem.amt += 1;

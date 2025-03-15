@@ -62,7 +62,7 @@ function createPanelRows(menuItems, containerId) {
                                         <li class="pointer" 
                                             data-order-id="${menu}-${order.id}"
                                             onclick="toggleStrikethrough(this, ${order.id}, '${menu_received}')">
-                                            ${order.name}
+                                            ${order.table}. ${order.name}
                                         </li>
                                     `;
                                 })
