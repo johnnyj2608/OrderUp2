@@ -177,6 +177,8 @@ function activeEdit(status) {
     const searchIcon = document.getElementById('search-icon');
     const uploadPlus = document.getElementById('upload-plus');
 
+    const searchContainer = document.getElementById('searchContainer');
+
     if (status) {
         editButton.classList.add('active-edit');
 
@@ -191,6 +193,9 @@ function activeEdit(status) {
         }
         if (uploadPlus) {
             uploadPlus.classList.remove('hidden');
+        }
+        if (searchContainer) {
+            searchContainer.classList.add('hidden');
         }
     } else {
         editButton.classList.remove('active-edit');
