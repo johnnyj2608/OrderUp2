@@ -31,20 +31,19 @@ function populateTableFromCSV(content) {
     const headerHeight = window.innerHeight * 0.14; // Header + Sticky row
 
     const uploadedRows = [];
+    const csvRegex = /(?:,|\n|^)(?:"([^"]*)"|([^",]*))/g;
 
     rows.forEach((row) => {
         const trimmedRow = row.trim();
         if (trimmedRow === '') return;
-        
-        const cells = row.split(',').map(cell => {
-            const trimmedCell = cell.trim().toLowerCase();
-            if (trimmedCell === 'true') {
-                return true;
-            } else if (trimmedCell === 'false') {
-                return false;
-            }
-            return cell.trim();
-        });
+
+        const cells = [];
+        let match;
+        while ((match = csvRegex.exec(trimmedRow)) !== null) {
+            const cell = match[1] !== undefined ? match[1] : match[2];
+            cells.push(cell);
+        }
+
         const newRow = createEditRow(cells.length, [...cells, null]);
 
         const lastCell = newRow.cells[newRow.cells.length - 1];
@@ -64,5 +63,5 @@ function populateTableFromCSV(content) {
         nextSibling: addButtonRow
     });
     toggleUndoRedoButtons();
-    window.scrollTo({ top: addButtonPosition - headerHeight, behavior: 'smooth'});
+    window.scrollTo({ top: addButtonPosition - headerHeight, behavior: 'smooth' });
 }
