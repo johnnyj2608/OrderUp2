@@ -32,8 +32,8 @@
 	"tables": {
 		"count": "数量",
 		"number": "号码",
-		"units": "单位",
-		"max": "最大",
+		"units": "单位/周",
+		"max": "单位/天",
 		"disenrollee": "已退会会员",
 		"type": "类型",
 		"name": "姓名",
