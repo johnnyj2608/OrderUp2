@@ -31,19 +31,21 @@ function populateTableFromCSV(content) {
     const headerHeight = window.innerHeight * 0.14; // Header + Sticky row
 
     const uploadedRows = [];
-    const csvRegex = /(?:,|\n|^)(?:"([^"]*)"|([^",]*))/g;
 
     rows.forEach((row) => {
         const trimmedRow = row.trim();
         if (trimmedRow === '') return;
-
-        const cells = [];
-        let match;
-        while ((match = csvRegex.exec(trimmedRow)) !== null) {
-            const cell = match[1] !== undefined ? match[1] : match[2];
-            cells.push(cell);
-        }
-
+        
+        // const cells = row.split(',').map(cell => {
+        //     const trimmedCell = cell.trim().toLowerCase();
+        //     if (trimmedCell === 'true') {
+        //         return true;
+        //     } else if (trimmedCell === 'false') {
+        //         return false;
+        //     }
+        //     return cell.trim();
+        // });
+        const cells = parseCSVRow(trimmedRow);
         const newRow = createEditRow(cells.length, [...cells, null]);
 
         const lastCell = newRow.cells[newRow.cells.length - 1];
@@ -63,5 +65,30 @@ function populateTableFromCSV(content) {
         nextSibling: addButtonRow
     });
     toggleUndoRedoButtons();
-    window.scrollTo({ top: addButtonPosition - headerHeight, behavior: 'smooth' });
+    window.scrollTo({ top: addButtonPosition - headerHeight, behavior: 'smooth'});
+}
+
+function parseCSVRow(row) {
+    const cells = [];
+    let currentCell = '';
+    let insideQuotes = false;
+
+    for (let i = 0; i < row.length; i++) {
+        const char = row[i];
+
+        if (char === '"' && (i === 0 || row[i - 1] !== '"')) {
+            insideQuotes = !insideQuotes;
+        } else if (char === ',' && !insideQuotes) {
+            cells.push(currentCell.trim());
+            currentCell = '';
+        } else {
+            currentCell += char;
+        }
+    }
+
+    if (currentCell.trim() !== '') {
+        cells.push(currentCell.trim());
+    }
+
+    return cells;
 }
