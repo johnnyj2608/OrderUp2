@@ -63,8 +63,8 @@ async function handleSave() {
     const viewTableBody = document.querySelector('#data-body.view-mode');
     const editTableBody = document.querySelector('#data-body.edit-mode');
 
-    const indexSet = new Set();
-    let duplicateIndex = null;
+    // const indexSet = new Set();
+    // let duplicateIndex = null;
     
     viewTableBody.innerHTML = '';
     const editRows = editTableBody.querySelectorAll('tr');
@@ -80,13 +80,13 @@ async function handleSave() {
             const inputField = editCell.querySelector('input');
             const cellText = inputField.value.trim();
 
-            if (i === 0) {
-                if (indexSet.has(cellText)) {
-                    duplicateIndex = cellText;
-                } else {
-                    indexSet.add(cellText);
-                }
-            }
+            // if (i === 0) {
+            //     if (indexSet.has(cellText)) {
+            //         duplicateIndex = cellText;
+            //     } else {
+            //         indexSet.add(cellText);
+            //     }
+            // }
 
             if (cellText !== '') {
                 emptyAddRow = false;
@@ -106,10 +106,10 @@ async function handleSave() {
         }
     });
 
-    if (duplicateIndex) {
-        alert(duplicateIndexAlert + `${duplicateIndex}`);
-        return;
-    }
+    // if (duplicateIndex) {
+    //     alert(duplicateIndexAlert + `${duplicateIndex}`);
+    //     return;
+    // }
 
     activeEdit(false);
 

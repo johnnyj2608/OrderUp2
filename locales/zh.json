@@ -31,7 +31,7 @@
 	},
 	"tables": {
 		"count": "数量",
-		"number": "号码",
+		"number": "桌号",
 		"units": "单位/周",
 		"max": "单位/天",
 		"disenrollee": "已退会会员",

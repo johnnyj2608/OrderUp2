@@ -31,7 +31,7 @@
 	},
 	"tables": {
 		"count": "Count",
-		"number": "No.",
+		"number": "Table #",
 		"units": "Units / Week",
 		"max": "Units / Day",
 		"disenrollee": "Disenrolled Member",

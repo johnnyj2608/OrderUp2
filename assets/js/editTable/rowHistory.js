@@ -15,7 +15,7 @@ function createEditRow(cols, content = false) {
             newCell.classList.add(weekColor);
         }
 
-        if (i == 2 || i == 4) {
+        if (i == 3 || i == 5) {
             // Dropdown Menu
             const dropdown = document.createElement('select');
             dropdown.dataset.type = i === 2 ? 'breakfast' : 'lunch';
@@ -39,7 +39,7 @@ function createEditRow(cols, content = false) {
 
                 const dateValue = newRow.cells[0].textContent;
                 const menuData = await fetchMenu(dateValue);
-                populateDropdown(dropdown, i === 2 ? menuData.breakfastItems : menuData.lunchItems);
+                populateDropdown(dropdown, i === 3 ? menuData.breakfastItems : menuData.lunchItems);
             });
 
             dropdown.addEventListener('blur', function() {
@@ -132,9 +132,9 @@ async function handleSave() {
                 if (i === 0) {
                     viewCell.className = editCell.className;
                     viewCell.innerHTML = `<a class="date-link" href="/history/?date=${cellText}">${cellText}</a>`;
-                } else if (i === 1) {
+                } else if (i === 2) {
                     viewCell.innerHTML = `<span class="name-link" onclick="handleSearch('history', '${cellText}')">${cellText}</span>`;
-                } else if (i === 2 || i === 4) {
+                } else if (i === 3 || i === 5) {
                     viewCell.innerText = editCell.querySelector('select').value;
                 } else {
                     viewCell.innerText = cellText;
@@ -169,10 +169,10 @@ async function handleSave() {
         if (cells.length === 0) {
             dataUpdate.push({ id, delete: true });
         } else {
-            const breakfastValue = cells[2].querySelector('select').value.trim();
-            const lunchValue = cells[4].querySelector('select').value.trim();
-            const b_received = cells[3].querySelector('i') && cells[3].querySelector('i').classList.contains('fa-check');
-            const l_received = cells[5].querySelector('i') && cells[5].querySelector('i').classList.contains('fa-check');
+            const breakfastValue = cells[3].querySelector('select').value.trim();
+            const lunchValue = cells[5].querySelector('select').value.trim();
+            const b_received = cells[4].querySelector('i') && cells[4].querySelector('i').classList.contains('fa-check');
+            const l_received = cells[6].querySelector('i') && cells[6].querySelector('i').classList.contains('fa-check');
 
             const rowData = {
                 id: id,

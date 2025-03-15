@@ -21,7 +21,7 @@ router.get('/history', async (req, res) => {
             const member = req.query.member.trim();
 
             const query = `
-                SELECT o.id, m.name AS member_name, o.date, o.breakfast, o.b_received, o.lunch, o.l_received, o.timestamp AT TIME ZONE 'UTC' AS timestamp
+                SELECT o.id, m.index AS table, m.name AS member_name, o.date, o.breakfast, o.b_received, o.lunch, o.l_received
                 FROM orders o
                 LEFT JOIN members m ON o.member_id = m.id
                 WHERE LOWER(m.name) LIKE LOWER($1)
@@ -57,7 +57,7 @@ router.get('/history', async (req, res) => {
             const selectedDate = new Date(year, parseInt(month, 10)-1, day);
 
             const query = `
-                SELECT o.id, m.name AS member_name, o.date, o.breakfast, o.b_received, o.lunch, o.l_received, o.timestamp AT TIME ZONE 'UTC' AS timestamp
+                SELECT o.id, m.index AS table, m.name AS member_name, o.date, o.breakfast, o.b_received, o.lunch, o.l_received
                 FROM orders o
                 LEFT JOIN members m ON o.member_id = m.id
                 WHERE o.date = $1

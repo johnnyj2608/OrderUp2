@@ -42,12 +42,12 @@
                 <thead class="sticky-row">
                     <tr>
                         <th style="width: 15%;"><%= __("tables.date") %></th>
+                        <th style="width: 10%;"><%= __("tables.number") %></th>
                         <th style="width: 19%;"><%= __("tables.member") %></th>
-                        <th style="width: 15%;"><%= __("titles.breakfast") %></th>
+                        <th style="width: 20%;"><%= __("titles.breakfast") %></th>
                         <th style="width: 8%;"><%= __("tables.type_B") %></th>
-                        <th style="width: 15%;"><%= __("titles.lunch") %></th>
+                        <th style="width: 20%;"><%= __("titles.lunch") %></th>
                         <th style="width: 8%;"><%= __("tables.type_L") %></th>
-                        <th style="width: 20%;"><%= __("tables.timestamp") %></th>
                     </tr>
                 </thead>
                 <tbody id="data-body" class="view-mode">
@@ -58,6 +58,7 @@
                                     <%= order.date %>
                                 </a>
                             </td>
+                            <td><%= order.table %></td>
                             <td>
                                 <% if (order.member_name !== null) { %>
                                     <span class="name-link" onclick="handleSearch('history', '<%= order.member_name %>')">
@@ -71,7 +72,6 @@
                             <td><%- getStatusIcon(order.b_received) %></td>
                             <td><%= order.lunch %></td>
                             <td><%- getStatusIcon(order.l_received) %></td>
-                            <td><%= order.timestamp %></td>
                         </tr>
                     <% }); %>
                 </tbody>
