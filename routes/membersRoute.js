@@ -36,9 +36,13 @@ router.get('/members', async (req, res) => {
             const result = await client.query(query);
             memberList = result.rows;
         }
+        formattedTitle = 
+                req.__('titles.member_list') + 
+                ` (${memberList.length})`;
 
         res.render('members', { 
             memberList, 
+            formattedTitle,
         });
     } catch (error) {
         res.status(500).send("Error loading data");
