@@ -50,5 +50,8 @@
 	"languages": {
 		"english": "English",
 		"chinese": "Chinese"
+	},
+	"alerts": {
+		"duplicate_index": "Duplicate index detected: "
 	}
 }

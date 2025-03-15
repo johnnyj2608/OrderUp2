@@ -50,5 +50,8 @@
 	"languages": {
 		"english": "英语",
 		"chinese": "中文"
+	},
+	"alerts": {
+		"duplicate_index": "检测到重复号码："
 	}
 }
