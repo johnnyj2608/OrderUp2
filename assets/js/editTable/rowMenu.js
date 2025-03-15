@@ -266,7 +266,7 @@ async function handleSave() {
                 thursday: cells[3].querySelector(`input[value="${weekdays[3]}"]`).checked,
                 friday: cells[3].querySelector(`input[value="${weekdays[4]}"]`).checked,
                 saturday: cells[3].querySelector(`input[value="${weekdays[5]}"]`).checked,
-                count: cells[4].querySelector('input').value.trim() || 0,
+                count: parseInt(cells[4].querySelector('input').value.trim(), 10) || 0,
             };
             if (rowData.id || rowData.name || rowData.image) {
                 dataUpdate.push(rowData);
