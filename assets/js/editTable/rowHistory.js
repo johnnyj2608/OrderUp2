@@ -119,7 +119,8 @@ async function handleSave() {
     editRows.forEach((editRow) => {
 
         const viewRow = document.createElement('tr');
-        
+        viewRow.setAttribute('data-id', editRow.getAttribute('data-id'));
+
         editRow.querySelectorAll('td').forEach((editCell, i) => {
             const viewCell = document.createElement('td');
             const cellText = editCell.textContent.trim();
