@@ -10,6 +10,7 @@
 		"thursday": "Thursday",
 		"friday": "Friday",
 		"saturday": "Saturday",
+		"sunday": "Sunday",
 		"member_list": "Member List",
 		"menu_list": "Menu List",
 		"date_title": "Orders for %s"

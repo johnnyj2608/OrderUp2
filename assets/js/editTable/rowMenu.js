@@ -35,12 +35,12 @@ function createEditRow(cols, content = false) {
             radioLunch.id = `radioL-${rowId}`;
 
             const labelB = document.createElement('label');
-            labelB.textContent = 'B';
+            labelB.textContent = typeB;
             labelB.style.padding = '0 5px';
             labelB.setAttribute('for', `radioB-${rowId}`);
 
             const labelL = document.createElement('label');
-            labelL.textContent = 'L';
+            labelL.textContent = typeL;
             labelL.style.padding = '0 5px';
             labelL.setAttribute('for', `radioL-${rowId}`);
 
@@ -256,7 +256,7 @@ async function handleSave() {
                 id: id,
                 type: (() => {
                     const radioButtons = cells[0].querySelectorAll('input[type="radio"]');
-                    return radioButtons[0].checked ? typeB : typeL;
+                    return radioButtons[0].checked ? radioButtons[0].value : radioButtons[1].value;
                 })(),
                 name: cells[1].querySelector('input').value.trim(),
                 image: cells[2].querySelector('input').value.trim(),
