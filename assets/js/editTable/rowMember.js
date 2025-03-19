@@ -41,6 +41,9 @@ function createEditRow(cols, content = false) {
 
         newRow.appendChild(newCell);
     }
+    if (newRow.cells[cols-1]) {
+        newRow.cells[cols-1].style.textAlign = 'left';
+    }
     return newRow;
 }
 
