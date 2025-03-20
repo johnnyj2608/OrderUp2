@@ -21,28 +21,29 @@ function createEditRow(cols, content = false) {
         const newCell = document.createElement('td');
         const cellText = content ? content[i] : '';
 
-        if (i === 0) {
+        if (i === 0) {  // New row has no rowId
+            const radioID = rowId ? rowId : crypto.randomUUID();
             const radioBreakfast = document.createElement('input');
             radioBreakfast.type = 'radio';
-            radioBreakfast.name = `radio-${rowId}`;
+            radioBreakfast.name = `radio-${radioID}`;
             radioBreakfast.value = 'B';
-            radioBreakfast.id = `radioB-${rowId}`;
+            radioBreakfast.id = `radioB-${radioID}`;
 
             const radioLunch = document.createElement('input');
             radioLunch.type = 'radio';
-            radioLunch.name = `radio-${rowId}`;
+            radioLunch.name = `radio-${radioID}`;
             radioLunch.value = 'L';
-            radioLunch.id = `radioL-${rowId}`;
+            radioLunch.id = `radioL-${radioID}`;
 
             const labelB = document.createElement('label');
             labelB.textContent = typeB;
             labelB.style.padding = '0 5px';
-            labelB.setAttribute('for', `radioB-${rowId}`);
+            labelB.setAttribute('for', `radioB-${radioID}`);
 
             const labelL = document.createElement('label');
             labelL.textContent = typeL;
             labelL.style.padding = '0 5px';
-            labelL.setAttribute('for', `radioL-${rowId}`);
+            labelL.setAttribute('for', `radioL-${radioID}`);
 
             if (content) {
                 if (content[0] === typeB) {
