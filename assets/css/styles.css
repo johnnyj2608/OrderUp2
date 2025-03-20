@@ -576,4 +576,17 @@ td .fa-times {
             margin-top: 0;
             margin-bottom: 0;
       }
+
+      .panel-title {
+            font-size: 2em;
+      }
+
+      .amount-overlay {
+            font-size: 1.95rem;
+      }
+
+      .nameResponses li {
+            font-size: 1.5em;
+            padding: 0px;
+        }
 }
