@@ -135,6 +135,10 @@ async function submitOrder(button) {
         const lunchID = selectedLunch?.id?.replace(/^menu-/, '') || null;
         const lunchName = selectedLunch?.getAttribute('data-text') || null;
 
+        const memberDailyMax = selectedName ? parseInt(selectedName.getAttribute('data-max')) : 0;
+        const memberBreakfastCount = selectedName ? parseInt(selectedName.getAttribute('data-breakfast')) : 0;
+        const memberLunchCount = selectedName ? parseInt(selectedName.getAttribute('data-lunch')) : 0;
+
         try {
             const response = await fetch('/', {
                 method: 'POST',
@@ -153,8 +157,15 @@ async function submitOrder(button) {
 
             const result = await response.json();
             if (result.success) {
-                document.getElementById('searchBar').value = '';
-                searchNames();
+                const orderedBreakfast = selectedBreakfast ? 1 : 0;
+                const orderedLunch = selectedLunch ? 1 : 0;
+
+                if (memberBreakfastCount + orderedBreakfast >= memberDailyMax &&
+                    memberLunchCount + orderedLunch >= memberDailyMax
+                ) {
+                    document.getElementById('searchBar').value = '';
+                    searchNames();
+                }
 
                 // Handled by real time subscription
 
