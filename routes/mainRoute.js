@@ -187,7 +187,8 @@ router.post('/', async (req, res) => {
             const dailyBreakfastCount = dailyCountResult.rows[0].breakfast_count || 0;
             const dailyLunchCount = dailyCountResult.rows[0].lunch_count || 0;
 
-            if (dailyBreakfastCount >= max || dailyLunchCount >= max) {
+            const dailyMaxReached = dailyBreakfastCount >= max || dailyLunchCount >= max
+            if (dailyMaxReached) {
                 throw new Error('Cannot insert: Breakfast or lunch count already at limit for the day.');
             }
 
@@ -203,7 +204,8 @@ router.post('/', async (req, res) => {
             const weeklyBreakfastCount = weeklyCountResult.rows[0].breakfast_count || 0;
             const weeklyLunchCount = weeklyCountResult.rows[0].lunch_count || 0;
 
-            if (weeklyBreakfastCount >= units || weeklyLunchCount >= units) {
+            const weeklyMaxReached = weeklyBreakfastCount >= units || weeklyLunchCount >= units
+            if (weeklyMaxReached && dailyMaxReached) {
                 throw new Error('Cannot insert: Breakfast or lunch count already at weekly limit.');
             }
 
