@@ -153,6 +153,8 @@ async function submitOrder(button) {
 
             const result = await response.json();
             if (result.success) {
+                document.getElementById('searchBar').value = '';
+                searchNames();
 
                 // Handled by real time subscription
 
