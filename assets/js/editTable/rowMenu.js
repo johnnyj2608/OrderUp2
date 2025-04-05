@@ -238,7 +238,7 @@ async function handleSave() {
         } else if (action === "add") {
             modifiedElements.add(change.element);
         } else if (action === "delete") {
-            change.element.innerHTML = '';
+            change.element.setAttribute('marked-for-deletion', 'true');
             modifiedElements.add(change.element)
         } else {
             console.log("Error, action not recognized")
@@ -250,7 +250,7 @@ async function handleSave() {
         const id = row.getAttribute('data-id') || null;
         const cells = row.querySelectorAll('td');
 
-        if (cells.length === 0) {
+        if (row.getAttribute('marked-for-deletion')) {
             dataUpdate.push({ id, delete: true });
         } else {
             const rowData = {
