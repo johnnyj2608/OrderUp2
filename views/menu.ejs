@@ -39,8 +39,7 @@
                     <tr>
                         <th style="width: 15%;"><%= __("tables.type") %></th>
                         <th style="width: 30%;"><%= __("tables.name") %></th>
-                        <th style="width: 15%;"><%= __("tables.image") %></th>
-                        <th style="width: 25%;"><%= __("tables.schedule") %></th>
+                        <th style="width: 40%;"><%= __("tables.schedule") %></th>
                         <th style="width: 15%;"><%= __("tables.count") %></th>
                     </tr>
                 </thead>
@@ -49,7 +48,6 @@
                         <tr data-id="<%= menu.id %>">
                             <td><%= __("tables.type_" + menu.type) %></td>
                             <td><%= menu.name %></td>
-                            <td><%= menu.image %></td>
                             <td>
                                 <% let days = []; %>
                                 <% if (menu.monday) days.push(__("titles.monday")); %>

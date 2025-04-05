@@ -46,9 +46,6 @@ function createPanelRows(menuItems, containerId) {
                 <div class="col-sm-4 panel">
                     <div class="w-100">
                         <div class="image-container">
-                            <img src="${item.image ? item.image : '/img/default.png'}" 
-                                 class="panel-img w-100" 
-                                 onerror="this.onerror=null; this.src='/img/default.png';" />
                             <div class="amount-overlay">${item.amt}</div>
                         </div>
                         <p class="panel-title">${item.name}</p>

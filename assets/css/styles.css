@@ -304,15 +304,18 @@
 }
 
 .panel-title {
+      display: flex;
       margin: 0;
       overflow: hidden;
       text-overflow: ellipsis;
-      font-size: 20px;
+      font-size: 40px;
       align-items: center;
+      justify-content: center;
       text-align: center;
       font-weight: bold;
       width: 100%;
       border: 1px solid #333;
+      height: 22svh;
 }
 
 
