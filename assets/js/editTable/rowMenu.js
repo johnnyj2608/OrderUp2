@@ -5,13 +5,13 @@ function createEditRow(cols, content = false) {
         newRow.setAttribute('data-id', rowId);
     }
 
-    if (cols > 5 && content) {
+    if (cols > 4 && content) {
         let count = content[content.length - 1];
-        const activeDays = content.slice(3, 9)
+        const activeDays = content.slice(2, 8)
             .map((isActive, index) => isActive ? weekdays[index] : null)
             .filter(day => day !== null);
         const activeDaysStr = activeDays.join(', ');
-        content.splice(3);
+        content.splice(2);
         content.push(activeDaysStr);
         content.push(count);
         cols = content.length;
@@ -260,14 +260,13 @@ async function handleSave() {
                     return radioButtons[0].checked ? radioButtons[0].value : radioButtons[1].value;
                 })(),
                 name: cells[1].querySelector('input').value.trim(),
-                image: cells[2].querySelector('input').value.trim(),
-                monday: cells[3].querySelector(`input[value="${weekdays[0]}"]`).checked,
-                tuesday: cells[3].querySelector(`input[value="${weekdays[1]}"]`).checked,
-                wednesday: cells[3].querySelector(`input[value="${weekdays[2]}"]`).checked,
-                thursday: cells[3].querySelector(`input[value="${weekdays[3]}"]`).checked,
-                friday: cells[3].querySelector(`input[value="${weekdays[4]}"]`).checked,
-                saturday: cells[3].querySelector(`input[value="${weekdays[5]}"]`).checked,
-                count: parseInt(cells[4].querySelector('input').value.trim(), 10) || 0,
+                monday: cells[2].querySelector(`input[value="${weekdays[0]}"]`).checked,
+                tuesday: cells[2].querySelector(`input[value="${weekdays[1]}"]`).checked,
+                wednesday: cells[2].querySelector(`input[value="${weekdays[2]}"]`).checked,
+                thursday: cells[2].querySelector(`input[value="${weekdays[3]}"]`).checked,
+                friday: cells[2].querySelector(`input[value="${weekdays[4]}"]`).checked,
+                saturday: cells[2].querySelector(`input[value="${weekdays[5]}"]`).checked,
+                count: parseInt(cells[3].querySelector('input').value.trim(), 10) || 0,
             };
             if (rowData.id || rowData.name || rowData.image) {
                 dataUpdate.push(rowData);

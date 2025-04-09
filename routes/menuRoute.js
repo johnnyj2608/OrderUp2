@@ -50,25 +50,24 @@ router.post('/menu', async (req, res) => {
                     UPDATE menu
                     SET type = $1,
                         name = $2,
-                        image = $3,
-                        monday = $4,
-                        tuesday = $5,
-                        wednesday = $6,
-                        thursday = $7,
-                        friday = $8,
-                        saturday = $9,
-                        count = $10
-                    WHERE id = $11
+                        monday = $3,
+                        tuesday = $4,
+                        wednesday = $5,
+                        thursday = $6,
+                        friday = $7,
+                        saturday = $8,
+                        count = $9
+                    WHERE id = $10
                 `;
-                await client.query(updateQuery, [type, name, image, monday, tuesday, wednesday, thursday, friday, saturday, count, id]);
+                await client.query(updateQuery, [type, name, monday, tuesday, wednesday, thursday, friday, saturday, count, id]);
             } else {
                 // If the id does not exist, insert a new row
                 const insertQuery = `
-                    INSERT INTO menu (type, name, image, monday, tuesday, wednesday, thursday, friday, saturday, count)
-                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+                    INSERT INTO menu (type, name, monday, tuesday, wednesday, thursday, friday, saturday, count)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
                     RETURNING id
                 `;
-                const result = await client.query(insertQuery, [type, name, image, monday, tuesday, wednesday, thursday, friday, saturday, count]);
+                const result = await client.query(insertQuery, [type, name, monday, tuesday, wednesday, thursday, friday, saturday, count]);
                 newIds.push(result.rows[0].id);
             }
         }
