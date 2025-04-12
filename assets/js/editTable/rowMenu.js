@@ -28,6 +28,7 @@ function createEditRow(cols, content = false) {
             radioBreakfast.name = `radio-${radioID}`;
             radioBreakfast.value = 'B';
             radioBreakfast.id = `radioB-${radioID}`;
+            radioBreakfast.checked = true;
 
             const radioLunch = document.createElement('input');
             radioLunch.type = 'radio';
