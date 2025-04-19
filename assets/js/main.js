@@ -29,7 +29,7 @@ function handleNameClick(listItem) {
     listItem.classList.toggle('selected');
     const breakfastCount = listItem.getAttribute('data-breakfast');
     const lunchCount = listItem.getAttribute('data-lunch');
-    const maxCount = listItem.getAttribute('data-max');
+    const unitsCount = listItem.getAttribute('data-units');
 
     const panels = document.querySelectorAll('.panel');
     panels.forEach(panel => {
@@ -40,13 +40,13 @@ function handleNameClick(listItem) {
     goLunch = true;
 
     if (listItem.classList.contains('selected')){
-        if (breakfastCount >= maxCount || lunchCount >= maxCount) {
+        if (breakfastCount >= unitsCount || lunchCount >= unitsCount) {
             panels.forEach(panel => {
-                if (breakfastCount >= maxCount && panel.getAttribute('data-type') === 'breakfast') {
+                if (breakfastCount >= unitsCount && panel.getAttribute('data-type') === 'breakfast') {
                     panel.classList.add('desaturate');
                     panel.classList.remove('selectedBreakfast');
                     goBreakfast = false;
-                } else if (lunchCount >= maxCount && panel.getAttribute('data-type') === 'lunch') {
+                } else if (lunchCount >= unitsCount && panel.getAttribute('data-type') === 'lunch') {
                     panel.classList.add('desaturate');
                     panel.classList.remove('selectedLunch');
                     goLunch = false;
@@ -135,7 +135,7 @@ async function submitOrder(button) {
         const lunchID = selectedLunch?.id?.replace(/^menu-/, '') || null;
         const lunchName = selectedLunch?.getAttribute('data-text') || null;
 
-        const memberDailyMax = selectedName ? parseInt(selectedName.getAttribute('data-max')) : 0;
+        const memberUnitsCount = selectedName ? parseInt(selectedName.getAttribute('data-units')) : 0;
         const memberBreakfastCount = selectedName ? parseInt(selectedName.getAttribute('data-breakfast')) : 0;
         const memberLunchCount = selectedName ? parseInt(selectedName.getAttribute('data-lunch')) : 0;
 
@@ -160,9 +160,8 @@ async function submitOrder(button) {
                 const orderedBreakfast = selectedBreakfast ? 1 : 0;
                 const orderedLunch = selectedLunch ? 1 : 0;
 
-                if (memberBreakfastCount + orderedBreakfast >= memberDailyMax &&
-                    memberLunchCount + orderedLunch >= memberDailyMax
-                ) {
+                if (memberBreakfastCount + orderedBreakfast >= memberUnitsCount &&
+                    memberLunchCount + orderedLunch >= memberUnitsCount) {
                     document.getElementById('searchBar').value = '';
                     searchNames();
                 }

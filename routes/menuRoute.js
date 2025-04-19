@@ -40,7 +40,7 @@ router.post('/menu', async (req, res) => {
         
         const menu = req.body.menu;
         for (let food of menu) {
-            const { id, type, name, image, monday, tuesday, wednesday, thursday, friday, saturday, count, delete: isDelete, } = food;
+            const { id, type, name, monday, tuesday, wednesday, thursday, friday, saturday, count, delete: isDelete, } = food;
             if (isDelete) {
                 const deleteMenuQuery = 'DELETE FROM menu WHERE id = $1';
                 await client.query(deleteMenuQuery, [id]);

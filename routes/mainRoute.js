@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
             id: member.id,
             index: member.index,
             name: member.name,
-            max: member.max,
+            units: member.units,
             breakfast: member.breakfast,
             lunch: member.lunch,
         }));
@@ -73,45 +73,28 @@ async function getEligibleMembers(client, targetDate) {
 
     const { startDate, endDate } = getWeekRange(targetDate);
     const orderCountQuery = `
-        SELECT m.id, m.units,
+        SELECT m.id, m.index, m.name, m.units,
             COUNT(CASE WHEN o.breakfast IS NOT NULL THEN 1 END)::INTEGER AS breakfast_count,
             COUNT(CASE WHEN o.lunch IS NOT NULL THEN 1 END)::INTEGER AS lunch_count
         FROM members m
         LEFT JOIN orders o
         ON m.id = o.member_id AND o.date BETWEEN $1 AND $2
-        GROUP BY m.id, m.units
+        GROUP BY m.id, m.index, m.name, m.units
         HAVING 
             COUNT(CASE WHEN o.breakfast IS NOT NULL THEN 1 END) < m.units
             OR COUNT(CASE WHEN o.lunch IS NOT NULL THEN 1 END) < m.units
+        ORDER BY m.index ASC, m.name ASC
     `;
     const validMembersResult = await client.query(orderCountQuery, [startDate, endDate]);
-    const validMembers = validMembersResult.rows.map(row => ({
+    const eligibleMembers = validMembersResult.rows.map(row => ({
         id: row.id,
+        index: row.index,
+        name: row.name,
         units: row.units,
-        breakfast_count: row.breakfast_count,
-        lunch_count: row.lunch_count
+        breakfast: row.breakfast_count,
+        lunch: row.lunch_count
     }));
 
-    const query = `
-        SELECT m.id, m.index, m.name, m.max, 
-            COUNT(o.breakfast)::INTEGER AS breakfast,
-            COUNT(o.lunch)::INTEGER AS lunch
-        FROM members m
-        LEFT JOIN orders o
-        ON m.id = o.member_id AND o.date = $1
-        GROUP BY m.id, m.index, m.name, m.max
-        ORDER BY m.index ASC;
-    `;
-    const menuTypeResult = await client.query(query, [targetDate]);
-
-    const eligibleMembers = menuTypeResult.rows.filter(member => {
-        const validMember = validMembers.find(v => v.id === member.id);
-
-        if (!validMember) return false;
-        if (member.breakfast >= member.max && member.lunch >= member.max) return false;
-    
-        return true;
-    });
     return eligibleMembers;
     
 }
@@ -171,26 +154,9 @@ router.post('/', async (req, res) => {
             `;
             await client.query(updateLunchQuery, [lunchName, timestamp, lunchOrder.id]);
         } else {
-            const memberQuery = 'SELECT units, max FROM members WHERE id = $1';
+            const memberQuery = 'SELECT units FROM members WHERE id = $1';
             const memberResult = await client.query(memberQuery, [memberID]);
             const units = memberResult.rows[0].units;
-            const max = memberResult.rows[0].max;
-
-            const dailyCountQuery = `
-                SELECT 
-                    COUNT(CASE WHEN breakfast IS NOT NULL THEN 1 END) AS breakfast_count,
-                    COUNT(CASE WHEN lunch IS NOT NULL THEN 1 END) AS lunch_count
-                FROM orders
-                WHERE member_id = $1 AND date = $2
-            `;
-            const dailyCountResult = await client.query(dailyCountQuery, [memberID, selectedDate]);
-            const dailyBreakfastCount = dailyCountResult.rows[0].breakfast_count || 0;
-            const dailyLunchCount = dailyCountResult.rows[0].lunch_count || 0;
-
-            const dailyMaxReached = dailyBreakfastCount >= max || dailyLunchCount >= max
-            if (dailyMaxReached) {
-                throw new Error('Cannot insert: Breakfast or lunch count already at limit for the day.');
-            }
 
             const { startDate, endDate } = getWeekRange(selectedDate);
             const weeklyCountQuery = `
@@ -205,7 +171,7 @@ router.post('/', async (req, res) => {
             const weeklyLunchCount = weeklyCountResult.rows[0].lunch_count || 0;
 
             const weeklyMaxReached = weeklyBreakfastCount >= units || weeklyLunchCount >= units
-            if (weeklyMaxReached && dailyMaxReached) {
+            if (weeklyMaxReached) {
                 throw new Error('Cannot insert: Breakfast or lunch count already at weekly limit.');
             }
 

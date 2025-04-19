@@ -42,15 +42,15 @@
                     <div id="nameListContainer">
                         <input type="text" id="searchBar" placeholder="<%= __('titles.search') %>" oninput="searchNames()">
                         <ul id="nameList">
-                            <% names.forEach(({ id, index, name, max, breakfast, lunch }) => { %>
+                            <% names.forEach(({ id, index, name, units, breakfast, lunch }) => { %>
                                 <li data-index="<%= id %>" 
                                     data-breakfast="<%= breakfast %>"
                                     data-lunch="<%= lunch %>"
-                                    data-max="<%= max %>"
+                                    data-units="<%= units %>"
                                     onclick="handleNameClick(this)">
                                     <span class="name"><%= index %>. <%= name %></span>
                                     <span class="menu-type">
-                                        <%= __("tables.type_" + (breakfast < max && lunch < max ? 'A' : breakfast < max ? 'B' : lunch < max ? 'L' : '')) %>
+                                        <%= __("tables.type_" + (breakfast < units && lunch < units ? 'A' : breakfast < units ? 'B' : lunch < units ? 'L' : '')) %>
                                     </span>
                                 </li>
                             <% }) %>
@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <% function renderMealSection(mealType, menu) { %>
-                    <% menu.forEach(({ id, name, image }, index) => { %>
+                    <% menu.forEach(({ id, name }, index) => { %>
                         <div class="col-sm-4 mb-4">
                             <div id="menu-<%= id %>"
                                 data-text="<%= name %>"

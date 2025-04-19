@@ -20,7 +20,7 @@ const channel = supabase.channel('orders-submit')
 
         const breakfastCount = parseInt(listItem.getAttribute('data-breakfast'));
         const lunchCount = parseInt(listItem.getAttribute('data-lunch'));
-        const maxCount = parseInt(listItem.getAttribute('data-max'));
+        const unitsCount = parseInt(listItem.getAttribute('data-units'));
 
         if (breakfast !== breakfast_old) {
             listItem.setAttribute('data-breakfast', breakfastCount+1);
@@ -33,11 +33,11 @@ const channel = supabase.channel('orders-submit')
         const currentBreakfastCount = listItem.getAttribute('data-breakfast');
         const currentLunchCount = listItem.getAttribute('data-lunch');
 
-        if (currentBreakfastCount >= maxCount && currentLunchCount >= maxCount) {
+        if (currentBreakfastCount >= unitsCount && currentLunchCount >= unitsCount) {
             listItem.parentNode.removeChild(listItem);
-        } else if (currentBreakfastCount >= maxCount) {
+        } else if (currentBreakfastCount >= unitsCount) {
             listItem.querySelector('.menu-type').innerText = typeL;
-        } else if (currentLunchCount >= maxCount) {
+        } else if (currentLunchCount >= unitsCount) {
             listItem.querySelector('.menu-type').innerText = typeB;
         }
     })
