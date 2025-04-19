@@ -46,8 +46,7 @@
 		"type_A": "A",
 		"type_B": "B",
 		"type_L": "L",
-		"schedule": "Schedule",
-		"type_": "tables.type_"
+		"schedule": "Schedule"
 	},
 	"languages": {
 		"english": "English",

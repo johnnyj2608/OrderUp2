@@ -50,7 +50,7 @@
                                     onclick="handleNameClick(this)">
                                     <span class="name"><%= index %>. <%= name %></span>
                                     <span class="menu-type">
-                                        <%= __("tables.type_" + (breakfast < units && lunch < units ? 'A' : breakfast < units ? 'B' : lunch < units ? 'L' : '')) %>
+                                        <%= __("tables.type_B") %><%= units - breakfast %> | <%= __("tables.type_L") %><%= units - lunch %>
                                     </span>
                                 </li>
                             <% }) %>

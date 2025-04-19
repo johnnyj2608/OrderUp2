@@ -35,10 +35,10 @@ const channel = supabase.channel('orders-submit')
 
         if (currentBreakfastCount >= unitsCount && currentLunchCount >= unitsCount) {
             listItem.parentNode.removeChild(listItem);
-        } else if (currentBreakfastCount >= unitsCount) {
-            listItem.querySelector('.menu-type').innerText = typeL;
-        } else if (currentLunchCount >= unitsCount) {
-            listItem.querySelector('.menu-type').innerText = typeB;
+        } else {
+            const remainingB = unitsCount - currentBreakfastCount;
+            const remainingL = unitsCount - currentLunchCount;
+            listItem.querySelector('.menu-type').innerText = `${typeB}${remainingB} | ${typeL}${remainingL}`;
         }
     })
     .subscribe();
