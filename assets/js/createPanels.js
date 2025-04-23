@@ -59,9 +59,9 @@ function createPanelRows(menuItems, containerId) {
                                         <li class="pointer space-between" 
                                             data-order-id="${menu}-${order.id}"
                                             onclick="toggleStrikethrough(this, ${order.id}, '${menu_received}')">
-                                            <span>#${order.table}</span>
+                                            <span class="table-type">#${order.table}</span>
                                             <span>${order.name}</span>
-                                            <span>x${order.quantity}</span>
+                                            <span class="table-type">x${order.quantity}</span>
                                         </li>
                                     `;
                                 })
@@ -75,9 +75,9 @@ function createPanelRows(menuItems, containerId) {
                                         <li class="pointer strikethrough space-between" 
                                             data-order-id="${menu}-${order.id}"
                                             onclick="toggleStrikethrough(this, ${order.id}, '${menu_received}')">
-                                            <span>#${order.table}</span>
+                                            <span class="table-type">#${order.table}</span>
                                             <span>${order.name}</span>
-                                            <span>x${order.quantity}</span>
+                                            <span class="table-type">x${order.quantity}</span>
                                         </li>
                                     `;
                                 })

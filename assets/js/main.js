@@ -7,9 +7,9 @@ function handleMealClick(menuItem) {
     menuItem.classList.add(selectedMenu);
 
     const counterContainer = menuItem.querySelector('.counter-container');
-    counterContainer.style.display = menuItem.classList.contains(selectedMenu) ? 'flex' : 'none';
+    counterContainer.style.display = 'flex';
 
-    document.querySelectorAll('.panel').forEach(btn => {
+    document.querySelectorAll(`.panel[data-type="${menuType}"]`).forEach(btn => {
         if (btn !== menuItem) {
             btn.classList.remove(selectedMenu);
             btn.querySelector('.counter-container').style.display = 'none';
@@ -17,7 +17,7 @@ function handleMealClick(menuItem) {
         }
     });
     updateButtonState();
-    handleScroll();
+    // handleScroll();
 }
 
 function changeQuantity(event, action, panel) {
@@ -73,9 +73,9 @@ function searchNames() {
 
 function handleNameClick(listItem) {
     listItem.classList.toggle('selected');
-    const breakfastCount = listItem.getAttribute('data-breakfast');
-    const lunchCount = listItem.getAttribute('data-lunch');
-    const unitsCount = listItem.getAttribute('data-units');
+    const breakfastCount = parseInt(listItem.getAttribute('data-breakfast'));
+    const lunchCount = parseInt(listItem.getAttribute('data-lunch'));
+    const unitsCount = parseInt(listItem.getAttribute('data-units'));
 
     const panels = document.querySelectorAll('.panel');
     panels.forEach(panel => {
@@ -112,7 +112,7 @@ function handleNameClick(listItem) {
     });
     
     updateButtonState();
-    handleScroll();
+    // handleScroll();
 }
 
 function updateButtonState() {
@@ -132,6 +132,8 @@ function resetSelection() {
     document.querySelectorAll('.panel').forEach(panel => {
         panel.classList.remove('selectedBreakfast', 'selectedLunch');
         panel.classList.remove('desaturate');
+
+        panel.querySelector('.counter-container').style.display = 'none';
     });
 
     document.querySelectorAll('#nameList li').forEach(item => {
@@ -141,34 +143,34 @@ function resetSelection() {
     updateButtonState();
 }
 
-function handleScroll() {
-    const selectedBreakfast = document.querySelector('.selectedBreakfast');
-    const selectedLunch = document.querySelector('.selectedLunch');
-    const selectedName = document.querySelector('#nameList li.selected');
+// function handleScroll() {
+//     const selectedBreakfast = document.querySelector('.selectedBreakfast');
+//     const selectedLunch = document.querySelector('.selectedLunch');
+//     const selectedName = document.querySelector('#nameList li.selected');
 
-    const breakfastSection = document.getElementById('breakfastSection');
-    const lunchSection = document.getElementById('lunchSection');
+//     const breakfastSection = document.getElementById('breakfastSection');
+//     const lunchSection = document.getElementById('lunchSection');
 
-    const viewportOffset = window.innerHeight * 0.2;
+//     const viewportOffset = window.innerHeight * 0.2;
 
-    function scrollToSection(section) {
-        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({
-            top: sectionTop - viewportOffset,
-            behavior: 'smooth',
-        });
-    }
+//     function scrollToSection(section) {
+//         const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+//         window.scrollTo({
+//             top: sectionTop - viewportOffset,
+//             behavior: 'smooth',
+//         });
+//     }
 
-    if (selectedName) {
-        // if ((selectedBreakfast || !goBreakfast) && goLunch) {
-        //     scrollToSection(lunchSection);
-        // } else {
-        //     scrollToSection(breakfastSection);
-        // }
-    } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-}
+//     if (selectedName) {
+//         if ((selectedBreakfast || !goBreakfast) && goLunch) {
+//             scrollToSection(lunchSection);
+//         } else {
+//             scrollToSection(breakfastSection);
+//         }
+//     } else {
+//         window.scrollTo({ top: 0, behavior: 'smooth' });
+//     }
+// }
 
 async function submitOrder(button) {
     if (!button.classList.contains('disabled')) {
@@ -236,7 +238,7 @@ async function submitOrder(button) {
                 // }
                 
                 resetSelection();
-                handleScroll();
+                // handleScroll();
 
                 console.log("Order submitted successfully!");
             } else {
