@@ -134,6 +134,7 @@ function resetSelection() {
         panel.classList.remove('desaturate');
 
         panel.querySelector('.counter-container').style.display = 'none';
+        panel.querySelector('.counter-amount').textContent = '1';
     });
 
     document.querySelectorAll('#nameList li').forEach(item => {
