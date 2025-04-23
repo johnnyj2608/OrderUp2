@@ -13,8 +13,7 @@ const channel = supabase.channel('orders-submit')
         if (payload.eventType === 'DELETE') {
             return;
         }
-
-        const { member_id, breakfast, lunch } = payload.new;
+        const { member_id, b_quantity, breakfast, l_quantity, lunch } = payload.new;
         const { breakfast: breakfast_old = null, lunch: lunch_old = null } = payload.old
         const listItem = document.querySelector(`li[data-index="${member_id}"]`);
 
@@ -23,11 +22,11 @@ const channel = supabase.channel('orders-submit')
         const unitsCount = parseInt(listItem.getAttribute('data-units'));
 
         if (breakfast !== breakfast_old) {
-            listItem.setAttribute('data-breakfast', breakfastCount+1);
+            listItem.setAttribute('data-breakfast', breakfastCount+b_quantity);
         }
 
         if (lunch !== lunch_old) {
-            listItem.setAttribute('data-lunch', lunchCount+1);
+            listItem.setAttribute('data-lunch', lunchCount+l_quantity);
         }
 
         const currentBreakfastCount = listItem.getAttribute('data-breakfast');

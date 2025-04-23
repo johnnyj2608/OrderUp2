@@ -25,8 +25,10 @@ CREATE TABLE orders (
   id SERIAL PRIMARY KEY, 
   member_id INT REFERENCES members(id) ON DELETE SET NULL,
   date DATE NOT NULL,
+  b_quantity INT DEFAULT 1,
   breakfast VARCHAR(100) NULL,
   b_received BOOLEAN NULL,
+  l_quantity INT DEFAULT 1,
   lunch VARCHAR(100) NULL,
   timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   l_received BOOLEAN NULL

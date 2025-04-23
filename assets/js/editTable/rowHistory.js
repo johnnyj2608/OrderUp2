@@ -16,10 +16,39 @@ function createEditRow(cols, content = false) {
         }
 
         if (i == 3 || i == 5) {
+            const inputField = document.createElement('input');
+
+            inputField.type = 'text';
+            inputField.value = cellText;
+
+            inputField.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+            inputField.style.width = '100%';
+
+            inputField.addEventListener('focus', function() {
+                originalText = inputField.value;
+            });
+            inputField.addEventListener('blur', function() {
+                if (inputField.value !== originalText) {
+                    undoStack.push({
+                        action: 'edit', 
+                        element: inputField, 
+                        originalText: originalText,
+                        newText: inputField.value
+                    });
+                    toggleUndoRedoButtons();
+                }
+            });
+
+            newCell.appendChild(inputField);
+
+            newRow.appendChild(newCell);
+        } else if (i == 4 || i == 6) {
             // Dropdown Menu
             const dropdown = document.createElement('select');
             dropdown.dataset.type = i === 2 ? 'breakfast' : 'lunch';
-            dropdown.style.width = '100%';
+            dropdown.style.width = i === 6 ? '80%' : '100%';
 
             const blankOption = document.createElement('option');
             blankOption.value = ''; 
@@ -39,7 +68,7 @@ function createEditRow(cols, content = false) {
 
                 const dateValue = newRow.cells[0].textContent;
                 const menuData = await fetchMenu(dateValue);
-                populateDropdown(dropdown, i === 3 ? menuData.breakfastItems : menuData.lunchItems);
+                populateDropdown(dropdown, i === 4 ? menuData.breakfastItems : menuData.lunchItems);
             });
 
             dropdown.addEventListener('blur', function() {
@@ -136,6 +165,9 @@ async function handleSave() {
                 } else if (i === 2) {
                     viewCell.innerHTML = `<span class="name-link" onclick="handleSearch('history', '${cellText}')">${cellText}</span>`;
                 } else if (i === 3 || i === 5) {
+                    const input = editCell.querySelector('input');
+                    viewCell.innerText = input ? input.value.trim() : '';
+                } else if (i === 4 || i === 6) {
                     viewCell.innerText = editCell.querySelector('select').value;
                 } else {
                     viewCell.innerText = cellText;
@@ -170,17 +202,15 @@ async function handleSave() {
         if (row.getAttribute('marked-for-deletion')) {
             dataUpdate.push({ id, delete: true });
         } else {
-            const breakfastValue = cells[3].querySelector('select').value.trim();
-            const lunchValue = cells[5].querySelector('select').value.trim();
-            const b_received = cells[4].querySelector('i') && cells[4].querySelector('i').classList.contains('fa-check');
-            const l_received = cells[6].querySelector('i') && cells[6].querySelector('i').classList.contains('fa-check');
+            const breakfastValue = cells[4].querySelector('select').value.trim();
+            const lunchValue = cells[6].querySelector('select').value.trim();
 
             const rowData = {
                 id: id,
+                b_quantity: cells[3].querySelector('input').value.trim(),
                 breakfast: breakfastValue.length === 0 ? null : breakfastValue,
+                l_quantity: cells[5].querySelector('input').value.trim(),
                 lunch: lunchValue.length === 0 ? null : lunchValue,
-                b_received: breakfastValue.length === 0 ? false : b_received,
-                l_received: lunchValue.length === 0 ? false : l_received,
             };
             dataUpdate.push(rowData);
         }

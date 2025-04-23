@@ -21,7 +21,14 @@ router.get('/history', async (req, res) => {
             const member = req.query.member.trim();
 
             const query = `
-                SELECT o.id, m.index AS table, m.name AS member_name, o.date, o.breakfast, o.b_received, o.lunch, o.l_received
+                SELECT o.id, 
+                    m.index AS table, 
+                    m.name AS member_name, 
+                    o.date, 
+                    o.b_quantity, 
+                    o.breakfast, 
+                    o.l_quantity, 
+                    o.lunch
                 FROM orders o
                 LEFT JOIN members m ON o.member_id = m.id
                 WHERE LOWER(m.name) LIKE LOWER($1)
@@ -57,12 +64,19 @@ router.get('/history', async (req, res) => {
             const selectedDate = new Date(year, parseInt(month, 10)-1, day);
 
             const query = `
-                SELECT o.id, m.index AS table, m.name AS member_name, o.date, o.breakfast, o.b_received, o.lunch, o.l_received
-                FROM orders o
-                LEFT JOIN members m ON o.member_id = m.id
-                WHERE o.date = $1
-                ORDER BY m.index ASC, o.date ASC
-            `;
+            SELECT o.id, 
+                   m.index AS table, 
+                   m.name AS member_name, 
+                   o.date, 
+                   o.b_quantity, 
+                   o.breakfast, 
+                   o.l_quantity,
+                   o.lunch
+            FROM orders o
+            LEFT JOIN members m ON o.member_id = m.id
+            WHERE o.date = $1
+            ORDER BY m.index ASC, o.date ASC
+        `;        
             const result = await client.query(query, [selectedDate]);
             rawOrderList = result.rows;
 
@@ -110,7 +124,7 @@ router.post('/history', async (req, res) => {
 
         const orders = req.body.orders;
         for (let order of orders) {
-            const { id, breakfast, lunch, b_received, l_received, delete: isDelete, } = order;
+            const { id, b_quantity, breakfast, l_quantity, lunch, delete: isDelete, } = order;
 
             if (isDelete) {
                 const deleteQuery = 'DELETE FROM orders WHERE id = $1';
@@ -137,11 +151,11 @@ router.post('/history', async (req, res) => {
                     SET 
                         breakfast = $2,
                         lunch = $3,
-                        b_received = $4,
-                        l_received = $5
+                        b_quantity = $4,
+                        l_quantity = $5
                     WHERE id = $1
                 `;
-                await client.query(updateQuery, [id, breakfast, lunch, b_received, l_received]);
+                await client.query(updateQuery, [id, breakfast, lunch, b_quantity, l_quantity]);
             }
         }
 

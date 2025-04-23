@@ -33,6 +33,7 @@ router.get('/orders', async (req, res) => {
                         id: order.id, 
                         table: order.index,
                         name: order.name, 
+                        quantity: order.b_quantity,
                         received: order.b_received });
                     breakfastItem.amt += 1;
                 }
@@ -41,6 +42,7 @@ router.get('/orders', async (req, res) => {
                         id: order.id, 
                         table: order.index,
                         name: order.name, 
+                        quantity: order.l_quantity,
                         received: order.l_received });
                     lunchItem.amt += 1;
                 }
@@ -96,10 +98,17 @@ async function getMenuItems(client, selectedDay, menuType) {
 
 async function getOrdersByDate(client, targetDate) {
     const query = `
-        SELECT o.id, o.breakfast, o.b_received, o.lunch, o.l_received, m.name AS name, m.index
+        SELECT o.id, 
+               o.b_quantity,
+               o.breakfast, 
+               o.b_received, 
+               o.l_quantity,
+               o.lunch, 
+               o.l_received, 
+               m.name AS name, 
+               m.index
         FROM orders o
-        INNER JOIN members m
-        ON o.member_id = m.id
+        INNER JOIN members m ON o.member_id = m.id
         WHERE o.date = $1
         ORDER BY m.index ASC, o.id ASC;
     `;

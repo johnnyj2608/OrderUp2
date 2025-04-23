@@ -48,7 +48,8 @@
                                     data-lunch="<%= lunch %>"
                                     data-units="<%= units %>"
                                     onclick="handleNameClick(this)">
-                                    <span class="name"><%= index %>. <%= name %></span>
+                                    <span class="table-type">#<%= index %></span>
+                                    <span class="name"><%= name %></span>
                                     <span class="menu-type">
                                         <%= __("tables.type_B") %><%= units - breakfast %> | <%= __("tables.type_L") %><%= units - lunch %>
                                     </span>
@@ -66,6 +67,12 @@
                                 class="panel pointer w-100"
                                 data-type="<%= mealType %>">
                                 <p class="panel-title"><%= name %></p>
+
+                                <div class="counter-container" style="display: none;">
+                                    <button class="counter-button" onclick="changeQuantity(event, 'decrement', this.closest('.panel'))">-</button>
+                                    <span class="counter-amount">1</span>
+                                    <button class="counter-button" onclick="changeQuantity(event, 'increment', this.closest('.panel'))">+</button>
+                                </div>
                             </div>
                         </div>
                     <% }) %>

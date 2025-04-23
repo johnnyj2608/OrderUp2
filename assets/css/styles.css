@@ -73,6 +73,10 @@
       margin: 0;
 }
 
+.space-between {
+      display: flex;
+      justify-content: space-between;
+}
 
 /* -------------- *
  * Buttons
@@ -252,12 +256,14 @@
       padding-left: 10px;
 }
 
+.table-type, 
 .menu-type {
       border: 1px solid #333;
       border-radius: 3px;
       padding: 0 5px;
 }
 
+#nameList li.selected .table-type,
 #nameList li.selected .menu-type {
       border-color: white;
 }
@@ -316,6 +322,29 @@
       width: 100%;
       border: 1px solid #333;
       height: 22svh;
+}
+
+.counter-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: absolute;
+      width: 75%;
+      bottom: 5px;
+}
+
+.counter-button {
+      padding: 5px 20px;
+      font-size: 20px;
+      border: 1px solid black;
+      cursor: pointer;
+}
+
+.counter-amount {
+      font-size: 26px;
+      width: 100%;
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
 }
 
 

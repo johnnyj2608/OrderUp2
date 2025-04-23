@@ -1,19 +1,65 @@
-let goBreakfast = true;
-let goLunch = true;
+// let goBreakfast = true;
+// let goLunch = true;
 
 function handleMealClick(menuItem) {
     const menuType = menuItem.getAttribute('data-type'); 
     const selectedMenu = `selected${menuType.charAt(0).toUpperCase() + menuType.slice(1)}`;
-    menuItem.classList.toggle(selectedMenu);
+    menuItem.classList.add(selectedMenu);
+
+    const counterContainer = menuItem.querySelector('.counter-container');
+    counterContainer.style.display = menuItem.classList.contains(selectedMenu) ? 'flex' : 'none';
 
     document.querySelectorAll('.panel').forEach(btn => {
         if (btn !== menuItem) {
             btn.classList.remove(selectedMenu);
+            btn.querySelector('.counter-container').style.display = 'none';
+            btn.querySelector('.counter-amount').textContent = 1;
         }
     });
     updateButtonState();
     handleScroll();
 }
+
+function changeQuantity(event, action, panel) {
+    event.stopPropagation();
+
+    const counter = panel.querySelector('.counter-amount');
+    let currentAmount = parseInt(counter.textContent);
+    const mealType = panel.getAttribute('data-type');
+
+    const selectedName = document.querySelector('#nameList li.selected');
+    if (!selectedName) return;
+
+    const maxUnits = parseInt(selectedName.getAttribute('data-units'));
+    const currentBreakfastCount = parseInt(selectedName.getAttribute('data-breakfast'));
+    const currentLunchCount = parseInt(selectedName.getAttribute('data-lunch'));
+
+    let totalSelected = 0;
+    const selectedClass = `selected${mealType.charAt(0).toUpperCase() + mealType.slice(1)}`;
+    const selectedPanel = document.querySelector(`.panel.${selectedClass}`);
+    if (selectedPanel) {
+        const selectedCounter = selectedPanel.querySelector('.counter-amount');
+        totalSelected = parseInt(selectedCounter.textContent);
+    }
+
+    let limitReached = false;
+    if (mealType === 'breakfast') {
+        limitReached = (totalSelected >= maxUnits - currentBreakfastCount);
+    } else if (mealType === 'lunch') {
+        limitReached = (totalSelected >= maxUnits - currentLunchCount);
+    }
+
+    if (action === 'increment') {
+        if (!limitReached) {
+            currentAmount++;
+        }
+    } else if (action === 'decrement' && currentAmount > 1) {
+        currentAmount--;
+    }
+
+    counter.textContent = currentAmount;
+}
+
 
 function searchNames() {
     const input = document.getElementById('searchBar').value.toLowerCase();
@@ -34,10 +80,13 @@ function handleNameClick(listItem) {
     const panels = document.querySelectorAll('.panel');
     panels.forEach(panel => {
         panel.classList.remove('desaturate');
+
+        counterAmount = panel.querySelector('.counter-amount');
+        counterAmount.textContent = '1';
     });
     
-    goBreakfast = true;
-    goLunch = true;
+    // goBreakfast = true;
+    // goLunch = true;
 
     if (listItem.classList.contains('selected')){
         if (breakfastCount >= unitsCount || lunchCount >= unitsCount) {
@@ -45,11 +94,13 @@ function handleNameClick(listItem) {
                 if (breakfastCount >= unitsCount && panel.getAttribute('data-type') === 'breakfast') {
                     panel.classList.add('desaturate');
                     panel.classList.remove('selectedBreakfast');
-                    goBreakfast = false;
+                    panel.querySelector('.counter-container').style.display = 'none';
+                    // goBreakfast = false;
                 } else if (lunchCount >= unitsCount && panel.getAttribute('data-type') === 'lunch') {
                     panel.classList.add('desaturate');
                     panel.classList.remove('selectedLunch');
-                    goLunch = false;
+                    panel.querySelector('.counter-container').style.display = 'none';
+                    // goLunch = false;
                 }
             });
         }
@@ -109,11 +160,11 @@ function handleScroll() {
     }
 
     if (selectedName) {
-        if ((selectedBreakfast || !goBreakfast) && goLunch) {
-            scrollToSection(lunchSection);
-        } else {
-            scrollToSection(breakfastSection);
-        }
+        // if ((selectedBreakfast || !goBreakfast) && goLunch) {
+        //     scrollToSection(lunchSection);
+        // } else {
+        //     scrollToSection(breakfastSection);
+        // }
     } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -130,10 +181,12 @@ async function submitOrder(button) {
         const selectedBreakfast = document.querySelector('.selectedBreakfast');
         const breakfastID = selectedBreakfast?.id?.replace(/^menu-/, '') || null;
         const breakfastName = selectedBreakfast?.getAttribute('data-text') || null;
+        const breakfastQuantity = parseInt(selectedBreakfast?.querySelector('.counter-amount')?.textContent) || 0;
 
         const selectedLunch = document.querySelector('.selectedLunch');
         const lunchID = selectedLunch?.id?.replace(/^menu-/, '') || null;
         const lunchName = selectedLunch?.getAttribute('data-text') || null;
+        const lunchQuantity = parseInt(selectedLunch?.querySelector('.counter-amount')?.textContent) || 0;
 
         const memberUnitsCount = selectedName ? parseInt(selectedName.getAttribute('data-units')) : 0;
         const memberBreakfastCount = selectedName ? parseInt(selectedName.getAttribute('data-breakfast')) : 0;
@@ -149,19 +202,21 @@ async function submitOrder(button) {
                     memberID,
                     dateInput,
                     breakfastID,
+                    breakfastQuantity,
                     breakfastName,
                     lunchID,
+                    lunchQuantity,
                     lunchName,
                 }),
             });
 
             const result = await response.json();
             if (result.success) {
-                const orderedBreakfast = selectedBreakfast ? 1 : 0;
-                const orderedLunch = selectedLunch ? 1 : 0;
+                const breakfastQuantity = parseInt(selectedBreakfast?.querySelector('.counter-amount')?.textContent) || 0;
+                const lunchQuantity = parseInt(selectedLunch?.querySelector('.counter-amount')?.textContent) || 0;
 
-                if (memberBreakfastCount + orderedBreakfast >= memberUnitsCount &&
-                    memberLunchCount + orderedLunch >= memberUnitsCount) {
+                if (memberBreakfastCount + breakfastQuantity >= memberUnitsCount &&
+                    memberLunchCount + lunchQuantity >= memberUnitsCount) {
                     document.getElementById('searchBar').value = '';
                     searchNames();
                 }

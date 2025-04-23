@@ -68,23 +68,24 @@ async function getMenuItems(client, selectedDay, menuType) {
 // Helper function to get members for a specific day
 async function getEligibleMembers(client, targetDate) {
     if (targetDate.getDay() === 0) {
-        return []
+        return [];
     }
 
     const { startDate, endDate } = getWeekRange(targetDate);
     const orderCountQuery = `
         SELECT m.id, m.index, m.name, m.units,
-            COUNT(CASE WHEN o.breakfast IS NOT NULL THEN 1 END)::INTEGER AS breakfast_count,
-            COUNT(CASE WHEN o.lunch IS NOT NULL THEN 1 END)::INTEGER AS lunch_count
+            COALESCE(SUM(o.b_quantity), 0)::INTEGER AS breakfast_count,
+            COALESCE(SUM(o.l_quantity), 0)::INTEGER AS lunch_count
         FROM members m
         LEFT JOIN orders o
         ON m.id = o.member_id AND o.date BETWEEN $1 AND $2
         GROUP BY m.id, m.index, m.name, m.units
         HAVING 
-            COUNT(CASE WHEN o.breakfast IS NOT NULL THEN 1 END) < m.units
-            OR COUNT(CASE WHEN o.lunch IS NOT NULL THEN 1 END) < m.units
+            COALESCE(SUM(o.b_quantity), 0) < m.units
+            OR COALESCE(SUM(o.l_quantity), 0) < m.units
         ORDER BY m.index ASC, m.name ASC
     `;
+
     const validMembersResult = await client.query(orderCountQuery, [startDate, endDate]);
     const eligibleMembers = validMembersResult.rows.map(row => ({
         id: row.id,
@@ -96,17 +97,17 @@ async function getEligibleMembers(client, targetDate) {
     }));
 
     return eligibleMembers;
-    
 }
-
 
 router.post('/', async (req, res) => {
     const { 
         memberID,
         dateInput,
         breakfastID,
+        breakfastQuantity,
         breakfastName,
         lunchID,
+        lunchQuantity,
         lunchName,
     } = req.body;
 
@@ -121,6 +122,7 @@ router.post('/', async (req, res) => {
     try {
         const client = await connectToDb();
 
+        // Fetch the first breakfast order for the member on the selected date
         const findBreakfastQuery = `
             SELECT id FROM orders
             WHERE member_id = $1 AND date = $2 AND breakfast IS NULL
@@ -130,6 +132,7 @@ router.post('/', async (req, res) => {
         const breakfastResult = await client.query(findBreakfastQuery, [memberID, selectedDate]);
         const breakfastOrder = breakfastResult.rows[0];
 
+        // Fetch the first lunch order for the member on the selected date
         const findLunchQuery = `
             SELECT id FROM orders
             WHERE member_id = $1 AND date = $2 AND lunch IS NULL
@@ -139,25 +142,31 @@ router.post('/', async (req, res) => {
         const lunchResult = await client.query(findLunchQuery, [memberID, selectedDate]);
         const lunchOrder = lunchResult.rows[0];
 
+        // If breakfast is selected but lunch is not, update the breakfast order
         if (breakfastName && !lunchName && breakfastOrder) {
             const updateBreakfastQuery = `
                 UPDATE orders
-                SET breakfast = $1, timestamp = $2
-                WHERE id = $3
+                SET breakfast = $1, b_quantity = $2, timestamp = $3
+                WHERE id = $4
             `;
-            await client.query(updateBreakfastQuery, [breakfastName, timestamp, breakfastOrder.id]);
-        } else if (!breakfastName && lunchName && lunchOrder) {
+            await client.query(updateBreakfastQuery, [breakfastName, breakfastQuantity, timestamp, breakfastOrder.id]);
+        } 
+        // If lunch is selected but breakfast is not, update the lunch order
+        else if (!breakfastName && lunchName && lunchOrder) {
             const updateLunchQuery = `
                 UPDATE orders
-                SET lunch = $1, timestamp = $2
-                WHERE id = $3
+                SET lunch = $1, l_quantity = $2, timestamp = $3
+                WHERE id = $4
             `;
-            await client.query(updateLunchQuery, [lunchName, timestamp, lunchOrder.id]);
-        } else {
+            await client.query(updateLunchQuery, [lunchName, lunchQuantity, timestamp, lunchOrder.id]);
+        } 
+        // If neither is selected, insert a new order for the member
+        else {
             const memberQuery = 'SELECT units FROM members WHERE id = $1';
             const memberResult = await client.query(memberQuery, [memberID]);
             const units = memberResult.rows[0].units;
 
+            // Get the weekly count of ordered breakfasts and lunches
             const { startDate, endDate } = getWeekRange(selectedDate);
             const weeklyCountQuery = `
                 SELECT 
@@ -170,33 +179,38 @@ router.post('/', async (req, res) => {
             const weeklyBreakfastCount = weeklyCountResult.rows[0].breakfast_count || 0;
             const weeklyLunchCount = weeklyCountResult.rows[0].lunch_count || 0;
 
-            const weeklyMaxReached = weeklyBreakfastCount >= units || weeklyLunchCount >= units
+            // Check if weekly limit for either breakfast or lunch is reached
+            const weeklyMaxReached = weeklyBreakfastCount >= units || weeklyLunchCount >= units;
             if (weeklyMaxReached) {
                 throw new Error('Cannot insert: Breakfast or lunch count already at weekly limit.');
             }
 
             const orderInsertQuery = `
-                INSERT INTO orders (member_id, date, breakfast, lunch, timestamp)
-                VALUES ($1, $2, $3, $4, $5)
+                INSERT INTO orders (member_id, date, breakfast, b_quantity, lunch, l_quantity, timestamp)
+                VALUES ($1, $2, $3, $4, $5, $6, $7)
             `;
             await client.query(orderInsertQuery, [
                 memberID,
                 selectedDate,
                 breakfastName,
+                breakfastQuantity,
                 lunchName,
+                lunchQuantity,
                 timestamp,
             ]);
         }
+
+        // Increment the count for the selected breakfast and lunch items
         const incrementCountQuery = `
             UPDATE menu
-            SET count = count + 1
-            WHERE id = $1
+            SET count = count + $1
+            WHERE id = $2
         `;
         if (breakfastID) {
-            await client.query(incrementCountQuery, [breakfastID]);
+            await client.query(incrementCountQuery, [breakfastQuantity, breakfastID]);
         }
         if (lunchID) {
-            await client.query(incrementCountQuery, [lunchID]);
+            await client.query(incrementCountQuery, [lunchQuantity, lunchID]);
         }
 
         res.json({ success: true });

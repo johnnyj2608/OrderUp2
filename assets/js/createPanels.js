@@ -56,10 +56,12 @@ function createPanelRows(menuItems, containerId) {
                                 .filter(order => !order.received)
                                 .map(order => {
                                     return `
-                                        <li class="pointer" 
+                                        <li class="pointer space-between" 
                                             data-order-id="${menu}-${order.id}"
                                             onclick="toggleStrikethrough(this, ${order.id}, '${menu_received}')">
-                                            ${order.table}. ${order.name}
+                                            <span>#${order.table}</span>
+                                            <span>${order.name}</span>
+                                            <span>x${order.quantity}</span>
                                         </li>
                                     `;
                                 })
@@ -70,10 +72,12 @@ function createPanelRows(menuItems, containerId) {
                                 .filter(order => order.received)
                                 .map(order => {
                                     return `
-                                        <li class="pointer strikethrough" 
+                                        <li class="pointer strikethrough space-between" 
                                             data-order-id="${menu}-${order.id}"
                                             onclick="toggleStrikethrough(this, ${order.id}, '${menu_received}')">
-                                            ${order.table}. ${order.name}
+                                            <span>#${order.table}</span>
+                                            <span>${order.name}</span>
+                                            <span>x${order.quantity}</span>
                                         </li>
                                     `;
                                 })
